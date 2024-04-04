@@ -1,0 +1,1042 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bg/index.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sanli Ma">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="课程介绍软件安全的重要性软件的定义–1983年IEEE为软件下的定义是：计算机程序、方法、规则和相关的文档资料以及在计算机上运行时所需的数据 –通俗解释：软件 &#x3D; 程序 + 数据 + 文档资料 •程序是完成特定功能和满足性能要求的指令序列 •数据是程序运行的基础和操作的对象 文档与程序开发、维护和使用有关的图文资料 软件的分类按软件的功能分类 docker import filename">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件系统安全">
+<meta property="og:url" content="http://example.com/2023/12/27/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/index.html">
+<meta property="og:site_name" content="stdlibh的个人网站">
+<meta property="og:description" content="课程介绍软件安全的重要性软件的定义–1983年IEEE为软件下的定义是：计算机程序、方法、规则和相关的文档资料以及在计算机上运行时所需的数据 –通俗解释：软件 &#x3D; 程序 + 数据 + 文档资料 •程序是完成特定功能和满足性能要求的指令序列 •数据是程序运行的基础和操作的对象 文档与程序开发、维护和使用有关的图文资料 软件的分类按软件的功能分类 docker import filename">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/course/image-20231222144908011.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231222145048805.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231222135332941.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231222140815686.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231222141420485.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231222142747674.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231225200313989.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231225200615045.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231225201503800.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231225204226156.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231225204848513.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231225205710891.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231225205949007.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231225213239077.png">
+<meta property="og:image" content="http://example.com/img/course/image-20231226113844849.png">
+<meta property="article:published_time" content="2023-12-26T18:05:19.000Z">
+<meta property="article:modified_time" content="2024-01-03T10:06:05.881Z">
+<meta property="article:author" content="Sanli Ma">
+<meta property="article:tag" content="信息安全课程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/course/image-20231222144908011.png">
+  
+  
+  
+  <title>软件系统安全 - stdlibh的个人网站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="stdlibh的个人网站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stdlibh</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/background.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="软件系统安全"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-27 02:05" pubdate>
+          2023年12月27日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          45 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">软件系统安全</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="课程介绍"><a href="#课程介绍" class="headerlink" title="课程介绍"></a>课程介绍</h1><h2 id="软件安全的重要性"><a href="#软件安全的重要性" class="headerlink" title="软件安全的重要性"></a>软件安全的重要性</h2><h3 id="软件的定义"><a href="#软件的定义" class="headerlink" title="软件的定义"></a>软件的定义</h3><p>–1983年IEEE为软件下的定义是：计算机程序、方法、规则和相关的文档资料以及在计算机上运行时所需的数据</p>
+<p>–通俗解释：<strong>软件</strong> <strong>&#x3D;</strong> <strong>程序</strong> <strong>+</strong> <strong>数据</strong> <strong>+</strong> <strong>文档资料</strong></p>
+<p>•程序是完成特定功能和满足性能要求的指令序列</p>
+<p>•数据是程序运行的基础和操作的对象</p>
+<p>文档与程序开发、维护和使用有关的图文资料</p>
+<h3 id="软件的分类"><a href="#软件的分类" class="headerlink" title="软件的分类"></a>软件的分类</h3><h4 id="按软件的功能分类"><a href="#按软件的功能分类" class="headerlink" title="按软件的功能分类"></a>按软件的<strong>功能</strong>分类</h4><p> docker import filename.tar - imagename:versionpowershell</p>
+<p>§为计算机使用提供最基本的功能</p>
+<p>§Windows、Linux、Android、IOS</p>
+<p>•<strong>应用软件</strong></p>
+<p>§为了某种特定的用途而被开发的软件</p>
+<p>§Ms Office、QQ、迅雷</p>
+<p>•<strong>支撑软件</strong></p>
+<p>§支持软件的开发、维护与运行的软件</p>
+<p>§编译器，数据库管理系统，软件开发工具 (Visual Studio)</p>
+<h4 id="按软件运行平台划分"><a href="#按软件运行平台划分" class="headerlink" title="按软件运行平台划分"></a>按软件<strong>运行平台</strong>划分</h4><p>–服务器端软件</p>
+<p>–PC端软件</p>
+<p>–手机应用软件</p>
+<p>嵌入式软件</p>
+<h2 id="软件安全的概念"><a href="#软件安全的概念" class="headerlink" title="软件安全的概念"></a><strong>软件安全的概念</strong></h2><h3 id="什么是安全"><a href="#什么是安全" class="headerlink" title="*什么是安全"></a>*什么是安全</h3><p>安全是指不受威胁，没有危险，不受危害，不受损失的一种<strong>可接受状态。</strong></p>
+<h3 id="软件安全："><a href="#软件安全：" class="headerlink" title="*软件安全："></a>*软件安全：</h3><p>–提供<strong>表示</strong>、<strong>分析</strong>和<strong>追踪</strong>具有危害性功能的软件<strong>缓解措施与控制</strong>的系统性方法</p>
+<p>–<strong>采取工程的方法使得软件</strong>受到恶意攻击的情形下依然能够继续正确运行</p>
+<h3 id="软件安全问题的根源是软件存在弱点"><a href="#软件安全问题的根源是软件存在弱点" class="headerlink" title="*软件安全问题的根源是软件存在弱点"></a>*软件安全问题的根源是软件存在弱点</h3><p>•软件存在弱点</p>
+<p>•现有方法并不能解决软件安全问题</p>
+<p>​	–反病毒程序和防火墙之类的保护程序</p>
+<p>​	–密码学之类的信息加密技术</p>
+<h3 id="软件的安全属性-CIA属性-："><a href="#软件的安全属性-CIA属性-：" class="headerlink" title="*软件的安全属性(CIA属性)："></a>*软件的安全属性(CIA属性)：</h3><p><strong>保密性、完整性、可用性、可认证性、授权、可审计性、抗抵赖性、可控性、可存活性</strong></p>
+<h3 id="软件缺陷（Defect），常常又被称作Bug"><a href="#软件缺陷（Defect），常常又被称作Bug" class="headerlink" title="软件缺陷（Defect），常常又被称作Bug"></a>软件缺陷（<strong>Defect</strong>），常常又被称作<strong>Bug</strong></h3><p>§指计算机软件或程序中存在的某种破坏正常运行能力的问题、错误、或者隐蔽的功能缺陷。</p>
+<h3 id="软件漏洞"><a href="#软件漏洞" class="headerlink" title="*软件漏洞"></a>*软件漏洞</h3><p>•软件漏洞（<strong>Vulnerability</strong>）是指软件在设计、实现、配置策略及使用过程中出现的缺陷，其可能导致攻击者能够<strong>在未授权的情况下</strong>访问或破坏系统。</p>
+<h3 id="恶意软件"><a href="#恶意软件" class="headerlink" title="恶意软件"></a><strong>恶意软件</strong></h3><p>•恶意软件是对非用户期望运行的、怀有恶意目的或完成恶意功能的软件的统称</p>
+<p>恶意软件的恶意行为：</p>
+<p><strong>篡改或破坏已有的软件功能</strong></p>
+<p><strong>窃取重要数据</strong></p>
+<p><strong>监视用户行为</strong></p>
+<p><strong>控制目标系统</strong></p>
+<p>•典型恶意软件种类</p>
+<p>计算机病毒、蠕虫、特洛伊木马、后门、僵尸、间谍软件等</p>
+<h3 id="软件侵权"><a href="#软件侵权" class="headerlink" title="软件侵权"></a><strong>软件侵权</strong></h3><p>•软件版权是指软件作者对其创作的作品享有的人身权和财产权</p>
+<h1 id="软件逆向工程基础"><a href="#软件逆向工程基础" class="headerlink" title="软件逆向工程基础"></a>软件逆向工程基础</h1><h3 id="逆向工程定义"><a href="#逆向工程定义" class="headerlink" title="*逆向工程定义"></a>*逆向工程定义</h3><p>一种分析目标系统的过程, 其目的是识别出系统的各个组件以及它们之间的关系, 并在较高的抽象层次上以另一形式创建对系统的表示[1], 从而理解目标系统的结构和行为。</p>
+<h3 id="软件逆向工程的基本方法"><a href="#软件逆向工程的基本方法" class="headerlink" title="*软件逆向工程的基本方法"></a>*软件逆向工程的基本方法</h3><p>逆向工程的主要活动: 反汇编 + 分析 + 可能的修改(破解)</p>
+<p><img src="/img/course/image-20231222144908011.png" srcset="/img/loading.gif" lazyload alt="image-20231222144908011"></p>
+<p>•<strong>静态方法</strong></p>
+<p>–分析但不运行代码</p>
+<p>–较动态方法更为安全</p>
+<p>–反汇编器，如IDA Pro，objdump等</p>
+<p>•<strong>动态方法</strong></p>
+<p>–检查进程执行过程中寄存器、内存值的实时变化</p>
+<p>–允许操作进程，通常应在虚拟机中运行</p>
+<p>–调试器，如Windows下的WinDBG, Immunity, OllyDBG等,及Linux下的GDB</p>
+<h3 id="软件逆向工程的典型应用场景"><a href="#软件逆向工程的典型应用场景" class="headerlink" title="软件逆向工程的典型应用场景"></a>软件逆向工程的典型应用场景</h3><p>•<strong>恶意代码分析</strong></p>
+<p>•<strong>闭源软件漏洞分析</strong></p>
+<p>•<strong>闭源软件互操作性分析</strong></p>
+<p><strong>验证编译器的性能和准确性；调试器中生成汇编代码清单</strong></p>
+<h3 id="GDB调试常用命令"><a href="#GDB调试常用命令" class="headerlink" title="*GDB调试常用命令"></a>*GDB调试常用命令</h3><p><img src="/img/course/image-20231222145048805.png" srcset="/img/loading.gif" lazyload alt="image-20231222145048805"></p>
+<h3 id="字节序"><a href="#字节序" class="headerlink" title="*字节序"></a>*字节序</h3><p>字节序：多字节数据在内存中存储或在网络上传输时各字节的存储&#x2F;传输顺序</p>
+<p>–<strong>小端序（little</strong> <strong>endian）</strong>：低位字节存储在内存中低位地址,效率较高(Intel CPU使用)</p>
+<p>–<strong>大端序（big endian）</strong>：低位字节存储在内存中高位地址,符合思维逻辑。RISC架构处理器(如MIPS, PowerPC)采用</p>
+<h4 id="通用寄存器-GPR"><a href="#通用寄存器-GPR" class="headerlink" title="通用寄存器(GPR)"></a><strong>通用寄存器</strong><strong>(GPR)</strong></h4><p>•<strong>EBP:</strong> <strong>栈内数据指针, 栈帧的基地址, 用于为函数调用创建栈帧</strong></p>
+<p>•<strong>ESP:</strong> <strong>栈指针, 栈区域的栈顶地址</strong></p>
+<h4 id="汇编指令格式"><a href="#汇编指令格式" class="headerlink" title="汇编指令格式"></a><strong>汇编指令格式</strong></h4><p>•AT&amp;T: source在destination前, 在较早期的GNU工具中普遍使用（如gcc,gdb等）</p>
+<p>•Intel : destination在source前,“[… ]”含义类似于解引用,MASM,NASM等工具中使用</p>
+<p><img src="/img/course/image-20231222135332941.png" srcset="/img/loading.gif" lazyload alt="image-20231222135332941"></p>
+<h1 id="函数调用与内存破坏漏洞"><a href="#函数调用与内存破坏漏洞" class="headerlink" title="函数调用与内存破坏漏洞"></a>函数调用与内存破坏漏洞</h1><h3 id="进程地址空间"><a href="#进程地址空间" class="headerlink" title="进程地址空间"></a><strong>进程地址空间</strong></h3><p><img src="/img/course/image-20231222140815686.png" srcset="/img/loading.gif" lazyload alt="image-20231222140815686"></p>
+<p>栈stack: 由系统自动分配。 void func() {int a;} 系统自动在栈中为 a 开辟空间</p>
+<p>堆heap: 需要程序员自己申请，并指明大小 (例如 malloc)。</p>
+<h3 id="栈"><a href="#栈" class="headerlink" title="*栈"></a>*栈</h3><p>在IA-32架构下, <strong>栈是连续的内存区域</strong>, 存在于一个栈段内,</p>
+<p>–任意时刻, <strong>ESP</strong>寄存器所包含的栈指针均指向栈顶位置</p>
+<p>–通常由高地址向低地址扩展（PUSH时ESP自减，POP时ESP自增）</p>
+<h4 id="栈帧"><a href="#栈帧" class="headerlink" title="*栈帧"></a>*栈帧</h4><p>将调用函数和被调用函数联系起来的机制, <strong>栈被分割为栈帧,栈帧组成栈</strong>。栈帧的内容包含</p>
+<p>–函数的局部变量</p>
+<p>–向被调用函数传递的参数</p>
+<p>–函数调用的联系信息（栈帧相关的指针: 栈帧基址针,返回指令指针）</p>
+<p>•<strong>栈帧基指针</strong>(在<strong>EBP</strong>中)</p>
+<p>–被调用函数栈帧的固定参考点</p>
+<p><img src="/img/course/image-20231222141420485.png" srcset="/img/loading.gif" lazyload alt="image-20231222141420485"></p>
+<p>•esp寄存器始终指向栈的顶部。</p>
+<p>•ebp寄存器指向了函数活动记录的一个固定位置</p>
+<h3 id="x86函数调用的步骤"><a href="#x86函数调用的步骤" class="headerlink" title="*x86函数调用的步骤"></a>*x86函数调用的步骤</h3><p>•<strong>参数入栈</strong>：将参数从右向左依次压入系统栈中。</p>
+<p>•<strong>返回地址入栈</strong>：将当前代码区调用指令的下一条指令地址压入栈中，供函数返回时继续执行。</p>
+<p>•<strong>代码区跳转</strong>：处理器从当前代码区跳转到被调用函数的入口处。</p>
+<p>•<strong>栈帧调整</strong>：具体包括。</p>
+<p>–保存当前栈帧状态值，已备后面恢复本栈帧时使用（EBP 入栈）</p>
+<p>–将当前栈帧切换到新栈帧（将 ESP 值装入 EBP，更新栈帧底部）</p>
+<p>–给新栈帧分配空间（把 ESP 减去所需空间的大小，抬高栈顶）；</p>
+<h4 id="函数返回的步骤"><a href="#函数返回的步骤" class="headerlink" title="*函数返回的步骤"></a>*函数返回的步骤</h4><p>•<strong>保存返回值</strong>：通常将函数的返回值保存在寄存器 EAX 中</p>
+<p>•<strong>弹出当前栈帧</strong>，恢复上一个栈帧</p>
+<p>–在堆栈平衡的基础上，给 ESP 加上栈帧的大小，降低栈顶，回收当前栈帧的空间</p>
+<p>–将当前栈帧底部保存的前栈帧 EBP 值弹入 EBP 寄存器，恢复出上一个栈帧</p>
+<p>–将函数返回地址弹给 EIP 寄存器。</p>
+<p><strong>跳转</strong>：按照函数返回地址跳回母函数中继续执行</p>
+<p><img src="/img/course/image-20231222142747674.png" srcset="/img/loading.gif" lazyload alt="image-20231222142747674"></p>
+<h3 id="x64函数调用约定"><a href="#x64函数调用约定" class="headerlink" title="*x64函数调用约定"></a>*x64函数调用约定</h3><p>•x64的多数调用惯例更多地通过<strong>寄存器传递参数</strong></p>
+<p>•Windows x64中, 只有一种调用惯例用到栈,且其中前4个参数通过RCX, RDX, R8, R9 传递</p>
+<p>•Linux x64中, System V AMD64 ABI调用惯例: 前6个参数通过RDI, RSI, RDX, RCX, R8, R9传递</p>
+<p>•相比IA-32, 减小了在栈上存储和查找值的时间, 一些函数根本不需要访问栈</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Cdecl</strong></th>
+<th><strong>Syscall</strong></th>
+<th><strong>StdCall</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>参数入栈顺序</td>
+<td>右-&gt;左</td>
+<td>右-&gt;左</td>
+<td>右-&gt;左</td>
+</tr>
+<tr>
+<td>恢复栈平衡的位置</td>
+<td>母函数</td>
+<td>子函数</td>
+<td>子函数</td>
+</tr>
+</tbody></table>
+<h3 id="缓冲区溢出"><a href="#缓冲区溢出" class="headerlink" title="*缓冲区溢出"></a>*缓冲区溢出</h3><p>–指<strong>数据写出到为特定数据结构开辟的内存空间的边界之外</strong></p>
+<p>–通常可能发生在缓冲区边界被忽略或没有被检查时</p>
+<p>–缓冲区溢出可被利用于修改</p>
+<p>•<strong>栈上的返回指令指针，函数指针局部变量</strong>. . .</p>
+<p>堆数据结构</p>
+<h3 id="缓冲区溢出原因："><a href="#缓冲区溢出原因：" class="headerlink" title="*缓冲区溢出原因："></a>*缓冲区溢出原因：</h3><ol>
+<li><strong>输入验证不足</strong>：当程序没有对输入进行充分的验证和边界检查时，攻击者可以通过输入超过缓冲区容量的数据来触发溢出。例如，如果程序接受用户输入并将其存储在固定大小的缓冲区中，但没有检查输入的长度，那么当用户输入超过缓冲区容量时，就会发生溢出。</li>
+<li><strong>缓冲区操作错误</strong>：在程序中使用不安全的缓冲区操作函数（如C&#x2F;C++中的<code>strcpy</code>、<code>strcat</code>等）时，如果目标缓冲区的容量不足以存储要复制或连接的数据，就会导致溢出。这些函数没有对目标缓冲区的长度进行检查，容易导致溢出。</li>
+<li><strong>格式化字符串漏洞</strong>：当程序使用格式化字符串函数（如<code>printf</code>、<code>sprintf</code>等）时，如果格式化字符串中包含了过多的参数，而实际提供的参数数量不足，就可能导致溢出。攻击者可以通过精心构造的格式化字符串来修改程序的内存内容，甚至执行恶意代码。</li>
+</ol>
+<h1 id="代码注入攻击与格式化字符串"><a href="#代码注入攻击与格式化字符串" class="headerlink" title="代码注入攻击与格式化字符串"></a>代码注入攻击与格式化字符串</h1><h2 id="代码注入"><a href="#代码注入" class="headerlink" title="*代码注入"></a>*代码注入</h2><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>•将ret设置为被注入代码的起始地址, 被注入代码可以做任何事情,如下载和安装蠕虫</p>
+<p>•攻击者创建一个恶意的参数——一个精巧构造出的字符串,该字符串包含一个指向攻击者恶意代码的指针</p>
+<p>•当被调用函数返回时, 程序控制流交给恶意代码 (shellcode)</p>
+<p>–当函数返回时，被注入的代码以与漏洞程序相同的权限运行</p>
+<p>–以root或其他较高权限运行的程序是攻击目标</p>
+<h4 id="shellcode-概述"><a href="#shellcode-概述" class="headerlink" title="shellcode 概述"></a>shellcode 概述</h4><p>•统一用 shellcode 这个专用术语来通称缓冲区溢出攻击中植入进程的代码</p>
+<h4 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h4><p><img src="/img/course/image-20231225200313989.png" srcset="/img/loading.gif" lazyload alt="image-20231225200313989"></p>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><p>•分析并调试漏洞程序，获得淹没返回地址的偏移。</p>
+<p>•获得 buf 的起始地址，并将其写入 abc 的相应偏移处，用来冲刷返回地址。</p>
+<p>• 向abc 中写入可执行的机器代码</p>
+<table>
+<thead>
+<tr>
+<th><strong>esp</strong></th>
+<th><strong>？</strong></th>
+<th><strong>buf</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><strong>?</strong></td>
+<td><strong>old_ebp  (?)</strong></td>
+</tr>
+<tr>
+<td></td>
+<td><strong>?</strong></td>
+<td><strong>ret</strong> <strong>addr</strong></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="使用“跳板”的溢出利用"><a href="#使用“跳板”的溢出利用" class="headerlink" title="*使用“跳板”的溢出利用"></a>*使用“跳板”的溢出利用</h2><p><img src="/img/course/image-20231225200615045.png" srcset="/img/loading.gif" lazyload alt="image-20231225200615045"></p>
+<h4 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h4><p>•用内存中任意一个 jmp esp 指令的地址覆盖函数返回地址，而不是原来用手工查出的shellcode (buf) 起始地址直接覆盖。</p>
+<p>•函数返回后被重定向去执行内存中的这条jmp esp指令，而不是直接开始执行shellcode。</p>
+<p>•由于 esp 在函数返回时仍指向栈区（函数返回地址之后），jmp esp 指令被执行后，处理器会到栈区函数返回地址之后的地方取指令执行。</p>
+<p>•重新布置 shellcode。在淹没函数返回地址后，继续淹没一片栈空间。将缓冲区前边一段地方用任意数据填充，把 shellcode 恰好摆放在函数返回地址之后。这样，jmp esp 指令执行过后会恰好跳进 shellcode。</p>
+<h3 id="shellcode-摆放位置"><a href="#shellcode-摆放位置" class="headerlink" title="shellcode 摆放位置"></a>shellcode 摆放位置</h3><p>•直接放在缓冲区 buf[80]里，</p>
+<p>–shellcode 位于函数返回地址之前。</p>
+<p>•使用跳转指令 jmp esp 来定位 shellcode</p>
+<p>–shellcode 恰好在函数返回地址之后</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>好处</strong></th>
+<th><strong>坏处</strong></th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>shellcode 位于函数返回地址之前</td>
+<td>对程序破坏小，比较稳定；不会大范围破坏前栈帧</td>
+<td>自身可能被压栈数据破坏</td>
+<td>使用静态地址定位shellcode</td>
+</tr>
+<tr>
+<td>shellcode 位于函数返回地址之后</td>
+<td>不用担心自身被压栈数据破坏</td>
+<td>破坏前栈帧数据</td>
+<td>使用“跳板”的溢出利用</td>
+</tr>
+</tbody></table>
+<h2 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="*格式化字符串漏洞"></a>*格式化字符串漏洞</h2><h4 id="格式化字符串函数介绍"><a href="#格式化字符串函数介绍" class="headerlink" title="格式化字符串函数介绍"></a>格式化字符串函数介绍</h4><p>格式化字符串函数可以接受<strong>可变数量</strong>的参数，并将<strong>第一个参数</strong>作为<strong>格式化字符串</strong>，根据其来解析之后的参数</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>含义</strong></th>
+<th><strong>Passed as</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%d</td>
+<td>十进制</td>
+<td>Value</td>
+</tr>
+<tr>
+<td>%u</td>
+<td>无符号十进制</td>
+<td>Value</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>十六进制</td>
+<td>Value</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>字符串</td>
+<td>Reference</td>
+</tr>
+<tr>
+<td><strong>%n</strong></td>
+<td>将已经输出过的字节数输入到指定的地址中</td>
+<td>Reference</td>
+</tr>
+</tbody></table>
+<h4 id="格式化字符串漏洞的原理"><a href="#格式化字符串漏洞的原理" class="headerlink" title="格式化字符串漏洞的原理"></a>格式化字符串漏洞的原理</h4><p>•对于printf函数，其要打印的内容及格式是由该函数的<strong>第一个参数</strong>确定的。如果第一个参数指定的格式与其后续参数匹配，则不会发生错误。</p>
+<p>•然而如果指定的格式与其后续参数不匹配，则将会输出错误的结果，在某些情况下还会泄露内存变量的值。</p>
+<p>•如果攻击者可以控制输入的字符串(含打印格式)，则有可能利用该漏洞执行shellcode，从而入侵目标系统</p>
+<h3 id="格式化字符串漏洞的利用"><a href="#格式化字符串漏洞的利用" class="headerlink" title="格式化字符串漏洞的利用"></a>格式化字符串漏洞的利用</h3><h4 id="使程序崩溃"><a href="#使程序崩溃" class="headerlink" title="使程序崩溃"></a>使程序崩溃</h4><p>•原理：</p>
+<p>–**%s**将会把栈中的内容作为地址进行解析，读取对应地址的内容。如果栈中内容不是有效地址时，程序将会崩溃</p>
+<h4 id="读取栈上的数据"><a href="#读取栈上的数据" class="headerlink" title="读取栈上的数据"></a>读取栈上的数据</h4><p>•从栈顶开始的第7个(4字节）单元开始保存变量int_input，A、B、C值。</p>
+<p>•想读取某个内存单元的值，可以将int_input设置为内存地址，然后设置第7个格式化参数为%s</p>
+<p>•读取栈顶0xffffcd4c (十进制数为4294954316)中的数据</p>
+<p><img src="/img/course/image-20231225201503800.png" srcset="/img/loading.gif" lazyload alt="image-20231225201503800"></p>
+<h4 id="修改栈内容"><a href="#修改栈内容" class="headerlink" title="修改栈内容"></a>修改栈内容</h4><p>•格式字符**%n**</p>
+<p>–把栈中的内容当作地址进行解析，并且把已经输出的字符的数量输入到对应的地址中</p>
+<p>–printf(“hello%n”,&amp;i)</p>
+<p>–printf(“%d\n”,i)  —— <strong>输出i的值为5</strong></p>
+<p>•<strong>原理：</strong>将目标地址放入栈之后，利用%m.n的格式，通过设定宽度和精度，控制%n的计数值，计数值就等于目标单元的值</p>
+<h1 id="代码复用攻击"><a href="#代码复用攻击" class="headerlink" title="代码复用攻击"></a>代码复用攻击</h1><h2 id="代码复用攻击的基本概念"><a href="#代码复用攻击的基本概念" class="headerlink" title="*代码复用攻击的基本概念"></a>*代码复用攻击的基本概念</h2><h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>•Stack不具有可执行属性？</p>
+<p>–Data Execution Prevention (DEP)</p>
+<p>–无法执行注入的恶意代码（shellcode）</p>
+<p>•可能的解决办法</p>
+<p>–缓冲区溢出</p>
+<p>–覆写返回地址，使其指向某个函数的地址</p>
+<p>–通常为<strong>系统调用的地址</strong></p>
+<h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3><p>•<strong>攻击者利用程序本身已有的代码片段构造能够被自己利用的代码链</strong></p>
+<h4 id="绕过系统提供的一些安全机制"><a href="#绕过系统提供的一些安全机制" class="headerlink" title="绕过系统提供的一些安全机制"></a>绕过系统提供的一些安全机制</h4><p>–如Windows提供的数据执行保护(Data Execution Prevention, <strong>DEP</strong>)</p>
+<p>–Linux提供的<strong>NX</strong>(Non-eXecute) </p>
+<h2 id="Ret2libc"><a href="#Ret2libc" class="headerlink" title="*Ret2libc"></a>*Ret2libc</h2><p>•<strong>在程序的控制流 （返回地址）被劫持后, 使其跳转到已在被攻击进程的地址空间中存在的代码中 (共享库中的函数中)</strong></p>
+<p>•共享库中有很多可以被攻击者利用的函数</p>
+<p>e.g. system, execve, execl, etc</p>
+<p><img src="/img/course/image-20231225204226156.png" srcset="/img/loading.gif" lazyload alt="image-20231225204226156"></p>
+<h3 id="基本方法"><a href="#基本方法" class="headerlink" title="基本方法"></a>基本方法</h3><p>•在共享库(libc.so)中找到感兴趣的函数的地址</p>
+<p>•在栈上部署该函数的参数</p>
+<p>•利用缓冲区溢出覆写返回地址使其指向该函数的地址</p>
+<p><img src="/img/course/image-20231225204848513.png" srcset="/img/loading.gif" lazyload alt="image-20231225204848513"></p>
+<h3 id="攻击步骤"><a href="#攻击步骤" class="headerlink" title="攻击步骤"></a>攻击步骤</h3><p>1.获取函数system()和exit()的地址</p>
+<p>2.<strong>获取字符串bin&#x2F;sh的地址(难点)</strong></p>
+<p>3.为系统调用system() 创建形参</p>
+<p>4.覆写返回地址</p>
+<h4 id="获取字符串-“-bin-sh”的地址（非重点，了解即可）"><a href="#获取字符串-“-bin-sh”的地址（非重点，了解即可）" class="headerlink" title="获取字符串 “&#x2F;bin&#x2F;sh”的地址（非重点，了解即可）"></a>获取字符串 “&#x2F;bin&#x2F;sh”的地址（非重点，了解即可）</h4><p>•<strong>方法1</strong>：将字符串“&#x2F;bin&#x2F;sh部署在栈中</p>
+<p><img src="/img/course/image-20231225205710891.png" srcset="/img/loading.gif" lazyload alt="image-20231225205710891"></p>
+<p>•<strong>方法2</strong>：将“&#x2F;bin&#x2F;sh写入环境变量中</p>
+<p><img src="/img/course/image-20231225205949007.png" srcset="/img/loading.gif" lazyload alt="image-20231225205949007"></p>
+<p>•<strong>方法3</strong>：在共享库libc.so中定位“&#x2F;bin&#x2F;sh”的地址</p>
+<h2 id="Return-oriented-Programming-ROP"><a href="#Return-oriented-Programming-ROP" class="headerlink" title="*Return-oriented Programming (ROP)"></a>*Return-oriented Programming (ROP)</h2><p>•面向返回编程</p>
+<p>•链接代码片段(Gadgets)来执行恶意行为</p>
+<p>•存在于不同的平台</p>
+<p>–X86, ARM, SPARC </p>
+<p>•被证明图灵完备</p>
+<h3 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget"></a>Gadget</h3><p>•以分支指令结尾的代码片段</p>
+<p>•ret, call <em>, jmp</em></p>
+<p>•<strong>ROP</strong> 攻击：以<strong>ret</strong>指令结尾</p>
+<p>•<strong>指令数较少</strong> <strong>（2-6条指令组成）</strong></p>
+<p>•<strong>Intented 指令序列和 Unintented 指令序列</strong></p>
+<h4 id="Intented-指令序列"><a href="#Intented-指令序列" class="headerlink" title="Intented 指令序列"></a><strong>Intented</strong> 指令序列</h4><p>•正常反汇编得到的代码序列</p>
+<p>•直接以ret指令作为结尾的代码序列</p>
+<p>•主要存在于函数的末尾处</p>
+<h4 id="Unintented-指令序列"><a href="#Unintented-指令序列" class="headerlink" title="Unintented 指令序列"></a><strong>Unintented</strong> 指令序列</h4><p>•不通过正常反汇编得到的以ret指令结尾的指令序列</p>
+<p>–进行反汇编时，向后偏移一个或几个字节对指令进行解析</p>
+<p>•由于CISC支持变长指令</p>
+<p><img src="/img/course/image-20231225213239077.png" srcset="/img/loading.gif" lazyload alt="image-20231225213239077"></p>
+<h4 id="ROP攻击"><a href="#ROP攻击" class="headerlink" title="ROP攻击"></a>ROP攻击</h4><p>•找到合适的gadgets</p>
+<p>•将gadgets的地址存入栈中</p>
+<h1 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h1><h2 id="数据执行保护DEP"><a href="#数据执行保护DEP" class="headerlink" title="*数据执行保护DEP"></a>*数据执行保护DEP</h2><h3 id="概念-2"><a href="#概念-2" class="headerlink" title="概念"></a>概念</h3><p>•很多缓冲区溢出攻击涉及到将机器码复制到目标缓冲区，然后将执行转移到这些缓冲区</p>
+<p>•<strong>阻止在栈&#x2F;堆&#x2F;全局数据区中执行代码</strong>，并假定可执行代码只能在进程地址空间的除这些位置外的其他位置出现</p>
+<p>– 需要从CPU的内存管理单元（MMU）提供支持，将虚拟内存的对应页标记为非执行（向MMU中加入no_x0002_execute位）</p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>Linux 关闭DEP</p>
+<p>•-z execstack</p>
+<p>–gcc -z execstack stack.c -o stack-exec</p>
+<h3 id="攻击DEP：代码重用攻击"><a href="#攻击DEP：代码重用攻击" class="headerlink" title="攻击DEP：代码重用攻击"></a>攻击DEP：代码重用攻击</h3><p>•思路: 重用程序本身中的代码</p>
+<p>–不需要注入代码</p>
+<p>•<strong>Ret2Libc</strong>: 用危险的库函数的地址替换返回地址l</p>
+<p>–攻击者构造合适的参数（在栈上，在返回指令指针的上方）</p>
+<p>•在x64架构上，还需要更多的工作：设置参数传递寄存器的值</p>
+<p>–函数返回，库函数得到执行</p>
+<p>•例如：execve(“&#x2F;bin&#x2F;sh”)</p>
+<p>甚至可以链接两个库函数调用</p>
+<p>•在很多攻击中，代码重用攻击用来作为<strong>禁用DEP</strong>的第一步</p>
+<p>–目标是允许对栈内存进行执行</p>
+<p>–有一个系统调用可以更改栈的读&#x2F;写&#x2F;执行属性</p>
+<p>•int mprotect(void *addr, size_t len, int prot);</p>
+<p>– 设置对于起始于addr的内存区域的保护</p>
+<p>–调用此系统调用，允许在栈上的“执行”属性，然后开始执行被注入的代码</p>
+<h2 id="地址空间随机化ASLR"><a href="#地址空间随机化ASLR" class="headerlink" title="*地址空间随机化ASLR"></a>*地址空间随机化ASLR</h2><h3 id="随机化方法分类"><a href="#随机化方法分类" class="headerlink" title="随机化方法分类"></a>随机化方法分类</h3><p>•地址随机化</p>
+<p>•指令随机化</p>
+<p>•数据随机化</p>
+<p>•接口随机化</p>
+<p>•基地址随机化</p>
+<p>–地址空间随机化 （ASLR）</p>
+<p>•相对地址随机化</p>
+<h3 id="地址空间随机化-（ASLR）"><a href="#地址空间随机化-（ASLR）" class="headerlink" title="*地址空间随机化 （ASLR）"></a>*地址空间随机化 （ASLR）</h3><p>•Address Space Layout Randomization</p>
+<p>•将进程的堆、栈、共享库等内存空间基地址进行随机化来增大入侵者预测目的地址的难度，从而降低进程被成功入侵的风险</p>
+<p>–Linux、Windows 等主流操作系统都已经采用该项技术</p>
+<p>•开启 ASLR，在每次程序运行时的时候，装载的可执行文件和共享库都会被映射到虚拟地址空间的<strong>不同基地址处</strong></p>
+<h4 id="攻破ASLR的方法"><a href="#攻破ASLR的方法" class="headerlink" title="攻破ASLR的方法"></a>攻破ASLR的方法</h4><p>•如果随机地址空间很小，可以进行一个<strong>穷举搜索</strong></p>
+<p>–例如，Linux提供16位的随机</p>
+<p>•可以在约200秒以内被穷举搜索攻破</p>
+<p>•ASLR经常被<strong>memory disclosure攻破</strong></p>
+<p>–例如，如果攻击者可以读取指向栈的一个指针值</p>
+<p>•他就可以使用该指针值发现栈在哪里</p>
+<h3 id="相对地址随机化"><a href="#相对地址随机化" class="headerlink" title="*相对地址随机化"></a>*相对地址随机化</h3><table>
+<thead>
+<tr>
+<th><strong>类型</strong></th>
+<th><strong>操作</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>指令级随机化</td>
+<td>等价指令替换；指令重排序；无关指令填充</td>
+</tr>
+<tr>
+<td>基本块级随机化</td>
+<td>基本块重排序；虚假基本块插入；基本块分解</td>
+</tr>
+<tr>
+<td>函数级随机化</td>
+<td>函数参数随机化；栈布局随机化</td>
+</tr>
+<tr>
+<td>程序级随机化</td>
+<td>函数重排序；库函数入口地址随机化；</td>
+</tr>
+</tbody></table>
+<h3 id="指令集随机化"><a href="#指令集随机化" class="headerlink" title="指令集随机化"></a>指令集随机化</h3><p>•为每一个运行的进程创建特有的指令集，使得攻击者注入的代码与现在的指令集不兼容而无法正常运行</p>
+<p>–常在应用程序加载前或加载时对指令进行加密操作，在执行时对指令进行解密操作</p>
+<p>可以有效地抵抗代码注入攻击</p>
+<p>缺点：时间开销大</p>
+<h3 id="数据随机化"><a href="#数据随机化" class="headerlink" title="数据随机化"></a>数据随机化</h3><p>将内存中的指针或非指针数据作为随机化对象，通过随机化变换（加密操作），使得数据在内存中以密文存储，使用时解密数据</p>
+<h3 id="接口随机化"><a href="#接口随机化" class="headerlink" title="接口随机化"></a>接口随机化</h3><p>•将与底层进行交互的接口进行随机化</p>
+<p>–常将系统调用接口的相关信息作为随机化对象</p>
+<p>–系统调用号、系统调用参数</p>
+<h2 id="控制流完整性检测（CFI）"><a href="#控制流完整性检测（CFI）" class="headerlink" title="控制流完整性检测（CFI）"></a>控制流完整性检测（CFI）</h2><p>•判断程序的执行流程是否按照事先得到的控制流图(Control Flow Graph, CFG)进行</p>
+<h3 id="CFI基本思想"><a href="#CFI基本思想" class="headerlink" title="CFI基本思想"></a>CFI基本思想</h3><p>​	–限制程序运行中的控制转移，使之始终处于原有的控制流图所限定的范围内。</p>
+<p>​	–规定软件执行必须遵循提前确定的控制流图（CFG）的路径。</p>
+<p>•控制流劫持攻击</p>
+<p>​	–引进额外的控制流转移</p>
+<p><img src="/img/course/image-20231226113844849.png" srcset="/img/loading.gif" lazyload alt="image-20231226113844849"></p>
+<h3 id="具体做法"><a href="#具体做法" class="headerlink" title="具体做法"></a>具体做法</h3><p>–通过分析程序的控制流图，获取间接转移指令（包括间接跳转、间接调用、和函数返回指令）目标的白名单</p>
+<p>–在程序运行过程中，核对间接转移指令的目标是否在白名单中。</p>
+<p>•通过二进制代码重写实现：插桩</p>
+<p>•利用二进制重写技术向软件函数入口及调用返回处分别插入标识符ID和ID_check</p>
+<p>•通过对比ID和ID_check的值是否一致判断软件的函数执行过程是否符合预期，从而判断软件是否被篡改。</p>
+<p><strong>CFI分类</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>技术</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基于编译器</td>
+<td>Require source code  CFG is more precise  需要源代码CFG更精确</td>
+<td>1.静态分析源代码构建CFG	2.编译时，插入CFI 检查	3.运行时进行CFI检测</td>
+</tr>
+<tr>
+<td>基于二进制重写</td>
+<td>No source code is needed  CFG is more over-approximated</td>
+<td>•通过静态二进制文件分析构造CFG（不如通过分析源代码获得的CFG准确）</td>
+</tr>
+<tr>
+<td>基于硬件</td>
+<td>Transparent runtime monitoring  透明的运行时监控</td>
+<td>利用CPU提供的分支记录机制记录程序的执行流</td>
+</tr>
+</tbody></table>
+<h3 id="绕过CFI检测"><a href="#绕过CFI检测" class="headerlink" title="绕过CFI检测"></a>绕过CFI检测</h3><p>–由于构造的CFG不是100%准确</p>
+<p>•利用不违反CFG的gadgets进行攻击</p>
+<p>–整个函数作为一个gadget</p>
+<h2 id="预防（防御性编程）"><a href="#预防（防御性编程）" class="headerlink" title="预防（防御性编程）"></a>预防（防御性编程）</h2><p>1.<strong>使用更安全的编程语言</strong></p>
+<p>2.<strong>安全的库libsafe</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E8%AF%BE%E7%A8%8B/" class="print-no-link">#信息安全课程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>软件系统安全</div>
+      <div>http://example.com/2023/12/27/软件系统安全/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sanli Ma</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年12月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/12/29/AC05/" title="用户认证技术之外部认证">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">用户认证技术之外部认证</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/25/%E5%BA%94%E7%94%A8%E5%AF%86%E7%A0%81%E5%AD%A6%E6%80%BB%E7%BB%93/" title="应用密码学总结">
+                        <span class="hidden-mobile">应用密码学总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

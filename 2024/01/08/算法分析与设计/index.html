@@ -1,0 +1,1016 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bg/index.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sanli Ma">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="考试题型及分值一、选择题（共 9 小题，每小题 2 分，共 18 分）二、判断题（共 5 小题，每小题 2 分，共 10 分）三、填空题（共 6 小题，每空1分，共 14 分）四、解答题（共 5 大题，共 58 分） 重点动态规划（关键）动态规划的要素（填空）：&#x3D;&#x3D;最优结构，重叠子问题&#x3D;&#x3D; 动态规划的原理、思想 多段图规划 0-1背包问题 贪心算法和动态规划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法分析与设计">
+<meta property="og:url" content="http://example.com/2024/01/08/%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="stdlibh的个人网站">
+<meta property="og:description" content="考试题型及分值一、选择题（共 9 小题，每小题 2 分，共 18 分）二、判断题（共 5 小题，每小题 2 分，共 10 分）三、填空题（共 6 小题，每空1分，共 14 分）四、解答题（共 5 大题，共 58 分） 重点动态规划（关键）动态规划的要素（填空）：&#x3D;&#x3D;最优结构，重叠子问题&#x3D;&#x3D; 动态规划的原理、思想 多段图规划 0-1背包问题 贪心算法和动态规划">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/course/clip_image002.png">
+<meta property="og:image" content="http://example.com/img/course/clip_image004.png">
+<meta property="og:image" content="http://example.com/img/course/clip_image006.png">
+<meta property="og:image" content="http://example.com/img/course/clip_image008.png">
+<meta property="og:image" content="http://example.com/img/course/clip_image010.png">
+<meta property="og:image" content="http://example.com/img/course/clip_image012.png">
+<meta property="og:image" content="http://example.com/img/course/clip_image014.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106154600605.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106154640225.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106154714944.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106154726870.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240107150050942.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106144007100.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106150720225.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106150732972.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106151741197.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106151551908.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106151348691.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106142202691.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106142215076.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106143412916.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106141006113.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106135507802.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106131421734.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240106133422515.png">
+<meta property="article:published_time" content="2024-01-07T18:03:28.000Z">
+<meta property="article:modified_time" content="2024-01-07T18:06:01.234Z">
+<meta property="article:author" content="Sanli Ma">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/course/clip_image002.png">
+  
+  
+  
+  <title>算法分析与设计 - stdlibh的个人网站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="stdlibh的个人网站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stdlibh</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/background.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="算法分析与设计"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-08 02:03" pubdate>
+          2024年1月8日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          79 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">算法分析与设计</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="考试题型及分值"><a href="#考试题型及分值" class="headerlink" title="考试题型及分值"></a>考试题型及分值</h1><p>一、选择题（共 9 小题，每小题 2 分，共 18 分）<br>二、判断题（共 5 小题，每小题 2 分，共 10 分）<br>三、填空题（共 6 小题，每空1分，共 14 分）<br>四、解答题（共 5 大题，共 58 分）</p>
+<h1 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h1><h3 id="动态规划（关键）"><a href="#动态规划（关键）" class="headerlink" title="动态规划（关键）"></a>动态规划（关键）</h3><p>动态规划的要素（填空）：&#x3D;&#x3D;最优结构，重叠子问题&#x3D;&#x3D;</p>
+<p>动态规划的原理、思想</p>
+<p>多段图规划</p>
+<p>0-1背包问题</p>
+<h3 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h3><p>和动态规划区别</p>
+<p><strong>最短路径：迪杰斯特算法！</strong></p>
+<p>Prim和Kruskal算法</p>
+<h3 id="回溯法"><a href="#回溯法" class="headerlink" title="回溯法"></a>回溯法</h3><p>关于0-1背包问题的算法，思想</p>
+<h3 id="分支限界法！"><a href="#分支限界法！" class="headerlink" title="分支限界法！"></a>分支限界法！</h3><h3 id="随机算法（了解，什么时候使用）"><a href="#随机算法（了解，什么时候使用）" class="headerlink" title="随机算法（了解，什么时候使用）"></a>随机算法（了解，什么时候使用）</h3><h1 id="第一章-基础知识-排序"><a href="#第一章-基础知识-排序" class="headerlink" title="第一章 基础知识+排序"></a>第一章 基础知识+排序</h1><h2 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h2><p>1.算法由<strong>操作、控制结构、数据结构</strong>三要素组成</p>
+<p>2.算法是什么：<strong>问题的程序化解决方案</strong></p>
+<p>3.算法特征：有限性&#x2F;<strong>有穷性</strong>：对算法的每一次输入，算法都必须在有限步骤（即有限</p>
+<p>时间）内结束</p>
+<ol start="4">
+<li>算法与程序区别：</li>
+</ol>
+<p>(1)一个程序不一定满足<strong>有穷性</strong>（操作系统）。</p>
+<p>(2)程序中的指令必须是机器可执行的，而算法中的指令则无此限制。</p>
+<p>(3)<strong>算法代表了对问题的解</strong>，而程序则是算法在计算机上的特定的实现。</p>
+<p>5.算法的描述（流程图、自然语言、程序语言、伪代码）</p>
+<p>伪代码约定：利用i←j←e 来表示多重赋值，等价于 j←e 和i←j</p>
+<p>6.算法的设计要求：</p>
+<p>(1)正确性（对输入、输出和处理过程等有明确的<strong>无歧义</strong>的描述；有正确的输出结果并停止）</p>
+<p>a)    不正确的算法：如果算法的<strong>错误率</strong>可以控制，也是有用的。</p>
+<p><strong>b)</strong>    <strong>程序调试不能证明程序无错误</strong></p>
+<p>(2)可读性</p>
+<p>(3)健壮性（对于非法的输入数据，能适当地做出反应或进行处理(<strong>异常中断</strong>)）</p>
+<p>(4)效率与低存储等需求</p>
+<h2 id="二、算法分析基础"><a href="#二、算法分析基础" class="headerlink" title="二、算法分析基础"></a>二、算法分析基础</h2><p>1.算法分析的基本框架</p>
+<p>(1)算法分析是指对一个算法所需要的资源进行预测，通常是对计算时间和空间的预测，采用<strong>随机存取机</strong>（RAM）计算模型。</p>
+<p>算法运行时间是指在<strong>特定输入时，所执行的基本操作数</strong>。</p>
+<p>输入数据的<strong>规模</strong>和<strong>分布</strong>是影响算法运行时间的两个主要因素。</p>
+<p>对于大规模输入，通常只关注运行时间效率<strong>函数的增长率</strong></p>
+<p>度量算法效率的方法：</p>
+<p>事后统计 事前分析估算 算法的存储量（<strong>输入数据所占、程序本身所占和辅助变量所占</strong>）</p>
+<p>(2)空间复杂度：通常指<strong>辅助变量所占空间 （S(n)&#x3D;O(f(n))）</strong></p>
+<p>若额外空间相对于输入数据量是<strong>常数</strong>，该算法<strong>原地工作</strong>，频度&#x3D;重复</p>
+<p>(3)时间复杂度：（嵌套最深层语句）</p>
+<p>语句的频度之和构成运行时间。</p>
+<p>对于规模为n的任何输入，一般考察算法的最坏运行时间</p>
+<p>O(1)——常量阶   O(logn) ——对数阶  O(n) ——线性阶  O(nlogn) ——线性对数阶</p>
+<p>O(n2) ——平方阶  O(n3) ——立方阶   O(nk)——多项式阶  O(2n) ——指数阶</p>
+<p>&#x3D;&#x3D;<strong>Ο是渐进上界，Ω是渐进下界。Θ需同时满足大Ο和Ω，称为确界(必须同时符合上界和下界)。Ο表示了最差性能</strong>&#x3D;&#x3D;</p>
+<h2 id="三、算法设计策略：分治法"><a href="#三、算法设计策略：分治法" class="headerlink" title="三、算法设计策略：分治法"></a>三、算法设计策略：分治法</h2><p>1.递归与分治法</p>
+<p>分治策略: 将原问题<strong>划分</strong>为n个规模较小而结构与原问题相似的子问题,<strong>递归地解决</strong>这些子问题，然后再<strong>合并</strong>其结果，就得到原问题的解。</p>
+<p>2.归并排序算法：</p>
+<p>① 分解：把n个元素分成各含n&#x2F;2个元素的子序列；D(n)&#x3D;Θ(1)</p>
+<p>② 解决：用归并排序算法对两个子序列递归地排序；2T(n&#x2F;2)</p>
+<p>③ 合并：合并两个已排序的子序列以得到排序结果。C(n)&#x3D;Θ(n)</p>
+<p>3.分治法分析</p>
+<p><img src="/img/course/clip_image002.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>D(n)分解时间  C(n)合并时间  T(n)是一个规模为n的问题的运行时间</p>
+<p>总共层数是lgn+1层，每一层代价都是cn，所以总代价为：cn(lgn +1) &#x3D;cnlgn+cn&#x3D;Θ(nlgn)</p>
+<h1 id="第二章-排序"><a href="#第二章-排序" class="headerlink" title="第二章 排序"></a>第二章 排序</h1><h3 id="一、排序问题"><a href="#一、排序问题" class="headerlink" title="一、排序问题"></a>一、排序问题</h3><p>稳定排序算法：相同的数据，排序后仍维持原有的相对次序</p>
+<h3 id="二、冒泡排序-选择排序"><a href="#二、冒泡排序-选择排序" class="headerlink" title="二、冒泡排序 &amp; 选择排序"></a>二、冒泡排序 &amp; 选择排序</h3><p>1.冒泡排序</p>
+<p>基本思想：</p>
+<p>① 比较相邻的两个元素。如果第一个元素比第二个大，就交换它们；</p>
+<p>② 对每一对相邻元素做同样的操作，从开始第一对到结尾的最后一对，则最后的元素是最大的数；</p>
+<p>③ 针对所有的元素重复以上的步骤，除了最后一个元素；</p>
+<p>④ 重复步骤1~3，直到排序完成。</p>
+<p>2.选择排序</p>
+<p>基本思想：</p>
+<p>① 初始状态：无序区为R[1..n]，有序区为空；</p>
+<p>② 第i趟排序(i&#x3D;1, 2, 3, …, n-1)开始时，当前有序区和无序区分别为R[1..i-1]和R(i..n</p>
+<p>）。该趟排序从当前无序区中-选出关键字最小的记录 R[k]，将它与无序区的第1</p>
+<p>个记录R交换，使R[1..i]和R[i+1..n)分别变为记录个数增加1个的新有序区和记录</p>
+<p>个数减少1个的新无序区；</p>
+<p>③ n-1趟结束，数组有序化了</p>
+<p>n个记录的直接选择排序，可经过n-1趟直接选择排序得到有序结果</p>
+<p>算法分析：唯一的好处是不占用额外的内存空间</p>
+<h3 id="三、插入排序-希尔排序"><a href="#三、插入排序-希尔排序" class="headerlink" title="三、插入排序 &amp; 希尔排序"></a>三、插入排序 &amp; 希尔排序</h3><ol>
+<li><h4 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h4></li>
+</ol>
+<p>原理：通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。一般来说，插入排序采用in-place基于数组进行实现</p>
+<p>算法分析：插入排序的实现，通常采用<strong>in-place</strong>基于数组排序 (即只需O(1)的额外空间)，在从后向前扫描过程中，需要反复把已排序元素逐步向后挪位，为最新元素提供插入空间。</p>
+<ol start="2">
+<li>希尔排序（<strong>缩小增量排序</strong>）：<strong>优先比较距离较远的元素</strong></li>
+</ol>
+<p>先将整个待排序的记录序列，分割成为若干组待排序的子序列，分别进行直接插入排序。</p>
+<p><strong>出发点</strong>：插入排序在元素基本有序的情况下，效率很高。</p>
+<p><strong>gap</strong>：初始值设为 n&#x2F;2，然后不断减半。</p>
+<p>算法分析：希尔排序的核心在于<strong>间隔序列</strong>的设定。既可以提前设定好间隔序列，也可以动态的定义间隔序列。</p>
+<h3 id="四、快速排序-堆排序"><a href="#四、快速排序-堆排序" class="headerlink" title="四、快速排序 &amp; 堆排序"></a>四、快速排序 &amp; 堆排序</h3><p>1.快速排序（前面的比选定元素小，后面的大，然后对两边递归）</p>
+<p>基本思想: 采用<strong>分治策略</strong>把未排序数组分为两部分，然后分别<strong>递归</strong>调用自身进行排序：</p>
+<p>① 分解：数组A[p…r]被划分为两个（可能空）子数组A[p…q-1]和A[p+1..r]，使得A[p…q-1]中每个元素都小于或等于A[q]和A[q+1..r]中的元素。下标q在这个划分过程中进行计算；</p>
+<p>② 解决：递归调用快速排序，对子数组A[p…q-1]和A[q+1..r]排序；</p>
+<p>③ 合并：不需要任何操作。</p>
+<p><strong>如何防止出现最坏情况发生</strong>？</p>
+<p>策略1：显示地对输入进行排列使得快速排序算法随机化</p>
+<p>策略2：采用<strong>随机取样</strong>的随机化技术：从子数组A[p…r]中随机选择一个元素作为主元，从而达到可以对输入数组的划分能够比较对称</p>
+<p>2.堆排序</p>
+<p>(1)堆排序（Heapsort）是指利用堆该数据结构所设计的一种排序算法。堆积是一个近似完全二叉树的结构，并同时满足堆积的性质：<strong>子结点的键值或索引总是小于（或者大于）它的父节点</strong></p>
+<p>(2)基本思想：</p>
+<p>① 将初始待排序关键字序列(R1,R2….Rn)构建成<strong>大顶堆</strong>，此堆为初始的无序区；</p>
+<p>② 将堆顶元素R[1]与最后一个元素R[n]交换，此时得到新的无序区(R1,R2,……Rn- 1)和新的有序区(Rn),且满足R[1,2…n-1]&lt;&#x3D;R[n]；</p>
+<p>③ 由于交换后新的堆顶R[1]可能违反堆的性质，因此需要对当前无序区(R1,R2,……Rn-1)调整为新堆，然后再次将R[1]与无序区最后一个元素交换，得到新的无序区(R1,R2….Rn-2)和新的有序区(Rn-1,Rn)。不断重复此过程直到有序区的元素个数为n-1，则整个排序过程完成</p>
+<p>(3)堆数据结构是一种数组对象，可以被视为一棵完全二叉树。树中每个节点与数组中存放该结点值的元素对应。树的每一层都是填满的，最后一层可能除外（从一个结点的左子树开始填）</p>
+<p>在堆排序算法中，如果使用大根堆，堆中最大元素位于树根；</p>
+<p>小根堆通常在构造<strong>优先队列</strong>时使用</p>
+<p>是一种in-place原地排序算法</p>
+<p>堆排序算法与插入排序算法设计策略关系是否类似？</p>
+<p>（<strong>减治法</strong>：不断减小被处理的问题规模）</p>
+<p>五、线性排序算法 (计数排序、桶排序、基数排序)</p>
+<p><strong>比较排序</strong>：排序结果中各元素的次序基于输入元素间的比较，这类算法是比较排序。最好的时间复杂度为O(nlogn) </p>
+<p>线性排序: 时间复杂度为 <strong>O(n)（突破了比较排序的最好时间复杂度）</strong>, 达到线性，排序不基于比较。</p>
+<p>线性排序有三种：计数排序、桶排序、基数排序。</p>
+<p><strong>排序算法正确工作的必要条件</strong>：n个元素的n!中排列都要作为决策树的一个叶子。</p>
+<p><strong>定理1 任意比较排序算法在最坏情况下，都需要做Ω(nlogn)次比较。堆排序和合并排序是渐近最优的排序算法，快速排序执行效率平均较堆排序和合并排序好。</strong></p>
+<p>计数排序（不是比较排序算法）基本思想：对每一个输入元素x，统计出小于x的元素的个数。然后，根据这一信息直接把元素x放到它在最终输出数组中的位置上。</p>
+<ol>
+<li>桶排序</li>
+</ol>
+<p>基本思想：</p>
+<ol>
+<li>把区间[0,1)划分成n个相同大小的子区间（称为桶）</li>
+<li>将n个输入数分布到各个桶中去</li>
+<li>先对各桶中元素进行排序，然后依次列出各桶中的元素</li>
+<li>基数排序</li>
+</ol>
+<p>假设所有待排序元素均为整数，至多d位。先按<strong>最低有效位</strong>进行排序，再按<strong>次低有效位</strong>排序，重复这个过程，直到对所有的d位数字都进行了排序。</p>
+<p><strong>基数排序关键是按位排序要稳定</strong></p>
+<p><strong>总共花费O(d(n+k))的时间。</strong>如果 d是常数，k &#x3D; O(n)，基数排序能在线性时间内完成排序</p>
+<h3 id="六、排序算法比较"><a href="#六、排序算法比较" class="headerlink" title="&#x3D;&#x3D;六、排序算法比较&#x3D;&#x3D;"></a>&#x3D;&#x3D;六、排序算法比较&#x3D;&#x3D;</h3><p>1.比较排序：排序结果中，各元素的次序基于输入元素间的比较，这类算法成为比较排序。</p>
+<p>任何比较排序算法，排序n个元素时至少耗用Ω(nlgn)次比较，其时间复杂度至少为Ω(nlgn)</p>
+<p>2.当数据规模n较小时，n2和nlog2n的差别不大</p>
+<p>当文件的初态已基本有序时，可选择简单的排序方法,如直接插入排序或起泡排序等</p>
+<p>当数据规模n较大时，应选用速度快的排序算法</p>
+<p>快速排序法最快，被认为是目前基于比较的排序方法中最好的方法当待排序的记录是随机分布时，快速排序的平均时间最短。但快速排序有可能出现最坏情况，则快速排序算法的时间复杂度为O(n2)，且递归深度为n，即所需栈空间为O(n)</p>
+<p><img src="/img/course/clip_image004.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>插帽龟，统计鸡走的稳（希尔快速选择堆不稳）</p>
+<p>选帽插，全恩方，冒插最好没有方</p>
+<p>统计鸡，加减乘除</p>
+<p>恩老哥，快归堆</p>
+<p>快桶最坏是恩方</p>
+<h1 id="第三章-递归和分治策略"><a href="#第三章-递归和分治策略" class="headerlink" title="第三章  递归和分治策略"></a><strong>第三章  递归和分治策略</strong></h1><h2 id="一、-递归的定义、总体思想、特点；"><a href="#一、-递归的定义、总体思想、特点；" class="headerlink" title="一、 递归的定义、总体思想、特点；"></a><strong>一、</strong> <strong>递归的定义、总体思想、特点；</strong></h2><p>1.递归(Recursion)基本思想：把<strong>规模大的问题转化为规模小的相似的子问题</strong>来解决。在函数实现时，因为解决大问题的方法和解决小问题的方法往往是同一个方法，所以就产生了<strong>函数直接或间接调用它自身</strong>的情况。这个解决问题的函数<strong>必须有明显的结束条件</strong>，这样就不会产生无限递归的情况</p>
+<ol start="2">
+<li><strong>总体思想</strong>：如果子问题的规模仍然不够小，则再划分为k个子问题，如此递归的进行下去，直到问题规模足够小，很容易求出其解为止。（自底向上）</li>
+</ol>
+<p><strong>3</strong>.两个要素<strong>：边界条件、递归函数</strong></p>
+<h2 id="二、-通过具体例子理解递归策略与设计（-N的阶乘、Fibonacci数列、全排列、整数划分问题、Hanoi塔问题）"><a href="#二、-通过具体例子理解递归策略与设计（-N的阶乘、Fibonacci数列、全排列、整数划分问题、Hanoi塔问题）" class="headerlink" title="二、 通过具体例子理解递归策略与设计（ N的阶乘、Fibonacci数列、全排列、整数划分问题、Hanoi塔问题）"></a><strong>二、</strong> <strong>通过具体例子理解递归策略与设计（</strong> N的阶乘、Fibonacci数列、全排列<strong>、整数划分问题、Hanoi塔问题）</strong></h2><p>1.N的阶乘：</p>
+<p>n! &#x3D;       1(n&#x3D;0)     n&#x3D;0</p>
+<p>​              n(n-1)     n&gt;0</p>
+<p>2 Fibonacci数列</p>
+<p>F(n)&#x3D;       1             n&#x3D;0</p>
+<p>​               1             n&#x3D;1</p>
+<p>​               F(n-1)+F(n-2)    n&gt;1</p>
+<p>3.全排列 ：(从n个元素中取出m个元素进行排列)</p>
+<h4 id="4-整数划分问题"><a href="#4-整数划分问题" class="headerlink" title="4. 整数划分问题"></a><strong>4.</strong> <strong>整数划分问题</strong></h4><p><strong>q(n****，m)&#x3D;      1                           m&#x3D;1,n&#x3D;1</strong></p>
+<p>​              <strong>q(n,n)                       n&lt;m</strong></p>
+<p><strong>q(n****，m)&#x3D;1+q(n,n-1)           n&#x3D;m</strong>              </p>
+<p><strong>q(n,m)&#x3D;q(n,m-1)+q(n-m,m)      n&gt;m&gt;1</strong></p>
+<p>**n:**<strong>待拆分的整数 m：拆分出的最大值不超过m</strong> </p>
+<h4 id="5-Hanoi塔问题"><a href="#5-Hanoi塔问题" class="headerlink" title="5. Hanoi塔问题:"></a><strong>5. Hanoi</strong>塔问题:</h4><p>第n-1个盘子由a移到c；第n个盘子由a移到b；第n-1个盘子由c移到b；</p>
+<p>public static void hanoi(int n, int a, int b, int c)</p>
+<p>{</p>
+<p>if (n &gt; 0)</p>
+<p>{</p>
+<p>hanoi(n-1, a, c, b);</p>
+<p>move(a, b);</p>
+<p>hanoi(n-1, c, b, a);</p>
+<p>}</p>
+<p>}</p>
+<h2 id="三、-分治法的概念、步骤、复杂度分析；"><a href="#三、-分治法的概念、步骤、复杂度分析；" class="headerlink" title="三、 分治法的概念、步骤、复杂度分析；"></a><strong>三、</strong> <strong>分治法的概念、步骤、复杂度分析；</strong></h2><h3 id="使用条件："><a href="#使用条件：" class="headerlink" title="使用条件："></a>使用条件：</h3><p>(1)问题的规模缩小到一定的程度就可以容易地解决</p>
+<p>(2)分解为若干个规模较小的相同问题，**&#x3D;&#x3D;具有最优子结构&#x3D;&#x3D;**</p>
+<p>(3)分解出的子问题的解<strong>可以合并</strong>为该问题的解</p>
+<p>(4)该问题所分解出的各个子问题是<strong>相互独立</strong>的，即子问题之间不包含公共的子问题</p>
+<p>如果具有前两个特征未有第三个可以考虑动态规划和贪心算法</p>
+<h3 id="分治法基本步骤"><a href="#分治法基本步骤" class="headerlink" title="分治法基本步骤"></a>分治法基本步骤</h3><p>&#x3D;&#x3D;① 分解② 解决③ 合并&#x3D;&#x3D;</p>
+<p><strong>平衡子问题</strong>：最好使子问题规模大致相等   </p>
+<p><strong>divide-and-conquer(P)</strong></p>
+<p><strong>{&#x2F;&#x2F; P****是问题的规模，n0是阈值</strong></p>
+<p><strong>if ( |P| &lt;&#x3D; n0) adhoc(P); &#x2F;&#x2F;</strong> <strong>基本子算法，解决小规模的问题</strong></p>
+<p> <strong>divide P into smaller subinstances P1,P2,…,Pk****；&#x2F;&#x2F; 分解问题</strong></p>
+<p> <strong>for (i&#x3D;1; i&lt;&#x3D;k; i++) &#x2F;&#x2F; k****通常为2</strong></p>
+<p><strong>yi&#x3D;divide-and-conquer(Pi); &#x2F;&#x2F;</strong> <strong>递归的解各子问题</strong></p>
+<p> <strong>return merge(y1,…,yk); &#x2F;&#x2F;</strong> <strong>将各子问题的解合并为原问题的解</strong></p>
+<p><strong>}</strong></p>
+<p>**3.**<strong>优缺点</strong></p>
+<p>能简单地求解复杂的问题</p>
+<p>并行性 (并行计算、多处理器系统)</p>
+<p>内存访问 (利用内存缓存机制，不需要访问存取速度较慢的主存)</p>
+<p><strong>分治法不能适应于所有问题</strong></p>
+<p><strong>递归的效率较慢 (具体的实现方式)</strong></p>
+<p><strong>分治法比迭代方法更复杂 (例子：n个数求和)</strong></p>
+<p><strong>四、</strong> <strong>通过几个范例学习分治策略的设计技巧（二分搜索、归并排序、乘法问题、找最大最小值问题、循环赛日程表等）</strong></p>
+<p><strong>1.</strong>   <strong>二分搜索（最坏情况下时间复杂性为O(logn)）</strong></p>
+<p>应用场景及局限性</p>
+<p>o 二分查找依赖<strong>顺序表结构</strong>，如数组</p>
+<p>o 二分查找针对的是<strong>有序数据</strong></p>
+<p>o <strong>数据量太小太大</strong>不适合二分查找</p>
+<p>public static int binarySearch(int [] a, int x, int n)</p>
+<p>{</p>
+<p>&#x2F;&#x2F; 在 a[0] &lt;&#x3D; a[1] &lt;&#x3D; … &lt;&#x3D; a[n-1] 中搜索 x</p>
+<p>&#x2F;&#x2F; 找到x时返回其在数组中的位置，否则返回-1</p>
+<p>int left &#x3D; 0; int right &#x3D; n - 1;</p>
+<p>while (left &lt;&#x3D; right) {</p>
+<p>int middle &#x3D; (left + right)&#x2F;2;</p>
+<p>if (x &#x3D;&#x3D; a[middle]) return middle;</p>
+<p>if (x &gt; a[middle]) left &#x3D; middle + 1;</p>
+<p>else right &#x3D; middle - 1;</p>
+<p>}</p>
+<p>return -1; &#x2F;&#x2F; 未找到x</p>
+<p>}</p>
+<p><strong>2.</strong>   <strong>归并排序</strong></p>
+<p><strong>将待排序元素分成大小大致相同的2个子集合，分别对2个子集合进行排序，最终将排好序的子集合合并成为所要求的排好序</strong></p>
+<p><strong><img src="/img/course/clip_image006.png" srcset="/img/loading.gif" lazyload alt="img"></strong></p>
+<p><strong>3.</strong>   <strong>乘法问题</strong></p>
+<p>(1) 整数相乘问题【分治法：O(n1.59)】</p>
+<p><strong>(2)</strong> <strong>矩阵相乘问题【分治法：O(n2.81)】</strong> </p>
+<p><strong><img src="/img/course/clip_image008.png" srcset="/img/loading.gif" lazyload alt="img"></strong></p>
+<ol start="4">
+<li>最大最小值问题</li>
+<li>循环赛日程表</li>
+</ol>
+<h1 id="第四章动态规划"><a href="#第四章动态规划" class="headerlink" title="第四章动态规划"></a><strong>第四章动态规划</strong></h1><h2 id="一、-理解动态规划算法的由来、概念、定义"><a href="#一、-理解动态规划算法的由来、概念、定义" class="headerlink" title="一、 理解动态规划算法的由来、概念、定义"></a><strong>一、</strong> <strong>理解动态规划算法的由来、概念、定义</strong></h2><p><strong>1.多阶段决策过程（最优决策序列）</strong>：问题的活动过程分为若干相互联系的阶段，任一阶段i以后的行为仅依赖于i阶段的过程状态，而与i阶段之前的过程如何达到这种状态的方式无关</p>
+<ol start="2">
+<li>多阶段决策问题的求解策略<strong>（</strong>枚举法<strong>、动态规划（最优化原理、多阶段-&gt;单阶段））</strong></li>
+<li><strong>最优决策序列性质</strong>：无论过程的<strong>初始状态和初始决策</strong>是什么，其余的决策都必须相对于初始决策所产生的状态构成一个最优决策序列。</li>
+</ol>
+<p>4.状态无后效性（马尔科夫性）未来与过去无关</p>
+<p>5.多阶段决策模型：<strong>自然状态、策略、益损值（准则函数&#x2F;指标函数）</strong></p>
+<p><strong>6.</strong> 动态规划求解问题的前提：<strong>最优性原理（前提）</strong>、<strong>递推关系式与边界条件</strong>。</p>
+<ol start="7">
+<li>动态规划的设计技巧：<strong>阶段划分、状态表示、存储表</strong></li>
+<li>动态规划法的优缺点</li>
+</ol>
+<p>与非线性规划相比，动态规划的优点：</p>
+<p>（1）易于确定全局最优解。把原问题化为一系列结构相似的最优化子问题</p>
+<p>（2）能得到一簇解</p>
+<p>（3）动态规划方法反映了过程逐段演变的前后联系</p>
+<p>不足之处：</p>
+<p>（1）没有一个统一的标准模型可供应用。</p>
+<p>（2）应用的局限性。状态变量要满足“无后效性”条件</p>
+<p>（3）在数值求解中，存在“维数障碍”。每递推一段，必须把前一段的最优值函数在相应的状态集合上的全部值存入内存中。</p>
+<h3 id="基本思想"><a href="#基本思想" class="headerlink" title="&#x3D;&#x3D;基本思想&#x3D;&#x3D;"></a>&#x3D;&#x3D;基本思想&#x3D;&#x3D;</h3><p>动态规划的思想实质是<strong>分治思想</strong>和<strong>解决冗余</strong> </p>
+<p>动态规划算法与分治法类似，其基本思想也是<strong>将待求解问题分解成若干个子问题</strong></p>
+<p>但是经过分解得到的子问题往往不是互相独立的。不同子问题的数目常常只有多项式量级。在用分治法求解时，有些子问题被重复计算了许多次。</p>
+<h2 id="三、掌握动态规划算法的要素："><a href="#三、掌握动态规划算法的要素：" class="headerlink" title="三、掌握动态规划算法的要素："></a>三、掌握动态规划算法的要素：</h2><p><strong>✓</strong> <strong>&#x3D;&#x3D;最优子结构&#x3D;&#x3D;（自底向上）：最优解是由其子问题的最优解来构造的，则具有最优子结构。</strong></p>
+<p><strong>动态规划算法问题解的代价 &#x3D; 子问题的代价 + 选择带来的开销</strong></p>
+<p>与贪心算法的不同：贪心算法适用的问题也具有最优子结构，但它是先做选择再求解一个结果子问题（自顶向下）</p>
+<p>利用<strong>反证法</strong>判断问题满足最优性原理，不能应用最优子结构的时候，不能假设它能够应用</p>
+<p><strong>✓</strong> &#x3D;&#x3D;重叠子问题&#x3D;&#x3D;（子问题的空间小、不被反复计算）</p>
+<p><strong>自顶向下的做备忘录算法：为每一个子问题的解在表中记录一个表项</strong></p>
+<p><strong>如果某些子问题没有必要求解，做备忘录方法具有只需要求解那些肯定要求解的</strong></p>
+<p><strong>子问题的优点。</strong></p>
+<h2 id="四、掌握设计动态规划算法的步骤"><a href="#四、掌握设计动态规划算法的步骤" class="headerlink" title="四、掌握设计动态规划算法的步骤"></a><strong>四、掌握设计动态规划算法的步骤</strong></h2><p><strong>① 划分子问题：找出最优解的性质，并刻划其结构特征。</strong></p>
+<p><strong>② 最优解的递归式：递归地定义最优解的值。</strong></p>
+<p><strong>③ 按自底向上的方式计算最优解的值。</strong></p>
+<p><strong>④ 由计算出的结果构造一个最优解。</strong></p>
+<p><strong>四、通过范例学习动态规划算法的设计策略</strong></p>
+<p>**1.**<strong>矩阵连乘</strong></p>
+<p><strong>2.</strong> <strong>最长公共子序列（LCS）</strong></p>
+<p><strong><img src="/img/course/clip_image010.png" srcset="/img/loading.gif" lazyload alt="img"></strong></p>
+<p><strong>2.</strong>   <strong>多段图规划</strong></p>
+<p><strong>3.</strong>   <strong>最大子段和</strong></p>
+<p><img src="/img/course/clip_image012.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><strong>4.0-1****背包</strong></p>
+<p><strong><img src="/img/course/clip_image014.png" srcset="/img/loading.gif" lazyload alt="img"></strong></p>
+<p><strong>5.</strong> <strong>备忘录动态规划算法</strong></p>
+<h1 id="第5章-贪心算法"><a href="#第5章-贪心算法" class="headerlink" title="第5章 贪心算法"></a>第5章 贪心算法</h1><h2 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h2><h4 id="最优化问题"><a href="#最优化问题" class="headerlink" title="最优化问题"></a>最优化问题</h4><p>最优化问题求解分类：根据描述问题约束条件和目标函数的数学模 型的特性和问题的求解方法的不同，可分为：线性规划、整数规划 、非线性规划、<strong>动态规划</strong>、<strong>分支限界法</strong>等<strong>精确算法</strong>。 </p>
+<p><strong>贪心方法</strong>：一种改进的分级的处理方法，可对满足上述特征的某些 问题方便地求解，属于<strong>近似算法</strong>。</p>
+<h4 id="最优子结构性质："><a href="#最优子结构性质：" class="headerlink" title="最优子结构性质："></a><strong>最优子结构性质：</strong></h4><p> 当一个问题的最优解包含其子问题的最优解时，称此问题具有最优子结构性质。</p>
+<h2 id="贪心算法-1"><a href="#贪心算法-1" class="headerlink" title="贪心算法"></a>贪心算法</h2><p>贪心选择不一定等于整体最优解：由问题是否具有贪心选择性质决定</p>
+<h3 id="基本思想："><a href="#基本思想：" class="headerlink" title="&#x3D;&#x3D;基本思想：&#x3D;&#x3D;"></a>&#x3D;&#x3D;基本思想：&#x3D;&#x3D;</h3><p><strong>从问题的某一个初始解出发，通过一系列的贪心选择，即当前状态下的局部最优选择，逐步逼近给定的目标，尽可能快地求得更好的解。</strong> </p>
+<p> 在贪心算法(Greedy Method)中采用<strong>逐步构造&#x2F;分级最优解</strong>的方法 。在每个阶段，都作出一个按<strong>某个评价函数最优的决策</strong>，该最优 评价函数称为<strong>贪心准则</strong>(Greedy Criterion)</p>
+<h3 id="基本步骤："><a href="#基本步骤：" class="headerlink" title="&#x3D;&#x3D;基本步骤：&#x3D;&#x3D;"></a>&#x3D;&#x3D;基本步骤：&#x3D;&#x3D;</h3><p>① 决定问题的<strong>最优子结构</strong>； </p>
+<p>② 设计出一个递归解； </p>
+<p>③ 证明在递归的任一阶段，最优选择之一总是贪心选择, 那么做 贪心选择总是安全的。 </p>
+<p>④ 证明通过做贪心选择，所有子问题(除一个以外)都为空, 即只产 生一个子问题。 </p>
+<p>⑤ 设计出一个实现贪心策略的递归算法。 </p>
+<p>⑥ (性能角度) 将递归算法转换成迭代算法。</p>
+<h3 id="贪心策略设计："><a href="#贪心策略设计：" class="headerlink" title="贪心策略设计："></a>贪心策略设计：</h3><p>策略1：<strong>按价值最大贪心，是目标函数增长最快</strong>。 </p>
+<p>策略2：<strong>按重量最小贪心，使背包增长最慢。</strong></p>
+<p>策略3：<strong>按价值率最大贪心，使单位重量价值增长最快</strong>。</p>
+<h3 id="贪心算法-vs-动态规划"><a href="#贪心算法-vs-动态规划" class="headerlink" title="&#x3D;&#x3D;贪心算法 vs 动态规划&#x3D;&#x3D;"></a>&#x3D;&#x3D;贪心算法 vs 动态规划&#x3D;&#x3D;</h3><p>贪心算法和动态规划算法都要求问题具有<strong>最优子结构性质</strong>，但是两者 存在着巨大的差别。</p>
+<p>(1) 动态规划是先分析子问题，再做选择。而贪心算法是先做贪心选择，做完选择后，生成了子问题，然后再去求解子问题；</p>
+<p>(2) 动态规划每一步<strong>可能会产生多个子问题</strong>，而贪心算法的每一步只会<strong>产生一个子问题</strong>； </p>
+<p> (3) 从特点上看，动态规划是&#x3D;&#x3D;自底向上&#x3D;&#x3D;解决问题，而贪心算法则是&#x3D;&#x3D;自顶向下&#x3D;&#x3D;解决问题。</p>
+<h2 id="可解决问题："><a href="#可解决问题：" class="headerlink" title="可解决问题："></a>可解决问题：</h2><p>活动安排问题、小数背包问题、最优装载问题、找钱问题、单源最短路径、最小生成树</p>
+<h3 id="最小生成树—Prim算法"><a href="#最小生成树—Prim算法" class="headerlink" title="&#x3D;&#x3D;最小生成树—Prim算法&#x3D;&#x3D;"></a>&#x3D;&#x3D;<strong>最小生成树—Prim算法</strong>&#x3D;&#x3D;</h3><p><img src="/img/course/image-20240106154600605.png" srcset="/img/loading.gif" lazyload alt="image-20240106154600605"></p>
+<p><img src="/img/course/image-20240106154640225.png" srcset="/img/loading.gif" lazyload alt="image-20240106154640225"></p>
+<h3 id="最小生成树—Kruskal算法"><a href="#最小生成树—Kruskal算法" class="headerlink" title="&#x3D;&#x3D;最小生成树—Kruskal算法&#x3D;&#x3D;"></a><strong>&#x3D;&#x3D;最小生成树—Kruskal算法&#x3D;&#x3D;</strong></h3><p><img src="/img/course/image-20240106154714944.png" srcset="/img/loading.gif" lazyload alt="image-20240106154714944"></p>
+<p><img src="/img/course/image-20240106154726870.png" srcset="/img/loading.gif" lazyload alt="image-20240106154726870"></p>
+<p>时间复杂度：&#x3D;&#x3D;O(Elog E)&#x3D;&#x3D;    V为顶点数，E为边数</p>
+<p>当 E&gt;V^2^ 时，Kruskal算法比Prim算法差； </p>
+<p>当E&lt;V^2^ 时，Kruskal算法却比Prim算法好得多。</p>
+<h3 id="单源最短路径–迪杰斯特拉-Dijkstra-算法"><a href="#单源最短路径–迪杰斯特拉-Dijkstra-算法" class="headerlink" title="&#x3D;&#x3D;单源最短路径–迪杰斯特拉(Dijkstra)算法&#x3D;&#x3D;"></a>&#x3D;&#x3D;单源最短路径–迪杰斯特拉(Dijkstra)算法&#x3D;&#x3D;</h3><p>&#x3D;&#x3D;基本思想&#x3D;&#x3D;：设置顶点集合S并不断地作&#x3D;&#x3D;贪心选择&#x3D;&#x3D;来扩充这个集合。 一个顶点属于集合S当且仅当从源到该顶点的最短路径长度已知。</p>
+<p><img src="/img/course/image-20240107150050942.png" srcset="/img/loading.gif" lazyload alt="image-20240107150050942"></p>
+<h1 id="第6章-回溯法"><a href="#第6章-回溯法" class="headerlink" title="第6章 回溯法"></a>第6章 回溯法</h1><h2 id="方法概述"><a href="#方法概述" class="headerlink" title="方法概述"></a>方法概述</h2><h3 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h3><p><strong>回溯法</strong> (Backtracking) 又称为<strong>试探法</strong>： — 回溯法是一个既带有**&#x3D;&#x3D;系统性&#x3D;&#x3D;又带有&#x3D;&#x3D;跳跃性&#x3D;&#x3D;**的搜索算法； </p>
+<p>— 它在包含问题的<strong>所有解的解空间树</strong>中，按照<strong>深度优先的策略</strong>，从 根结点出发搜索解空间树。—— 系统性</p>
+<p> — 算法搜索至解空间树的任一结点时，<strong>判断该结点为根的子树是否包含问题的解</strong>，如果肯定不包含，则<strong>跳过</strong>以该结点为根的子树的搜索， 逐层向其祖先结点回溯。否则，进入该子树，继续深度优先的策略 进行搜索。——跳跃性 </p>
+<p>— 这种以深度优先的方式系统地搜索问题的解的算法称为回溯法， 它适用于解一些<strong>组合数较大</strong>的问题。许多<strong>复杂的、规模较大</strong>的问题都可以使用回溯法，有“通用解题方法”的美称</p>
+<h3 id="二叉树遍历方法"><a href="#二叉树遍历方法" class="headerlink" title="二叉树遍历方法"></a>二叉树遍历方法</h3><p><img src="/img/course/image-20240106144007100.png" srcset="/img/loading.gif" lazyload alt="image-20240106144007100"></p>
+<h3 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h3><p><img src="/img/course/image-20240106150720225.png" srcset="/img/loading.gif" lazyload alt="image-20240106150720225"></p>
+<p><img src="/img/course/image-20240106150732972.png" srcset="/img/loading.gif" lazyload alt="image-20240106150732972"></p>
+<p><img src="/img/course/image-20240106151741197.png" srcset="/img/loading.gif" lazyload alt="image-20240106151741197"></p>
+<h3 id="二类常见的解空间树："><a href="#二类常见的解空间树：" class="headerlink" title="二类常见的解空间树："></a>二类常见的解空间树：</h3><p><strong>子集树</strong>：当所给的问题是从n个元素的集合S中找出满足某种性质的子集时。子集树通常有2 ^n^个叶子 结点，其总结点个数为2 ^n+1^ -1，遍历子集树时间为&#x3D;&#x3D;Ω(2^n^ )&#x3D;&#x3D; 。</p>
+<p><strong>排列树</strong>：当所给问题是确定n个元素满足某种性质的排列时。排列树通常有n!个叶子结点，因此，遍历排列树需要&#x3D;&#x3D;Ω(n!)&#x3D;&#x3D;的计算时间。例如TSP</p>
+<p><img src="/img/course/image-20240106151551908.png" srcset="/img/loading.gif" lazyload alt="image-20240106151551908"></p>
+<p><img src="/img/course/image-20240106151348691.png" srcset="/img/loading.gif" lazyload alt="image-20240106151348691"></p>
+<h3 id="可以解决的问题："><a href="#可以解决的问题：" class="headerlink" title="可以解决的问题："></a>可以解决的问题：</h3><p>排列生成问题：给定正整数n，生成1, 2, …, n所有排列</p>
+<p>TSP问题：一个商品推销员要去若干个城市推销商品，该推销员从一个城市出发，需要经过所有城市后，回到出发地。应如何选择行进路线，以使总的行程最短。</p>
+<p>n皇后问题：在n*n棋盘上放上n个皇后，使皇后彼此不受攻 击，即条件是彼此不在同行(列)、斜线上。求出全部的放法。</p>
+<p>0-1背包问题、符号三角形问题</p>
+<p>图的m着色问题：给定无向连通图G和m种不同的颜色。用这些颜色为图G的各顶点着色，每 个顶点着一种颜色。是否有一种着色法使G中每条边的2个顶点着不同颜色。</p>
+<h3 id="回溯法效率分析"><a href="#回溯法效率分析" class="headerlink" title="回溯法效率分析"></a>回溯法效率分析</h3><p><strong>子集树</strong>：当所给的问题是从n个元素的集合S中找出满足某种性质的子集时。子集树通常有2 ^n^个叶子 结点，其总结点个数为2 ^n+1^ -1，遍历子集树时间为&#x3D;&#x3D;Ω(2^n^ )&#x3D;&#x3D; 。例如0-1背包问题</p>
+<p><strong>排列树</strong>：当所给问题是确定n个元素满足某种性质的排列时。排列树通常有n!个叶子结点，因此，遍历排列树需要&#x3D;&#x3D;Ω(n!)&#x3D;&#x3D;的计算时间。例如TSP</p>
+<p>通过上述实例的讨论，回溯法的效率在很大程度上依赖于以下因素：</p>
+<p> (1) 产生x[t]的时间；（生成解空间的时间）</p>
+<p> (2) 满足显约束的x[t]值的个数；</p>
+<p> (3) 计算约束函数constraint的时间；</p>
+<p> (4) 计算上界函数bound的时间； </p>
+<p>(5) 满足约束函数和上界函数约束的所有x[k]的个数。</p>
+<p><strong>好的约束函数能显著地减少所生成的结点数</strong>，但这样的约束函数往 往计算量较大。因此，在选择约束函数时通常存在<strong>生成结点数与约束函数计算量之间的折衷</strong>。</p>
+<h1 id="第7章-分支限界法"><a href="#第7章-分支限界法" class="headerlink" title="第7章 分支限界法"></a>第7章 分支限界法</h1><h2 id="方法概述-1"><a href="#方法概述-1" class="headerlink" title="方法概述"></a>方法概述</h2><h3 id="与回溯法区别："><a href="#与回溯法区别：" class="headerlink" title="与回溯法区别："></a>与回溯法区别：</h3><p><strong>求解目标不同</strong>： 一般而言，回溯法的求解目标是找出解空间树中满足约束条件的所有解， 而分支限界法的求解目标则是尽快地找出满足约束条件的一个解；</p>
+<p><strong>搜索方法不同</strong>： 回溯法使用<strong>深度优先方法</strong>搜索，而分支限界一般用宽<strong>度优先或最佳优先方法</strong>来搜索； </p>
+<p><strong>对扩展结点的扩展方式不同</strong>： 分支限界法中，每一个活结点只有一次机会成为扩展结点。活结点一旦成 为扩展结点，就一次性产生其所有儿子结点； </p>
+<p><strong>存储空间的要求不同</strong>：分支限界法的存储空间比回溯法大得多，因此当内存容量有限时，回溯法解决问题成功的可能性更大。</p>
+<h3 id="基本思想-："><a href="#基本思想-：" class="headerlink" title="&#x3D;&#x3D;基本思想&#x3D;&#x3D;："></a><strong>&#x3D;&#x3D;基本思想&#x3D;&#x3D;：</strong></h3><p>分支限界法常以广度优先或以最小耗费(最大效益)优先的方式搜 索问题的解空间树。i) 对已处理的各结点根据限界函数估算目标 函数的可能取值，ii) 从中选出目标函数取得极大(极小) 值的结 点优先进行广度优先搜索, iii) 不断地调整搜索方向，尽快找到 解，裁剪那些不能得到最优解的子树以提高搜索效率。</p>
+<h3 id="求解步骤："><a href="#求解步骤：" class="headerlink" title="求解步骤："></a><strong>求解步骤：</strong></h3><p>① 定义解空间(对解编码)； </p>
+<p>② 确定解空间的树结构； </p>
+<p>③ 按BFS等方式搜索： </p>
+<p>​	a. 每个活结点仅有一次机会变成扩展结点；</p>
+<p>​	b. 由扩展结点生成一步可达(即宽度搜索)的新结点； </p>
+<p>​	c. 在新结点中，删除不可能导出最优解的结点； &#x2F;&#x2F; 限界策略 </p>
+<p>​	d. 将剩余的新结点加入活动表(队列)中； </p>
+<p>​	e. 从活动表中选择结点再扩展； &#x2F;&#x2F;分支策略 </p>
+<p>​	f. 直至活动表为空；</p>
+<h3 id="常见的两种分支限界法："><a href="#常见的两种分支限界法：" class="headerlink" title="常见的两种分支限界法："></a>常见的两种分支限界法：</h3><p>**&#x3D;&#x3D;队列式 (FIFO)分支限界法&#x3D;&#x3D;**：从活结点表中取出结点的顺序与加入 结点的顺序相同，因此活结点表的性质与队列相同；</p>
+<p>&#x3D;&#x3D;<strong>优先队列(代价最小或效益最大)分支限界法</strong>&#x3D;&#x3D;：每个结点都有一个对 应的耗费或收益，以此决定结点的优先级</p>
+<h3 id="具体方法："><a href="#具体方法：" class="headerlink" title="具体方法："></a>具体方法：</h3><p>分支限界法首先确定一个合理的<strong>限界函数</strong>，并根据 限界函数确定目标函数的界[down, up]；然后按照<strong>广度优先策略遍历</strong>问题的解空间树，在某一分支上，依次搜索该结点的所有孩子结点，分别估算这些孩子结点 的目标函数的可能取值 (注意：对于最小化问题，估算结点的down，对最大化问题，估算结点的up)。 如果某<strong>孩子结点的目标函数值超出目标函数的上界或下界</strong>，则将其<strong>丢弃</strong>(即基于该结点生成的解不会比目 前已得的更好)，否则入待处理表。</p>
+<p><img src="/img/course/image-20240106142202691.png" srcset="/img/loading.gif" lazyload alt="image-20240106142202691"></p>
+<p><img src="/img/course/image-20240106142215076.png" srcset="/img/loading.gif" lazyload alt="image-20240106142215076"></p>
+<p><img src="/img/course/image-20240106143412916.png" srcset="/img/loading.gif" lazyload alt="image-20240106143412916"></p>
+<h1 id="第8章-随机算法（了解，什么时候使用）"><a href="#第8章-随机算法（了解，什么时候使用）" class="headerlink" title="第8章 随机算法（了解，什么时候使用）"></a>第8章 随机算法（了解，什么时候使用）</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>随机算法是指在算法中执行某些步骤或某些动作时，所进行的选择 是随机的。 </p>
+<p>三要素：输入实例、随机源和停止准则。 </p>
+<p>特点：简单、快速和易于并行化。</p>
+<h2 id="常见的随机算法分为4类："><a href="#常见的随机算法分为4类：" class="headerlink" title="常见的随机算法分为4类："></a>常见的随机算法分为4类：</h2><p>① <strong>数值随机化算法</strong>：常用于<strong>数值问题的求解</strong>，所得到的往往是近似解， 近似解的精度随着计算时间增加而不断提高； </p>
+<p>② <strong>蒙特卡罗算法</strong>：<strong>用于求问题的准确解。</strong>对于许多问题来说，近似解毫 无意义或者不存在。该方法总能得到问题的解，但该解未必是正确的 。求得正确解的概率依赖于算法所用的时间。难以判断解是否正确； </p>
+<p>③ <strong>拉斯维加斯算法</strong>：<strong>不会得到不正确的解，但是有时会找不到解。</strong>找到 正确解的概率随着所用的计算时间的增加而提高。对任一实例，反复 调用算法求解足够多次，可使求解失效的概率任意小； 核心思想：随机生成答案并检测答案正确性。</p>
+<p>④ <strong>&#x3D;&#x3D;舍伍德算法&#x3D;&#x3D;<strong>：</strong>总能求得问题的一个解，且所求得的解总是正确的。</strong>当 一个确定性算法最坏情况下的计算复杂性与其在平均情况下的计算复 杂性有较大差别时，可在这个确定性算法中引入随机性将它改造成一 个舍伍德算法，消除或者减少这种差别。核心思想：<strong>设法消除或减少最坏情况与特定实例之间的关联性。</strong>利用随机算法改造已有算法，使 得算法的性能尽量与输入数据无关，即平滑算法的性能。</p>
+<p><img src="/img/course/image-20240106141006113.png" srcset="/img/loading.gif" lazyload alt="image-20240106141006113"></p>
+<p><img src="/img/course/image-20240106135507802.png" srcset="/img/loading.gif" lazyload alt="image-20240106135507802"></p>
+<h2 id="随机算法应用"><a href="#随机算法应用" class="headerlink" title="&#x3D;&#x3D;随机算法应用&#x3D;&#x3D;"></a>&#x3D;&#x3D;随机算法应用&#x3D;&#x3D;</h2><p>1.<strong>多种洗牌算法</strong></p>
+<p>2.<strong>s-t连通性</strong>：无向图G &#x3D; (V,E), s, t为G上两点。令n &#x3D; |V|， m &#x3D; |E|。希望确定是否存在一条连接s和t的路。S到T有路吗？</p>
+<p>随机算法：从s开始随机游动，如果在4n^3^步之内到达t，则返 回存在一条路；否则，返回不存在路。</p>
+<p>3.<strong>最小割随机算法</strong>：每次随机选一条边，合并该边对应的顶点。 重复该过程n-2次。最后剩下两点之间的边，就是一个割集。</p>
+<h1 id="第9章-NP完全性理论"><a href="#第9章-NP完全性理论" class="headerlink" title="第9章 NP完全性理论"></a>第9章 NP完全性理论</h1><p>（感觉非重点，选择判断填空）</p>
+<h2 id="相关概念-1"><a href="#相关概念-1" class="headerlink" title="相关概念"></a>相关概念</h2><h3 id="Polynomial-Time-多项式时间"><a href="#Polynomial-Time-多项式时间" class="headerlink" title="Polynomial Time (多项式时间)"></a>Polynomial Time (多项式时间)</h3><p>定义：一个称为多项式时间的算法(Polynomial-time Algorithm) 必须 符合：在合理的输入大小 (input size)下，该算法在最差情況 (Worst-case)的时间复杂度以&#x3D;&#x3D;多项式函数&#x3D;&#x3D;为限。</p>
+<h3 id="Intractability-难解问题"><a href="#Intractability-难解问题" class="headerlink" title="Intractability (难解问题)"></a>Intractability (难解问题)</h3><p>在计算机科学领域，若無法在&#x3D;&#x3D;<strong>最差情況</strong>&#x3D;&#x3D;(Worst-case)下，以多项式时 间的算法來解决某个问题，则该问题被称为难解 (Intractable)问题 </p>
+<p>✓ 一个难解的问题，必須<strong>沒有任何多项式时间的算法</strong>可以解它</p>
+<h3 id="Deterministic-Algorithm-决定性算法-确定性算法"><a href="#Deterministic-Algorithm-决定性算法-确定性算法" class="headerlink" title="Deterministic Algorithm (决定性算法&#x2F;确定性算法)"></a>Deterministic Algorithm (决定性算法&#x2F;确定性算法)</h3><p>定义: 这类算法在做任何事时，该算法的下一步只有<strong>一件事</strong>可以做。 (Permitting at most one next move at any step in a computation)  </p>
+<p>✓ 是指算法中<strong>每一个步骤的运算都需要被唯一定义</strong>，因此产生的结果也是 唯一的。 </p>
+<p>✓ 能夠执行决定性算法的机器，称为决定性的机器 (Deterministic  Machine)。电脑就是一种决定性的机器。</p>
+<h3 id="图灵机"><a href="#图灵机" class="headerlink" title="图灵机"></a>图灵机</h3><p><img src="/img/course/image-20240106131421734.png" srcset="/img/loading.gif" lazyload alt="image-20240106131421734"></p>
+<h2 id="P-、NP及NPC类问题"><a href="#P-、NP及NPC类问题" class="headerlink" title="P 、NP及NPC类问题"></a>P 、NP及NPC类问题</h2><h3 id="P-、NP及NPC定义"><a href="#P-、NP及NPC定义" class="headerlink" title="P 、NP及NPC定义"></a>P 、NP及NPC定义</h3><p>&#x3D;&#x3D;<strong>P类问题</strong>&#x3D;&#x3D;：一类问题的集合，对其中的任一问题，都存在一个确定型图灵 机M和一个多项式p，对于该问题的任何(编码)长度为n的实例，M都能在 p(n)步内，给出对该实例的回答。即：&#x3D;&#x3D;多项式时间内可被解决的问题&#x3D;&#x3D; </p>
+<p>&#x3D;&#x3D;<strong>NP类问题</strong>&#x3D;&#x3D;：一类问题的集合，对其中的任一问题，都存在一个非确定型 图灵机M和一个多项式p，对于该问题的任何(编码) 长度为n的实例，M都 能在p(n)步内，给出对该实例的回答。&#x3D;&#x3D;<strong>多项式时间内可验证问题(指验证其解的正确性)</strong>&#x3D;&#x3D;</p>
+<p>多一归约：假设L1和L2是两个判定问题，f将L1的每个实例I变换成L2的实 例f(I)。若对L1的每个实例I，I的答案为“是”当且仅当f(I)是L2的答案为 “是”的实例，则称f是从L1到L2的多一归约，记作L1 ≤ mL2 (传递关系) 直观意义：将求解L1的问题转换为求解L2的问题，而问题L1不会难于L2 </p>
+<p>&#x3D;&#x3D;多项式时间多一归约&#x3D;&#x3D;：若f是多项式时间可计算，则上述归约称为多项式 时间多一归约，也称多项式时间变换。记作： </p>
+<p>&#x3D;&#x3D;NPC问题&#x3D;&#x3D;：对于一个(判定性)问题q，若 (1) q ∈ NP; (2) NP中任一问题均可 多项式时间多一归约到q，则称问题q为NP-完全的(NP-complete，NPC) </p>
+<p>&#x3D;&#x3D;NP-hard问题&#x3D;&#x3D;：若问题q仅满足条件(2)而不一定满足条件(1)，则问题q称 为NP-难的(NP-hard，NPH)。显然：NPC ⊆ NP-hard</p>
+<h3 id="P、NP、NPC和NP-hard之关系"><a href="#P、NP、NPC和NP-hard之关系" class="headerlink" title="&#x3D;&#x3D;P、NP、NPC和NP-hard之关系&#x3D;&#x3D;"></a>&#x3D;&#x3D;P、NP、NPC和NP-hard之关系&#x3D;&#x3D;</h3><p><img src="/img/course/image-20240106133422515.png" srcset="/img/loading.gif" lazyload alt="image-20240106133422515"></p>
+<h2 id="NP完全问题的求解"><a href="#NP完全问题的求解" class="headerlink" title="NP完全问题的求解"></a>NP完全问题的求解</h2><h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p><strong>减少搜索量</strong>：</p>
+<p>简单算法是穷举搜索，时间为指数 </p>
+<p>减少搜索量：分枝限界法，隐枚举法、动态规划等。可以提高效率， 但时间复杂度不变 </p>
+<p><strong>优化问题</strong> </p>
+<p>降低优化要求，求近似解，以得到一个多项式时间的算法。即：找 寻在容许的时间内得到容许精度的<strong>近似最优解</strong>的算法</p>
+<p><strong>&#x3D;&#x3D;近似算法&#x3D;&#x3D;</strong></p>
+<p>近似算法放弃求最优解，用近似解代替最优解，以换取算法设计 上的简化和时间复杂性的降低。 </p>
+<p>近似算法通常采用两个标准来<strong>衡量性能</strong>： </p>
+<p>✓ 算法的**&#x3D;&#x3D;时间复杂性&#x3D;&#x3D;** </p>
+<p>✓ 解的&#x3D;&#x3D;<strong>近似程度</strong>&#x3D;&#x3D; </p>
+<p>• 近似比 • 相对误差λ • 相对误差界ε(n)</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>算法分析与设计</div>
+      <div>http://example.com/2024/01/08/算法分析与设计/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sanli Ma</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/02/29/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E8%BD%AF%E4%BB%B6/" title="软件资源分享">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">软件资源分享</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/03/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B3%95%E5%BE%8B%E6%B3%95%E8%A7%84/" title="网络空间法律法规">
+                        <span class="hidden-mobile">网络空间法律法规</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
