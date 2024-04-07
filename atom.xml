@@ -422,9 +422,9 @@
     <link href="http://example.com/2023/11/12/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/"/>
     <id>http://example.com/2023/11/12/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</id>
     <published>2023-11-11T18:19:26.000Z</published>
-    <updated>2024-01-03T10:05:53.478Z</updated>
+    <updated>2024-04-07T14:48:47.473Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="export-导出容器"><a href="#export-导出容器" class="headerlink" title="export 导出容器"></a>export 导出容器</h2><h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><p>命令<br>查看当前容器</p><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mel">docker <span class="hljs-keyword">container</span> <span class="hljs-keyword">ls</span> -a<br></code></pre></td></tr></table></figure><p><img src="/./assets/img/%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8.jpg" alt="查看当前容器"></p><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-title">docker</span> ex<span class="hljs-keyword">port</span> containerID &gt; filename.tar<br></code></pre></td></tr></table></figure><p>将容器快照导出为本地filename.tar文件</p><h2 id="import-导入容器"><a href="#import-导入容器" class="headerlink" title="import 导入容器"></a>import 导入容器</h2><h3 id="用法-1"><a href="#用法-1" class="headerlink" title="用法"></a>用法</h3><p> 从容器快照文件中再导入为镜像</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">docker import filename.tar - imagename:version<br></code></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h2 id="export-导出容器"><a href="#export-导出容器" class="headerlink" title="export 导出容器"></a>export 导出容器</h2><h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><p>命令<br>查看当前容器</p><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mel">docker <span class="hljs-keyword">container</span> <span class="hljs-keyword">ls</span> -a<br></code></pre></td></tr></table></figure><p><img src="/img/%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8.jpg" alt="查看当前容器"></p><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-title">docker</span> ex<span class="hljs-keyword">port</span> containerID &gt; filename.tar<br></code></pre></td></tr></table></figure><p>将容器快照导出为本地filename.tar文件</p><h2 id="import-导入容器"><a href="#import-导入容器" class="headerlink" title="import 导入容器"></a>import 导入容器</h2><h3 id="用法-1"><a href="#用法-1" class="headerlink" title="用法"></a>用法</h3><p> 从容器快照文件中再导入为镜像</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">docker import filename.tar - imagename:version<br></code></pre></td></tr></table></figure>]]></content>
     
     
       
@@ -435,7 +435,7 @@
     
     
     
-    <category term="服务器技术" scheme="http://example.com/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8A%80%E6%9C%AF/"/>
+    <category term="Docker" scheme="http://example.com/tags/Docker/"/>
     
   </entry>
   
