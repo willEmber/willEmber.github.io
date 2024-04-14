@@ -16,44 +16,22 @@
   <meta name="author" content="Sanli Ma">
   <meta name="keywords" content="">
   
-    <meta name="description" content="【全网行为管理】04-用户认证技术之密码认证 装备实验 开始实验01:00:00  拓扑 实验手册 实验报告 声明：本实验手册仅供学习交流使用，请勿用于非法用途，违者一律自行承担所有风险！PS：本窗口支持左右拉伸 用户认证技术之密码认证实验目标学会配置AC的内部用户，要求用户在上网时，使用AC的内置账户进行认证，才允许上网。 实验原理AC作为网关部署在公司互联网出口，当用户访问网络时，需要使用分配">
+    <meta name="description" content="Linux服务器添加Swap交换空间演示环境 Ubuntu 22.04  Swap空间简介Swap空间是一种虚拟内存空间，用于暂时存储操作系统不需要的数据，以便释放物理内存供其他程序使用。在Linux系统中，Swap空间通常是一个磁盘分区或者一个特殊的文件，用于扩展系统的虚拟内存空间。当系统的物理内存不足时，操作系统会将一部分内存中的数据移到Swap空间中，以释放物理内存。 由于 Swap 空间位">
 <meta property="og:type" content="article">
-<meta property="og:title" content="用户认证技术之密码认证">
-<meta property="og:url" content="http://example.com/2023/12/29/AC04/index.html">
+<meta property="og:title" content="Linux服务器添加Swap交换空间">
+<meta property="og:url" content="http://example.com/2024/04/14/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B7%BB%E5%8A%A0Swap%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/index.html">
 <meta property="og:site_name" content="stdlibh的个人网站">
-<meta property="og:description" content="【全网行为管理】04-用户认证技术之密码认证 装备实验 开始实验01:00:00  拓扑 实验手册 实验报告 声明：本实验手册仅供学习交流使用，请勿用于非法用途，违者一律自行承担所有风险！PS：本窗口支持左右拉伸 用户认证技术之密码认证实验目标学会配置AC的内部用户，要求用户在上网时，使用AC的内置账户进行认证，才允许上网。 实验原理AC作为网关部署在公司互联网出口，当用户访问网络时，需要使用分配">
+<meta property="og:description" content="Linux服务器添加Swap交换空间演示环境 Ubuntu 22.04  Swap空间简介Swap空间是一种虚拟内存空间，用于暂时存储操作系统不需要的数据，以便释放物理内存供其他程序使用。在Linux系统中，Swap空间通常是一个磁盘分区或者一个特殊的文件，用于扩展系统的虚拟内存空间。当系统的物理内存不足时，操作系统会将一部分内存中的数据移到Swap空间中，以释放物理内存。 由于 Swap 空间位">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20230803/%E6%A0%A1%E4%BC%81%E5%B0%8F%E6%9C%8D-%E5%BC%80%E5%BF%83%E5%A4%B4%E5%83%8F2x2308031952420255fsmq.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220418/AC%E5%AE%9E%E9%AA%8C3220418170945177dcp10.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220126/image220126162610618wmhra.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220126/image22012616274665461ibb.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image2201271300504664knzs.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image220127131616695za1gy.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220126/image2201261721328713hwx0.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220126/image220126171325751k1dw5.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220126/image2201261717284730snac.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image220127131823425ugehh.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220210/image22021018592145159oxc.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220210/image220210185957983cru1q.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220210/image2202101901202331ma34.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220210/image220210190424698cjwna.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220210/image220210190536469s8wdi.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220210/image2202101813416487yxqy.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220210/image2202101909220900w86u.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220210/image220210191011313p96bf.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220210/image220210191156872yrrua.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220210/image2202101822311520p7tx.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220210/image220210191456131nwi91.png">
-<meta property="article:published_time" content="2023-12-29T08:02:00.000Z">
-<meta property="article:modified_time" content="2023-12-29T08:05:06.160Z">
+<meta property="article:published_time" content="2024-04-14T11:26:52.000Z">
+<meta property="article:modified_time" content="2024-04-14T11:33:05.842Z">
 <meta property="article:author" content="Sanli Ma">
-<meta property="article:tag" content="深信服">
+<meta property="article:tag" content="服务器运维">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://oss.edu.sangfor.com.cn/file/20230803/%E6%A0%A1%E4%BC%81%E5%B0%8F%E6%9C%8D-%E5%BC%80%E5%BF%83%E5%A4%B4%E5%83%8F2x2308031952420255fsmq.png">
   
   
   
-  <title>用户认证技术之密码认证 - stdlibh的个人网站</title>
+  <title>Linux服务器添加Swap交换空间 - stdlibh的个人网站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -220,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="用户认证技术之密码认证"></span>
+            <span id="subtitle" data-typed-text="Linux服务器添加Swap交换空间"></span>
           
         </div>
 
@@ -231,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-12-29 16:02" pubdate>
-          2023年12月29日 下午
+        <time datetime="2024-04-14 19:26" pubdate>
+          2024年4月14日 晚上
         </time>
       </span>
     
@@ -243,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          901 字
+          543 字
         
       </span>
     
@@ -254,7 +232,7 @@
         
         
         
-          8 分钟
+          5 分钟
         
       </span>
     
@@ -291,83 +269,62 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">用户认证技术之密码认证</h1>
+            <h1 id="seo-header">Linux服务器添加Swap交换空间</h1>
             
             
               <div class="markdown-body">
                 
-                <p>【全网行为管理】04-用户认证技术之密码认证</p>
-<p>装备实验</p>
-<p>开始实验01:00:00</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20230803/%E6%A0%A1%E4%BC%81%E5%B0%8F%E6%9C%8D-%E5%BC%80%E5%BF%83%E5%A4%B4%E5%83%8F2x2308031952420255fsmq.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>拓扑</p>
-<p>实验手册</p>
-<p>实验报告</p>
-<p>声明：本实验手册仅供学习交流使用，请勿用于非法用途，违者一律自行承担所有风险！PS：本窗口支持左右拉伸</p>
-<h1 id="用户认证技术之密码认证"><a href="#用户认证技术之密码认证" class="headerlink" title="用户认证技术之密码认证"></a>用户认证技术之密码认证</h1><h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h2><p>学会配置AC的内部用户，要求用户在上网时，使用AC的内置账户进行认证，才允许上网。</p>
-<h2 id="实验原理"><a href="#实验原理" class="headerlink" title="实验原理"></a>实验原理</h2><p>AC作为网关部署在公司互联网出口，当用户访问网络时，需要使用分配的用户名和密码进行认证，才允许上网。</p>
-<h2 id="实验场景"><a href="#实验场景" class="headerlink" title="实验场景"></a>实验场景</h2><p>某大型集团公司，内部用户上网处于无法管理的状态，也无法识别用户，不符合网络安全相关管理制度。</p>
-<p>现在要求管理员在AC内给每个用户建立一个账号，用户上网时，必须要经过账号验证，才能获取上网权限。</p>
-<h2 id="实验拓扑"><a href="#实验拓扑" class="headerlink" title="实验拓扑"></a>实验拓扑</h2><p><img src="https://oss.edu.sangfor.com.cn/file/20220418/AC%E5%AE%9E%E9%AA%8C3220418170945177dcp10.png" srcset="/img/loading.gif" lazyload alt="AC实验3.png"></p>
-<h2 id="实验设备"><a href="#实验设备" class="headerlink" title="实验设备"></a>实验设备</h2><p>1、总部AC ，作总部出口网关使用<br>2、PC1，普通办公PC，员工办公使用。<br>3、PC2，普通办公PC，员工办公使用。<br>4、Internet-WEB Server， 作为在互联网上的服务器</p>
-<h2 id="环境预配"><a href="#环境预配" class="headerlink" title="环境预配"></a>环境预配</h2><p>环境预配，是指已经实验场景化的配置边界。<br>实验环境中，<strong>非深信服设备，不需要学员配置。</strong>如交换机、路由器、PC、服务器。</p>
-<p>实验环境中，<strong>深信服设备，需要学员按实验拓扑说明进行配置。</strong></p>
-<p>实验环境中，配置基本遵循上述两条原则，<strong>少数实验例外</strong>。例外过程，在实验步骤中说明</p>
-<h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h2><p>一、配置总部AC的网络（操作对象：总部AC）</p>
-<p>登录设备过程略</p>
-<p>1.1 开始配置网络</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image220126162610618wmhra.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.2 选择路由模式</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image22012616274665461ibb.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.3 根据拓扑图，配置网卡，如下图</p>
-<p>其中<br>eth1为LAN口，即办公区<br>eth2为DMZ口，即服务器区<br>eth3为WAN口，即互联网区</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201271300504664knzs.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.4 配置eth1</p>
-<p>eth1接办公区，IP地址参照拓扑图配置</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127131616695za1gy.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.5 配置eth3</p>
-<p>eth3接互联网区，IP地址参照拓扑图配置</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image2201261721328713hwx0.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.6 配置eth2</p>
-<p>eth2接DMZ区，即服务器区，IP地址参照拓扑图配置</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image220126171325751k1dw5.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.7 配置代理上网</p>
-<p>这里配置代理办公网段上网。办公网网段为192.168.1.0&#x2F;24</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image2201261717284730snac.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.8 检查无误后提交</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127131823425ugehh.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>二、新建AC的内置账户（操作对象：总部AC）</p>
-<p>2.1 新建用户组</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220210/image22021018592145159oxc.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>输入组名</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220210/image220210185957983cru1q.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>2.2 新建用户</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220210/image2202101901202331ma34.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>新建用户zhangsan 密码Sangfor!7890</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220210/image220210190424698cjwna.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>新建用户lisi 密码Sangfor!7890</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220210/image220210190536469s8wdi.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>三、配置AC的认证策略 （操作对象：总部AC）</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220210/image2202101813416487yxqy.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220210/image2202101909220900w86u.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220210/image220210191011313p96bf.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>四、使用PC1上网测试 （操作对象：PC1）</p>
-<p>使用PC1的浏览器，访问Internet-WEB Server服务器,即124.126.200.2</p>
-<p>会自动跳转到如下页面</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220210/image220210191156872yrrua.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>登录成功后，会自动跳转到之前的访问页面，即124.126.200.2</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220210/image2202101822311520p7tx.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>五、查看用户认证状态（操作对象：总部AC）</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220210/image220210191456131nwi91.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<h2 id="实验总结"><a href="#实验总结" class="headerlink" title="实验总结"></a>实验总结</h2><p>前面实验仅仅实验了最简单的认证。</p>
-<p>思考一下：</p>
-<p>如果公司想规避更多的上网问题，例如</p>
-<p>如何防止员工，共享同一个账户去上网？</p>
-<p>如何防止员工，借用其他人的账户去上网？</p>
-<p>如何使员工的账户只能在指定的IP地址上登录？</p>
-<p>这些问题在刚才的配置中，属于一些只需稍加一点配置即可实现，大家可以进一步自行研究。</p>
-<p>关键信息是“用户绑定”。</p>
+                <h1 id="Linux服务器添加Swap交换空间"><a href="#Linux服务器添加Swap交换空间" class="headerlink" title="Linux服务器添加Swap交换空间"></a>Linux服务器添加Swap交换空间</h1><h3 id="演示环境"><a href="#演示环境" class="headerlink" title="演示环境"></a>演示环境</h3><ul>
+<li>Ubuntu 22.04</li>
+</ul>
+<h3 id="Swap空间简介"><a href="#Swap空间简介" class="headerlink" title="Swap空间简介"></a>Swap空间简介</h3><p>Swap空间是一种虚拟内存空间，用于暂时存储操作系统不需要的数据，以便释放物理内存供其他程序使用。在Linux系统中，Swap空间通常是一个磁盘分区或者一个特殊的文件，用于扩展系统的虚拟内存空间。当系统的物理内存不足时，操作系统会将一部分内存中的数据移到Swap空间中，以释放物理内存。</p>
+<p><strong>由于 Swap 空间位于硬盘上，因此访问速度较慢。</strong></p>
+<h2 id="1-查看当前内存与swap"><a href="#1-查看当前内存与swap" class="headerlink" title="1.查看当前内存与swap"></a>1.查看当前内存与swap</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ free -m<br>               total        used        free      shared  buff/cache   available<br>Mem:             883         305         219           3         359         428<br>Swap:              0           0           0<br></code></pre></td></tr></table></figure>
 
+<h3 id="检查-Swap-空间"><a href="#检查-Swap-空间" class="headerlink" title="检查 Swap 空间"></a>检查 Swap 空间</h3><ol>
+<li>执行以下命令检查 Swap 空间是否存在：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">swapon -s<br></code></pre></td></tr></table></figure>
+
+<p>如果输出为空，则表示没有 Swap 空间。</p>
+<h2 id="2-创建-Swap-分区"><a href="#2-创建-Swap-分区" class="headerlink" title="2.创建 Swap 分区"></a>2.创建 Swap 分区</h2><ol>
+<li><p>使用 <code>dd</code> 命令创建 2GB 的 Swap 分区（可根据服务器配置调整大小：Swap 空间的大小应根据服务器的实际内存和使用情况进行调整。一般来说，Swap 空间的大小应为实际内存的 1-2 倍。</p>
+<p>使用 <code>if=/dev/zero</code> 创建 Swap 分区的原因是：</p>
+<ul>
+<li>它会创建一个包含零字节的文件，这对于 Swap 分区至关重要，因为 Swap 分区必须包含已知的干净数据。</li>
+<li><code>/dev/zero</code> 是一个特殊文件，它会不断生成零字节，这意味着您可以创建任意大小的 Swap 分区。</li>
+</ul>
+<p>使用 <code>if=/dev/zero</code> 可以确保 Swap 分区从一开始就包含干净的数据，并且可以创建任意大小的 Swap 分区。</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">dd</span> <span class="hljs-keyword">if</span>=/dev/zero of=/mnt/swap bs=1M count=2048<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>设置 Swap 分区文件：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkswap /mnt/swap<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>启用 Swap：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">swapon /mnt/swap<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-启动时自动挂载Swap-分区"><a href="#3-启动时自动挂载Swap-分区" class="headerlink" title="3.启动时自动挂载Swap 分区"></a>3.启动时自动挂载Swap 分区</h2><ol>
+<li>编辑 <code>/etc/fstab</code> 文件，添加以下行：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/mnt/swap swap swap defaults 0 0<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>/mnt/swap</code>：Swap 分区的挂载点。</li>
+<li><code>swap</code>：指定该分区是 Swap 分区。</li>
+<li><code>swap</code>：指定该分区的文件系统类型是 Swap。</li>
+<li><code>defaults</code>：使用 Swap 分区的默认选项。</li>
+<li><code>0</code>：指定该 Swap 分区在启动时不进行检查。</li>
+<li><code>0</code>：指定该 Swap 分区在启动时不进行转储。</li>
+</ul>
+<h2 id="4-检查swap空间"><a href="#4-检查swap空间" class="headerlink" title="4.检查swap空间"></a>4.检查swap空间</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ swapon -s<br>Filename                                Type            Size            Used            Priority<br>/mnt/swap                               file            2097148         0               -2<br>$ free -h<br>               total        used        free      shared  buff/cache   available<br>Mem:           883Mi       280Mi       157Mi       3.0Mi       445Mi       450Mi<br>Swap:          2.0Gi          0B       2.0Gi                                  <br></code></pre></td></tr></table></figure>
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
                 
               </div>
             
@@ -379,7 +336,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%B7%B1%E4%BF%A1%E6%9C%8D/" class="print-no-link">#深信服</a>
+        <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4/" class="print-no-link">#服务器运维</a>
       
     </div>
   
@@ -391,8 +348,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>用户认证技术之密码认证</div>
-      <div>http://example.com/2023/12/29/AC04/</div>
+      <div>Linux服务器添加Swap交换空间</div>
+      <div>http://example.com/2024/04/14/Linux服务器添加Swap交换空间/</div>
     </div>
     <div class="license-meta">
       
@@ -404,7 +361,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年12月29日</div>
+          <div>2024年4月14日</div>
         </div>
       
       
@@ -436,9 +393,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/12/29/AC01/" title="AC的路由模式部署">
+                      <a href="/2024/04/14/Linux%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA%E4%B8%8E%E6%8C%82%E8%BD%BD/" title="Linux磁盘分区与挂载">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">AC的路由模式部署</span>
+                        <span class="hidden-mobile">Linux磁盘分区与挂载</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -446,8 +403,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/12/29/AC02/" title="AC的端口映射">
-                        <span class="hidden-mobile">AC的端口映射</span>
+                      <a href="/2024/04/07/Docker-compose%E7%AE%A1%E7%90%86/" title="Docker compose管理">
+                        <span class="hidden-mobile">Docker compose管理</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

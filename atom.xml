@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-04-07T14:45:04.820Z</updated>
+  <updated>2024-04-14T11:42:07.498Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,50 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux磁盘分区与挂载</title>
+    <link href="http://example.com/2024/04/14/Linux%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA%E4%B8%8E%E6%8C%82%E8%BD%BD/"/>
+    <id>http://example.com/2024/04/14/Linux%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA%E4%B8%8E%E6%8C%82%E8%BD%BD/</id>
+    <published>2024-04-14T11:33:27.000Z</published>
+    <updated>2024-04-14T11:42:07.498Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux磁盘分区与挂载"><a href="#Linux磁盘分区与挂载" class="headerlink" title="Linux磁盘分区与挂载"></a>Linux磁盘分区与挂载</h1><h2 id="1-lsblk查看当前块设备"><a href="#1-lsblk查看当前块设备" class="headerlink" title="1.lsblk查看当前块设备"></a>1.lsblk查看当前块设备</h2><p><strong>找到没有分区和挂载的磁盘sda</strong></p><p><img src="/img/courseimage-20240410042212136.png" alt="image-20240410042212136"></p><h2 id="2-使用-fdisk-对磁盘进行分区"><a href="#2-使用-fdisk-对磁盘进行分区" class="headerlink" title="2.使用 fdisk 对磁盘进行分区"></a>2.<strong>使用 fdisk 对磁盘进行分区</strong></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">fdisk /dev/sda</span><br></code></pre></td></tr></table></figure><p><code>fdisk</code> 命令提供了一个交互式界面，允许用户执行以下任务：</p><ul><li>创建分区（<code>n</code>）</li><li>删除分区（<code>d</code>）</li><li>调整分区大小（<code>r</code>）</li><li>设置分区类型（<code>t</code>）</li><li>保存写入分区表（<code>w</code>）</li><li>退出（<code>q</code>）</li></ul><p><strong>输入n创建分区，剩下直接enter确认（默认分为一个区）</strong></p><img src="/img/courseimage-20240410042235008.png" alt="image-20240410042235008" style="zoom:67%;" /><p><img src="/img/courseimage-20240410042246880.png" alt="image-20240410042246880"></p><p><strong>再使用lsblk命令可以看到分区已完成</strong></p><p><img src="/img/courseimage-20240410042437772.png" alt="image-20240410042437772"></p><h2 id="3-格式化分区"><a href="#3-格式化分区" class="headerlink" title="3.格式化分区"></a>3.格式化分区</h2><p><strong>查看 <code>/dev/sdb1</code> 分区的类型，可以使用以下命令：</strong></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">fdisk -l /dev/sdb</span><br></code></pre></td></tr></table></figure><p><strong>要将 <code>/dev/sda1</code> 分区格式化为 ext4 文件系统，可以使用以下命令：</strong></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">mkfs.ext4 /dev/sda1</span><br></code></pre></td></tr></table></figure><p><img src="/img/courseimage-20240410042528027.png" alt="image-20240410042528027"></p><h2 id="4-挂载分区"><a href="#4-挂载分区" class="headerlink" title="4.挂载分区"></a>4.挂载分区</h2><p><strong>先创建一个&#x2F;data目录</strong></p><p><img src="/img/courseimage-20240410042744611.png" alt="image-20240410042744611"></p><p><strong>然后执行命令挂载分区</strong> </p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">mount /dev/sda1 /data</span> <br></code></pre></td></tr></table></figure><h2 id="5-设置永久挂载"><a href="#5-设置永久挂载" class="headerlink" title="5.设置永久挂载"></a>5.设置永久挂载</h2><p> <strong>获取UUID</strong></p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">$ blkid /dev/sda1<br>/dev/sda1: <span class="hljs-attribute">UUID</span>=<span class="hljs-string">&quot;deb8b33b-c908-4dbc-85a5-311727079736&quot;</span> <span class="hljs-attribute">BLOCK_SIZE</span>=<span class="hljs-string">&quot;4096&quot;</span> <span class="hljs-attribute">TYPE</span>=<span class="hljs-string">&quot;ext4&quot;</span> <span class="hljs-attribute">PARTUUID</span>=<span class="hljs-string">&quot;d91cf2eb-01&quot;</span><br></code></pre></td></tr></table></figure><p><strong>打开 <code>/etc/fstab</code> ，写入<code>UUID=deb8b33b-c908-4dbc-85a5-311727079736     /data   ext4   defaults   0   2</code> 实现永久挂载</strong></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo vim /etc/fstab    <br>UUID=deb8b33b-c908-4dbc-85a5-311727079736     /data   ext4   defaults   0   2<br>UUID=c473537c-547e-48f4-b2ca-a2bc4e0d2f2e     /data   ext4   defaults   0   2<br></code></pre></td></tr></table></figure><h2 id="6-检查"><a href="#6-检查" class="headerlink" title="6.检查"></a>6.检查</h2><p><strong>使用<code>df -h</code>可以检查磁盘挂载是否成功</strong></p><p><img src="/img/courseimage-20240410210902334.png" alt="image-20240410210902334"></p><h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Linux磁盘分区与挂载&quot;&gt;&lt;a href=&quot;#Linux磁盘分区与挂载&quot; class=&quot;headerlink&quot; title=&quot;Linux磁盘分区与挂载&quot;&gt;&lt;/a&gt;Linux磁盘分区与挂载&lt;/h1&gt;&lt;h2 id=&quot;1-lsblk查看当前块设备&quot;&gt;&lt;a href=&quot;</summary>
+      
+    
+    
+    
+    
+    <category term="服务器运维" scheme="http://example.com/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux服务器添加Swap交换空间</title>
+    <link href="http://example.com/2024/04/14/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B7%BB%E5%8A%A0Swap%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/"/>
+    <id>http://example.com/2024/04/14/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B7%BB%E5%8A%A0Swap%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/</id>
+    <published>2024-04-14T11:26:52.000Z</published>
+    <updated>2024-04-14T11:33:05.842Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux服务器添加Swap交换空间"><a href="#Linux服务器添加Swap交换空间" class="headerlink" title="Linux服务器添加Swap交换空间"></a>Linux服务器添加Swap交换空间</h1><h3 id="演示环境"><a href="#演示环境" class="headerlink" title="演示环境"></a>演示环境</h3><ul><li>Ubuntu 22.04</li></ul><h3 id="Swap空间简介"><a href="#Swap空间简介" class="headerlink" title="Swap空间简介"></a>Swap空间简介</h3><p>Swap空间是一种虚拟内存空间，用于暂时存储操作系统不需要的数据，以便释放物理内存供其他程序使用。在Linux系统中，Swap空间通常是一个磁盘分区或者一个特殊的文件，用于扩展系统的虚拟内存空间。当系统的物理内存不足时，操作系统会将一部分内存中的数据移到Swap空间中，以释放物理内存。</p><p><strong>由于 Swap 空间位于硬盘上，因此访问速度较慢。</strong></p><h2 id="1-查看当前内存与swap"><a href="#1-查看当前内存与swap" class="headerlink" title="1.查看当前内存与swap"></a>1.查看当前内存与swap</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ free -m<br>               total        used        free      shared  buff/cache   available<br>Mem:             883         305         219           3         359         428<br>Swap:              0           0           0<br></code></pre></td></tr></table></figure><h3 id="检查-Swap-空间"><a href="#检查-Swap-空间" class="headerlink" title="检查 Swap 空间"></a>检查 Swap 空间</h3><ol><li>执行以下命令检查 Swap 空间是否存在：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">swapon -s<br></code></pre></td></tr></table></figure><p>如果输出为空，则表示没有 Swap 空间。</p><h2 id="2-创建-Swap-分区"><a href="#2-创建-Swap-分区" class="headerlink" title="2.创建 Swap 分区"></a>2.创建 Swap 分区</h2><ol><li><p>使用 <code>dd</code> 命令创建 2GB 的 Swap 分区（可根据服务器配置调整大小：Swap 空间的大小应根据服务器的实际内存和使用情况进行调整。一般来说，Swap 空间的大小应为实际内存的 1-2 倍。</p><p>使用 <code>if=/dev/zero</code> 创建 Swap 分区的原因是：</p><ul><li>它会创建一个包含零字节的文件，这对于 Swap 分区至关重要，因为 Swap 分区必须包含已知的干净数据。</li><li><code>/dev/zero</code> 是一个特殊文件，它会不断生成零字节，这意味着您可以创建任意大小的 Swap 分区。</li></ul><p>使用 <code>if=/dev/zero</code> 可以确保 Swap 分区从一开始就包含干净的数据，并且可以创建任意大小的 Swap 分区。</p></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">dd</span> <span class="hljs-keyword">if</span>=/dev/zero of=/mnt/swap bs=1M count=2048<br></code></pre></td></tr></table></figure><ol start="2"><li>设置 Swap 分区文件：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkswap /mnt/swap<br></code></pre></td></tr></table></figure><ol start="3"><li>启用 Swap：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">swapon /mnt/swap<br></code></pre></td></tr></table></figure><h2 id="3-启动时自动挂载Swap-分区"><a href="#3-启动时自动挂载Swap-分区" class="headerlink" title="3.启动时自动挂载Swap 分区"></a>3.启动时自动挂载Swap 分区</h2><ol><li>编辑 <code>/etc/fstab</code> 文件，添加以下行：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/mnt/swap swap swap defaults 0 0<br></code></pre></td></tr></table></figure><ul><li><code>/mnt/swap</code>：Swap 分区的挂载点。</li><li><code>swap</code>：指定该分区是 Swap 分区。</li><li><code>swap</code>：指定该分区的文件系统类型是 Swap。</li><li><code>defaults</code>：使用 Swap 分区的默认选项。</li><li><code>0</code>：指定该 Swap 分区在启动时不进行检查。</li><li><code>0</code>：指定该 Swap 分区在启动时不进行转储。</li></ul><h2 id="4-检查swap空间"><a href="#4-检查swap空间" class="headerlink" title="4.检查swap空间"></a>4.检查swap空间</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ swapon -s<br>Filename                                Type            Size            Used            Priority<br>/mnt/swap                               file            2097148         0               -2<br>$ free -h<br>               total        used        free      shared  buff/cache   available<br>Mem:           883Mi       280Mi       157Mi       3.0Mi       445Mi       450Mi<br>Swap:          2.0Gi          0B       2.0Gi                                  <br></code></pre></td></tr></table></figure><h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Linux服务器添加Swap交换空间&quot;&gt;&lt;a href=&quot;#Linux服务器添加Swap交换空间&quot; class=&quot;headerlink&quot; title=&quot;Linux服务器添加Swap交换空间&quot;&gt;&lt;/a&gt;Linux服务器添加Swap交换空间&lt;/h1&gt;&lt;h3 id=&quot;演</summary>
+      
+    
+    
+    
+    
+    <category term="服务器运维" scheme="http://example.com/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker compose管理</title>
@@ -228,31 +272,6 @@
   </entry>
   
   <entry>
-    <title>AC的端口映射</title>
-    <link href="http://example.com/2023/12/29/AC02/"/>
-    <id>http://example.com/2023/12/29/AC02/</id>
-    <published>2023-12-29T08:02:00.000Z</published>
-    <updated>2023-12-29T08:03:18.953Z</updated>
-    
-    <content type="html"><![CDATA[<p>【全网行为管理】02-AC的端口映射</p><p>装备实验</p><p>开始实验01:00:00</p><p><img src="https://oss.edu.sangfor.com.cn/file/20230803/%E6%A0%A1%E4%BC%81%E5%B0%8F%E6%9C%8D-%E5%BC%80%E5%BF%83%E5%A4%B4%E5%83%8F2x2308031952420255fsmq.png" alt="img"></p><p>拓扑</p><p>实验手册</p><p>实验报告</p><p>声明：本实验手册仅供学习交流使用，请勿用于非法用途，违者一律自行承担所有风险！PS：本窗口支持左右拉伸</p><h1 id="AC的端口映射"><a href="#AC的端口映射" class="headerlink" title="AC的端口映射"></a>AC的端口映射</h1><h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h2><p>学会配置AC的端口映射（DNAT）功能，满足从外网访问企业内部网站的需求。</p><h2 id="实验原理"><a href="#实验原理" class="headerlink" title="实验原理"></a>实验原理</h2><p>AC作为网关部署在公司互联网出口，当有外部用户，需要访问公司网站时，需要将AC的外网IP地址与端口映射到内网网站的IP地址与端口。</p><h2 id="实验场景"><a href="#实验场景" class="headerlink" title="实验场景"></a>实验场景</h2><p>某大型集团公司，其内部新建了一套网站系统，位于微软域控服务器上。<br>要求一：现在需要从互联网（Internet-WEB server）访问该网站，访问的IP地址为AC的WAN口地址。<br>要求二：为方便内网员工访问，员工在办公区也可以使用AC的WAN口地址，访问位于于微软域控上的网站。</p><h2 id="实验拓扑"><a href="#实验拓扑" class="headerlink" title="实验拓扑"></a>实验拓扑</h2><p><img src="https://oss.edu.sangfor.com.cn/file/20220418/AC%E5%AE%9E%E9%AA%8C1%E9%83%A8%E7%BD%B2220418170816453o4av5.png" alt="AC实验1部署.png"></p><h2 id="实验设备"><a href="#实验设备" class="headerlink" title="实验设备"></a>实验设备</h2><p>1、总部AC ，作总部出口网关使用<br>2、微软域控，作为总部的服务器，本实验中主要作用为WEB服务器,理解为集团公司网站。<br>3、PC1，普通办公PC，员工办公使用。<br>4、Internet-WEB Server， 本实验中，作为在互联网上的客户端，访问集团公司网站（微软域控上的网站）</p><h2 id="环境预配"><a href="#环境预配" class="headerlink" title="环境预配"></a>环境预配</h2><p>环境预配，是指已经实验场景化的配置边界。<br>实验环境中，<strong>非深信服设备，不需要学员配置。</strong>如交换机、路由器、PC、服务器。</p><p>实验环境中，<strong>深信服设备，需要学员按实验拓扑说明进行配置。</strong></p><p>实验环境中，配置基本遵循上述两条原则，<strong>少数实验例外</strong>。例外过程，在实验步骤中说明</p><h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h2><p>一、配置总部AC的网络（操作对象：总部AC）</p><p>登录设备过程略</p><p>1.1 开始配置网络</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image220126162610618wmhra.png" alt="image.png"></p><p>1.2 选择路由模式</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image22012616274665461ibb.png" alt="image.png"></p><p>1.3 根据拓扑图，配置网卡，如下图</p><p>其中<br>eth1为LAN口，即办公区<br>eth2为DMZ口，即服务器区<br>eth3为WAN口，即互联网区</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201271300504664knzs.png" alt="image.png"></p><p>1.4 配置eth1</p><p>eth1接办公区，IP地址参照拓扑图配置</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127131616695za1gy.png" alt="image.png"></p><p>1.5 配置eth3</p><p>eth3接互联网区，IP地址参照拓扑图配置</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image2201261721328713hwx0.png" alt="image.png"></p><p>1.6 配置eth2</p><p>eth2接DMZ区，即服务器区，IP地址参照拓扑图配置</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image220126171325751k1dw5.png" alt="image.png"></p><p>1.7 配置代理上网</p><p>这里配置代理办公网段上网。办公网网段为192.168.1.0&#x2F;24</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image2201261717284730snac.png" alt="image.png"></p><p>1.8 检查无误后提交</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127131823425ugehh.png" alt="image.png"></p><p>二、配置从互联网访问集团网站。（操作对象：总部AC）</p><p>2.1 新建端口映射–简单规则</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201271403145337uf3p.png" alt="image.png"></p><p>将AC的WAN口(124.126.100.2) TCP 8080映射到微软域控(172.16.0.100)的TCP 80</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127140423759j7ywd.png" alt="image.png"></p><p>三、使用Internet-WEB Server验证上步配置(操作对象：Internet-web Server)</p><p>因为Internet-WEB Server为Linux，所以这里使用curl命令代替浏览器</p><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">curl</span>  <span class="hljs-number">124.126.100.2:8080</span><br></code></pre></td></tr></table></figure><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201271407259700o68v.png" alt="image.png"></p><p>如图，访问成功。</p><p>四、解决办公网PC使用互联网地址访问域控的问题。（操作对象：总部AC）</p><p>为了解决办公网PC使用互联网地址访问微软域控的问题,我们可以在总部AC的LAN口进行目标地址转换工作。</p><p>操作如下：</p><p>4.1 新增端口映射–&gt;高级规则</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201272156011339zx3c.png" alt="image.png"></p><p>4.2 配置DNAT生效的端口、源IP、目标IP</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127215950742uq3xl.png" alt="image.png"></p><p>继续向下滚动</p><p>4.3 配置DNAT生效的源端口、目标端口</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127220223558zm4sm.png" alt="image.png"></p><p>4.4 配置DNAT转换后的IP与端口（即微软域控的80端口）</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127220353193qwrwp.png" alt="image.png"></p><h2 id="实验总结"><a href="#实验总结" class="headerlink" title="实验总结"></a>实验总结</h2><p>当从WAN口使用WAN口IP地址访问DMZ区服务器时， 端口映射规则（DNAT）在WAN口生效。普通端口映射多数是这种原理。</p><p>当从LAN口使用WAN口IP地址访问DMZ区服务器时， 端口映射规则（DNAT）在LAN口生效。此类规则比较少见，属于端口映射的高级规则。</p><h2 id="实验思考（有能力与时间可以学习）"><a href="#实验思考（有能力与时间可以学习）" class="headerlink" title="实验思考（有能力与时间可以学习）"></a>实验思考（有能力与时间可以学习）</h2><p>当从DMZ其他服务器使用WAN口IP地址访问DMZ区服务器时，如果同样的方法，配置端口映射高级规则，能否生效？为什么？</p><p>答案：</p><p>不能生效。假设DMZ其他服务器IP地址是172.16.0.200</p><p>其原因如下图</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/%E4%BC%9A%E8%AF%9D%E4%B8%8D%E4%B8%80%E8%87%B4.drawio1220127222325568ph3hs.png" alt="会话不一致.drawio 1.png"></p><p><strong>思考：如何解决会话不一致的问题？</strong></p><p>答案：</p><p>在AC转换DNAT的同时，也转一下SNAT，原理如下图</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/%E4%BC%9A%E8%AF%9D%E4%B8%8D%E4%B8%80%E8%87%B42.drawio220127223100041ythhx.png" alt="会话不一致2.drawio.png"></p><p>深信服设备操作方法，在新建端口映射高级规则的最后，钩选发布服务器即可。</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127223425920t28lm.png" alt="image.png"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;【全网行为管理】02-AC的端口映射&lt;/p&gt;
-&lt;p&gt;装备实验&lt;/p&gt;
-&lt;p&gt;开始实验01:00:00&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://oss.edu.sangfor.com.cn/file/20230803/%E6%A0%A1%E4%BC%81%E5%B0</summary>
-      
-    
-    
-    
-    
-    <category term="深信服" scheme="http://example.com/tags/%E6%B7%B1%E4%BF%A1%E6%9C%8D/"/>
-    
-  </entry>
-  
-  <entry>
     <title>AC的路由模式部署</title>
     <link href="http://example.com/2023/12/29/AC01/"/>
     <id>http://example.com/2023/12/29/AC01/</id>
@@ -293,6 +312,31 @@
 &lt;p&gt;装备实验&lt;/p&gt;
 &lt;p&gt;开始实验01:00:00&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;https://oss.edu.sangfor.com.cn/file/20230803/%E6%A0%A1%E4%BC%81%E</summary>
+      
+    
+    
+    
+    
+    <category term="深信服" scheme="http://example.com/tags/%E6%B7%B1%E4%BF%A1%E6%9C%8D/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AC的端口映射</title>
+    <link href="http://example.com/2023/12/29/AC02/"/>
+    <id>http://example.com/2023/12/29/AC02/</id>
+    <published>2023-12-29T08:02:00.000Z</published>
+    <updated>2023-12-29T08:03:18.953Z</updated>
+    
+    <content type="html"><![CDATA[<p>【全网行为管理】02-AC的端口映射</p><p>装备实验</p><p>开始实验01:00:00</p><p><img src="https://oss.edu.sangfor.com.cn/file/20230803/%E6%A0%A1%E4%BC%81%E5%B0%8F%E6%9C%8D-%E5%BC%80%E5%BF%83%E5%A4%B4%E5%83%8F2x2308031952420255fsmq.png" alt="img"></p><p>拓扑</p><p>实验手册</p><p>实验报告</p><p>声明：本实验手册仅供学习交流使用，请勿用于非法用途，违者一律自行承担所有风险！PS：本窗口支持左右拉伸</p><h1 id="AC的端口映射"><a href="#AC的端口映射" class="headerlink" title="AC的端口映射"></a>AC的端口映射</h1><h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h2><p>学会配置AC的端口映射（DNAT）功能，满足从外网访问企业内部网站的需求。</p><h2 id="实验原理"><a href="#实验原理" class="headerlink" title="实验原理"></a>实验原理</h2><p>AC作为网关部署在公司互联网出口，当有外部用户，需要访问公司网站时，需要将AC的外网IP地址与端口映射到内网网站的IP地址与端口。</p><h2 id="实验场景"><a href="#实验场景" class="headerlink" title="实验场景"></a>实验场景</h2><p>某大型集团公司，其内部新建了一套网站系统，位于微软域控服务器上。<br>要求一：现在需要从互联网（Internet-WEB server）访问该网站，访问的IP地址为AC的WAN口地址。<br>要求二：为方便内网员工访问，员工在办公区也可以使用AC的WAN口地址，访问位于于微软域控上的网站。</p><h2 id="实验拓扑"><a href="#实验拓扑" class="headerlink" title="实验拓扑"></a>实验拓扑</h2><p><img src="https://oss.edu.sangfor.com.cn/file/20220418/AC%E5%AE%9E%E9%AA%8C1%E9%83%A8%E7%BD%B2220418170816453o4av5.png" alt="AC实验1部署.png"></p><h2 id="实验设备"><a href="#实验设备" class="headerlink" title="实验设备"></a>实验设备</h2><p>1、总部AC ，作总部出口网关使用<br>2、微软域控，作为总部的服务器，本实验中主要作用为WEB服务器,理解为集团公司网站。<br>3、PC1，普通办公PC，员工办公使用。<br>4、Internet-WEB Server， 本实验中，作为在互联网上的客户端，访问集团公司网站（微软域控上的网站）</p><h2 id="环境预配"><a href="#环境预配" class="headerlink" title="环境预配"></a>环境预配</h2><p>环境预配，是指已经实验场景化的配置边界。<br>实验环境中，<strong>非深信服设备，不需要学员配置。</strong>如交换机、路由器、PC、服务器。</p><p>实验环境中，<strong>深信服设备，需要学员按实验拓扑说明进行配置。</strong></p><p>实验环境中，配置基本遵循上述两条原则，<strong>少数实验例外</strong>。例外过程，在实验步骤中说明</p><h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h2><p>一、配置总部AC的网络（操作对象：总部AC）</p><p>登录设备过程略</p><p>1.1 开始配置网络</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image220126162610618wmhra.png" alt="image.png"></p><p>1.2 选择路由模式</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image22012616274665461ibb.png" alt="image.png"></p><p>1.3 根据拓扑图，配置网卡，如下图</p><p>其中<br>eth1为LAN口，即办公区<br>eth2为DMZ口，即服务器区<br>eth3为WAN口，即互联网区</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201271300504664knzs.png" alt="image.png"></p><p>1.4 配置eth1</p><p>eth1接办公区，IP地址参照拓扑图配置</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127131616695za1gy.png" alt="image.png"></p><p>1.5 配置eth3</p><p>eth3接互联网区，IP地址参照拓扑图配置</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image2201261721328713hwx0.png" alt="image.png"></p><p>1.6 配置eth2</p><p>eth2接DMZ区，即服务器区，IP地址参照拓扑图配置</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image220126171325751k1dw5.png" alt="image.png"></p><p>1.7 配置代理上网</p><p>这里配置代理办公网段上网。办公网网段为192.168.1.0&#x2F;24</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image2201261717284730snac.png" alt="image.png"></p><p>1.8 检查无误后提交</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127131823425ugehh.png" alt="image.png"></p><p>二、配置从互联网访问集团网站。（操作对象：总部AC）</p><p>2.1 新建端口映射–简单规则</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201271403145337uf3p.png" alt="image.png"></p><p>将AC的WAN口(124.126.100.2) TCP 8080映射到微软域控(172.16.0.100)的TCP 80</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127140423759j7ywd.png" alt="image.png"></p><p>三、使用Internet-WEB Server验证上步配置(操作对象：Internet-web Server)</p><p>因为Internet-WEB Server为Linux，所以这里使用curl命令代替浏览器</p><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">curl</span>  <span class="hljs-number">124.126.100.2:8080</span><br></code></pre></td></tr></table></figure><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201271407259700o68v.png" alt="image.png"></p><p>如图，访问成功。</p><p>四、解决办公网PC使用互联网地址访问域控的问题。（操作对象：总部AC）</p><p>为了解决办公网PC使用互联网地址访问微软域控的问题,我们可以在总部AC的LAN口进行目标地址转换工作。</p><p>操作如下：</p><p>4.1 新增端口映射–&gt;高级规则</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201272156011339zx3c.png" alt="image.png"></p><p>4.2 配置DNAT生效的端口、源IP、目标IP</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127215950742uq3xl.png" alt="image.png"></p><p>继续向下滚动</p><p>4.3 配置DNAT生效的源端口、目标端口</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127220223558zm4sm.png" alt="image.png"></p><p>4.4 配置DNAT转换后的IP与端口（即微软域控的80端口）</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127220353193qwrwp.png" alt="image.png"></p><h2 id="实验总结"><a href="#实验总结" class="headerlink" title="实验总结"></a>实验总结</h2><p>当从WAN口使用WAN口IP地址访问DMZ区服务器时， 端口映射规则（DNAT）在WAN口生效。普通端口映射多数是这种原理。</p><p>当从LAN口使用WAN口IP地址访问DMZ区服务器时， 端口映射规则（DNAT）在LAN口生效。此类规则比较少见，属于端口映射的高级规则。</p><h2 id="实验思考（有能力与时间可以学习）"><a href="#实验思考（有能力与时间可以学习）" class="headerlink" title="实验思考（有能力与时间可以学习）"></a>实验思考（有能力与时间可以学习）</h2><p>当从DMZ其他服务器使用WAN口IP地址访问DMZ区服务器时，如果同样的方法，配置端口映射高级规则，能否生效？为什么？</p><p>答案：</p><p>不能生效。假设DMZ其他服务器IP地址是172.16.0.200</p><p>其原因如下图</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/%E4%BC%9A%E8%AF%9D%E4%B8%8D%E4%B8%80%E8%87%B4.drawio1220127222325568ph3hs.png" alt="会话不一致.drawio 1.png"></p><p><strong>思考：如何解决会话不一致的问题？</strong></p><p>答案：</p><p>在AC转换DNAT的同时，也转一下SNAT，原理如下图</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/%E4%BC%9A%E8%AF%9D%E4%B8%8D%E4%B8%80%E8%87%B42.drawio220127223100041ythhx.png" alt="会话不一致2.drawio.png"></p><p>深信服设备操作方法，在新建端口映射高级规则的最后，钩选发布服务器即可。</p><p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127223425920t28lm.png" alt="image.png"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;【全网行为管理】02-AC的端口映射&lt;/p&gt;
+&lt;p&gt;装备实验&lt;/p&gt;
+&lt;p&gt;开始实验01:00:00&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://oss.edu.sangfor.com.cn/file/20230803/%E6%A0%A1%E4%BC%81%E5%B0</summary>
       
     
     
@@ -422,7 +466,7 @@
     <link href="http://example.com/2023/11/12/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/"/>
     <id>http://example.com/2023/11/12/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</id>
     <published>2023-11-11T18:19:26.000Z</published>
-    <updated>2024-04-07T14:48:47.473Z</updated>
+    <updated>2024-04-07T14:49:29.199Z</updated>
     
     <content type="html"><![CDATA[<h2 id="export-导出容器"><a href="#export-导出容器" class="headerlink" title="export 导出容器"></a>export 导出容器</h2><h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><p>命令<br>查看当前容器</p><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mel">docker <span class="hljs-keyword">container</span> <span class="hljs-keyword">ls</span> -a<br></code></pre></td></tr></table></figure><p><img src="/img/%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8.jpg" alt="查看当前容器"></p><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-title">docker</span> ex<span class="hljs-keyword">port</span> containerID &gt; filename.tar<br></code></pre></td></tr></table></figure><p>将容器快照导出为本地filename.tar文件</p><h2 id="import-导入容器"><a href="#import-导入容器" class="headerlink" title="import 导入容器"></a>import 导入容器</h2><h3 id="用法-1"><a href="#用法-1" class="headerlink" title="用法"></a>用法</h3><p> 从容器快照文件中再导入为镜像</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">docker import filename.tar - imagename:version<br></code></pre></td></tr></table></figure>]]></content>
     
@@ -436,26 +480,6 @@
     
     
     <category term="Docker" scheme="http://example.com/tags/Docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://example.com/2023/11/11/hello-world/"/>
-    <id>http://example.com/2023/11/11/hello-world/</id>
-    <published>2023-11-10T18:38:56.853Z</published>
-    <updated>2023-11-10T18:38:56.853Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
-      
-    
-    
-    
     
   </entry>
   
