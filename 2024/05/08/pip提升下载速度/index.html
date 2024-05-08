@@ -16,43 +16,22 @@
   <meta name="author" content="Sanli Ma">
   <meta name="keywords" content="">
   
-    <meta name="description" content="【全网行为管理】02-AC的端口映射 装备实验 开始实验01:00:00  拓扑 实验手册 实验报告 声明：本实验手册仅供学习交流使用，请勿用于非法用途，违者一律自行承担所有风险！PS：本窗口支持左右拉伸 AC的端口映射实验目标学会配置AC的端口映射（DNAT）功能，满足从外网访问企业内部网站的需求。 实验原理AC作为网关部署在公司互联网出口，当有外部用户，需要访问公司网站时，需要将AC的外网IP">
+    <meta name="description" content="pip提升下载速度临时换源1pip install &lt;package_name&gt;  -i https:&#x2F;&#x2F;pypi.tuna.tsinghua.edu.cn&#x2F;simple  国内常见pip源：    镜像名称 镜像地址    清华大学 https:&#x2F;&#x2F;pypi.tuna.tsinghua.edu.cn&#x2F;simple&#x2F;   阿里云 https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;p">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AC的端口映射">
-<meta property="og:url" content="http://example.com/2023/12/29/AC02/index.html">
+<meta property="og:title" content="pip提升下载速度">
+<meta property="og:url" content="http://example.com/2024/05/08/pip%E6%8F%90%E5%8D%87%E4%B8%8B%E8%BD%BD%E9%80%9F%E5%BA%A6/index.html">
 <meta property="og:site_name" content="stdlibh的个人网站">
-<meta property="og:description" content="【全网行为管理】02-AC的端口映射 装备实验 开始实验01:00:00  拓扑 实验手册 实验报告 声明：本实验手册仅供学习交流使用，请勿用于非法用途，违者一律自行承担所有风险！PS：本窗口支持左右拉伸 AC的端口映射实验目标学会配置AC的端口映射（DNAT）功能，满足从外网访问企业内部网站的需求。 实验原理AC作为网关部署在公司互联网出口，当有外部用户，需要访问公司网站时，需要将AC的外网IP">
+<meta property="og:description" content="pip提升下载速度临时换源1pip install &lt;package_name&gt;  -i https:&#x2F;&#x2F;pypi.tuna.tsinghua.edu.cn&#x2F;simple  国内常见pip源：    镜像名称 镜像地址    清华大学 https:&#x2F;&#x2F;pypi.tuna.tsinghua.edu.cn&#x2F;simple&#x2F;   阿里云 https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;p">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20230803/%E6%A0%A1%E4%BC%81%E5%B0%8F%E6%9C%8D-%E5%BC%80%E5%BF%83%E5%A4%B4%E5%83%8F2x2308031952420255fsmq.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220418/AC%E5%AE%9E%E9%AA%8C1%E9%83%A8%E7%BD%B2220418170816453o4av5.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220126/image220126162610618wmhra.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220126/image22012616274665461ibb.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image2201271300504664knzs.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image220127131616695za1gy.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220126/image2201261721328713hwx0.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220126/image220126171325751k1dw5.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220126/image2201261717284730snac.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image220127131823425ugehh.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image2201271403145337uf3p.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image220127140423759j7ywd.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image2201271407259700o68v.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image2201272156011339zx3c.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image220127215950742uq3xl.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image220127220223558zm4sm.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image220127220353193qwrwp.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/%E4%BC%9A%E8%AF%9D%E4%B8%8D%E4%B8%80%E8%87%B4.drawio1220127222325568ph3hs.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/%E4%BC%9A%E8%AF%9D%E4%B8%8D%E4%B8%80%E8%87%B42.drawio220127223100041ythhx.png">
-<meta property="og:image" content="https://oss.edu.sangfor.com.cn/file/20220127/image220127223425920t28lm.png">
-<meta property="article:published_time" content="2023-12-29T08:02:00.000Z">
-<meta property="article:modified_time" content="2023-12-29T08:03:18.953Z">
+<meta property="article:published_time" content="2024-05-08T11:56:08.000Z">
+<meta property="article:modified_time" content="2024-05-08T12:54:38.010Z">
 <meta property="article:author" content="Sanli Ma">
-<meta property="article:tag" content="深信服">
+<meta property="article:tag" content="杂项">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://oss.edu.sangfor.com.cn/file/20230803/%E6%A0%A1%E4%BC%81%E5%B0%8F%E6%9C%8D-%E5%BC%80%E5%BF%83%E5%A4%B4%E5%83%8F2x2308031952420255fsmq.png">
   
   
   
-  <title>AC的端口映射 - stdlibh的个人网站</title>
+  <title>pip提升下载速度 - stdlibh的个人网站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -219,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="AC的端口映射"></span>
+            <span id="subtitle" data-typed-text="pip提升下载速度"></span>
           
         </div>
 
@@ -230,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-12-29 16:02" pubdate>
-          2023年12月29日 下午
+        <time datetime="2024-05-08 19:56" pubdate>
+          2024年5月8日 晚上
         </time>
       </span>
     
@@ -242,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          166 字
         
       </span>
     
@@ -253,7 +232,7 @@
         
         
         
-          10 分钟
+          2 分钟
         
       </span>
     
@@ -290,86 +269,60 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">AC的端口映射</h1>
+            <h1 id="seo-header">pip提升下载速度</h1>
             
             
               <div class="markdown-body">
                 
-                <p>【全网行为管理】02-AC的端口映射</p>
-<p>装备实验</p>
-<p>开始实验01:00:00</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20230803/%E6%A0%A1%E4%BC%81%E5%B0%8F%E6%9C%8D-%E5%BC%80%E5%BF%83%E5%A4%B4%E5%83%8F2x2308031952420255fsmq.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>拓扑</p>
-<p>实验手册</p>
-<p>实验报告</p>
-<p>声明：本实验手册仅供学习交流使用，请勿用于非法用途，违者一律自行承担所有风险！PS：本窗口支持左右拉伸</p>
-<h1 id="AC的端口映射"><a href="#AC的端口映射" class="headerlink" title="AC的端口映射"></a>AC的端口映射</h1><h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h2><p>学会配置AC的端口映射（DNAT）功能，满足从外网访问企业内部网站的需求。</p>
-<h2 id="实验原理"><a href="#实验原理" class="headerlink" title="实验原理"></a>实验原理</h2><p>AC作为网关部署在公司互联网出口，当有外部用户，需要访问公司网站时，需要将AC的外网IP地址与端口映射到内网网站的IP地址与端口。</p>
-<h2 id="实验场景"><a href="#实验场景" class="headerlink" title="实验场景"></a>实验场景</h2><p>某大型集团公司，其内部新建了一套网站系统，位于微软域控服务器上。<br>要求一：现在需要从互联网（Internet-WEB server）访问该网站，访问的IP地址为AC的WAN口地址。<br>要求二：为方便内网员工访问，员工在办公区也可以使用AC的WAN口地址，访问位于于微软域控上的网站。</p>
-<h2 id="实验拓扑"><a href="#实验拓扑" class="headerlink" title="实验拓扑"></a>实验拓扑</h2><p><img src="https://oss.edu.sangfor.com.cn/file/20220418/AC%E5%AE%9E%E9%AA%8C1%E9%83%A8%E7%BD%B2220418170816453o4av5.png" srcset="/img/loading.gif" lazyload alt="AC实验1部署.png"></p>
-<h2 id="实验设备"><a href="#实验设备" class="headerlink" title="实验设备"></a>实验设备</h2><p>1、总部AC ，作总部出口网关使用<br>2、微软域控，作为总部的服务器，本实验中主要作用为WEB服务器,理解为集团公司网站。<br>3、PC1，普通办公PC，员工办公使用。<br>4、Internet-WEB Server， 本实验中，作为在互联网上的客户端，访问集团公司网站（微软域控上的网站）</p>
-<h2 id="环境预配"><a href="#环境预配" class="headerlink" title="环境预配"></a>环境预配</h2><p>环境预配，是指已经实验场景化的配置边界。<br>实验环境中，<strong>非深信服设备，不需要学员配置。</strong>如交换机、路由器、PC、服务器。</p>
-<p>实验环境中，<strong>深信服设备，需要学员按实验拓扑说明进行配置。</strong></p>
-<p>实验环境中，配置基本遵循上述两条原则，<strong>少数实验例外</strong>。例外过程，在实验步骤中说明</p>
-<h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h2><p>一、配置总部AC的网络（操作对象：总部AC）</p>
-<p>登录设备过程略</p>
-<p>1.1 开始配置网络</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image220126162610618wmhra.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.2 选择路由模式</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image22012616274665461ibb.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.3 根据拓扑图，配置网卡，如下图</p>
-<p>其中<br>eth1为LAN口，即办公区<br>eth2为DMZ口，即服务器区<br>eth3为WAN口，即互联网区</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201271300504664knzs.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.4 配置eth1</p>
-<p>eth1接办公区，IP地址参照拓扑图配置</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127131616695za1gy.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.5 配置eth3</p>
-<p>eth3接互联网区，IP地址参照拓扑图配置</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image2201261721328713hwx0.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.6 配置eth2</p>
-<p>eth2接DMZ区，即服务器区，IP地址参照拓扑图配置</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image220126171325751k1dw5.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.7 配置代理上网</p>
-<p>这里配置代理办公网段上网。办公网网段为192.168.1.0&#x2F;24</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220126/image2201261717284730snac.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>1.8 检查无误后提交</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127131823425ugehh.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>二、配置从互联网访问集团网站。（操作对象：总部AC）</p>
-<p>2.1 新建端口映射–简单规则</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201271403145337uf3p.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>将AC的WAN口(124.126.100.2) TCP 8080映射到微软域控(172.16.0.100)的TCP 80</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127140423759j7ywd.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>三、使用Internet-WEB Server验证上步配置(操作对象：Internet-web Server)</p>
-<p>因为Internet-WEB Server为Linux，所以这里使用curl命令代替浏览器</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">curl</span>  <span class="hljs-number">124.126.100.2:8080</span><br></code></pre></td></tr></table></figure>
+                <h2 id="pip提升下载速度"><a href="#pip提升下载速度" class="headerlink" title="pip提升下载速度"></a>pip提升下载速度</h2><h3 id="临时换源"><a href="#临时换源" class="headerlink" title="临时换源"></a>临时换源</h3><figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ceylon">pip install &lt;<span class="hljs-keyword">package</span><span class="hljs-number">_n</span>ame&gt;  -i https:<span class="hljs-comment">//pypi.tuna.tsinghua.edu.cn/simple</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201271407259700o68v.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>如图，访问成功。</p>
-<p>四、解决办公网PC使用互联网地址访问域控的问题。（操作对象：总部AC）</p>
-<p>为了解决办公网PC使用互联网地址访问微软域控的问题,我们可以在总部AC的LAN口进行目标地址转换工作。</p>
-<p>操作如下：</p>
-<p>4.1 新增端口映射–&gt;高级规则</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image2201272156011339zx3c.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>4.2 配置DNAT生效的端口、源IP、目标IP</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127215950742uq3xl.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>继续向下滚动</p>
-<p>4.3 配置DNAT生效的源端口、目标端口</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127220223558zm4sm.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>4.4 配置DNAT转换后的IP与端口（即微软域控的80端口）</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127220353193qwrwp.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<h2 id="实验总结"><a href="#实验总结" class="headerlink" title="实验总结"></a>实验总结</h2><p>当从WAN口使用WAN口IP地址访问DMZ区服务器时， 端口映射规则（DNAT）在WAN口生效。普通端口映射多数是这种原理。</p>
-<p>当从LAN口使用WAN口IP地址访问DMZ区服务器时， 端口映射规则（DNAT）在LAN口生效。此类规则比较少见，属于端口映射的高级规则。</p>
-<h2 id="实验思考（有能力与时间可以学习）"><a href="#实验思考（有能力与时间可以学习）" class="headerlink" title="实验思考（有能力与时间可以学习）"></a>实验思考（有能力与时间可以学习）</h2><p>当从DMZ其他服务器使用WAN口IP地址访问DMZ区服务器时，如果同样的方法，配置端口映射高级规则，能否生效？为什么？</p>
-<p>答案：</p>
-<p>不能生效。假设DMZ其他服务器IP地址是172.16.0.200</p>
-<p>其原因如下图</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/%E4%BC%9A%E8%AF%9D%E4%B8%8D%E4%B8%80%E8%87%B4.drawio1220127222325568ph3hs.png" srcset="/img/loading.gif" lazyload alt="会话不一致.drawio 1.png"></p>
-<p><strong>思考：如何解决会话不一致的问题？</strong></p>
-<p>答案：</p>
-<p>在AC转换DNAT的同时，也转一下SNAT，原理如下图</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/%E4%BC%9A%E8%AF%9D%E4%B8%8D%E4%B8%80%E8%87%B42.drawio220127223100041ythhx.png" srcset="/img/loading.gif" lazyload alt="会话不一致2.drawio.png"></p>
-<p>深信服设备操作方法，在新建端口映射高级规则的最后，钩选发布服务器即可。</p>
-<p><img src="https://oss.edu.sangfor.com.cn/file/20220127/image220127223425920t28lm.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><strong>国内常见pip源：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">镜像名称</th>
+<th align="center">镜像地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">清华大学</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://pypi.tuna.tsinghua.edu.cn/simple/">https://pypi.tuna.tsinghua.edu.cn/simple/</a></td>
+</tr>
+<tr>
+<td align="center">阿里云</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/pypi/simple/">https://mirrors.aliyun.com/pypi/simple/</a></td>
+</tr>
+<tr>
+<td align="center">中国科技大学</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://pypi.mirrors.ustc.edu.cn/simple/">https://pypi.mirrors.ustc.edu.cn/simple/</a></td>
+</tr>
+<tr>
+<td align="center">豆瓣</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://pypi.douban.com/simple/">https://pypi.douban.com/simple/</a></td>
+</tr>
+<tr>
+<td align="center">网易</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://mirrors.163.com/pypi/simple/">https://mirrors.163.com/pypi/simple/</a></td>
+</tr>
+<tr>
+<td align="center">百度云</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://mirror.baidu.com/pypi/simple/">https://mirror.baidu.com/pypi/simple/</a></td>
+</tr>
+<tr>
+<td align="center">华为云</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://mirrors.huaweicloud.com/repository/pypi/simple/">https://mirrors.huaweicloud.com/repository/pypi/simple/</a></td>
+</tr>
+<tr>
+<td align="center">腾讯云</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://mirrors.cloud.tencent.com/pypi/simple/">https://mirrors.cloud.tencent.com/pypi/simple/</a></td>
+</tr>
+</tbody></table>
+<h3 id="设为默认"><a href="#设为默认" class="headerlink" title="设为默认"></a>设为默认</h3><p><strong>pip 版本 (&gt;&#x3D;10.0.0) ：</strong></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">python</span> -<span class="hljs-keyword">m</span> pip install --upgrade pip<br>pip config <span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span>.<span class="hljs-built_in">index</span>-url https://pypi.tuna.tsinghua.edu.<span class="hljs-keyword">cn</span>/simple<br></code></pre></td></tr></table></figure>
+
+<h3 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h3><p><strong>使用–proxy参数指定代理服务器的地址和端口号</strong></p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ceylon">pip install &lt;<span class="hljs-keyword">package</span><span class="hljs-number">_n</span>ame&gt; --proxy http:<span class="hljs-comment">//127.0.0.1:7890</span><br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
@@ -382,7 +335,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%B7%B1%E4%BF%A1%E6%9C%8D/" class="print-no-link">#深信服</a>
+        <a href="/tags/%E6%9D%82%E9%A1%B9/" class="print-no-link">#杂项</a>
       
     </div>
   
@@ -394,8 +347,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>AC的端口映射</div>
-      <div>http://example.com/2023/12/29/AC02/</div>
+      <div>pip提升下载速度</div>
+      <div>http://example.com/2024/05/08/pip提升下载速度/</div>
     </div>
     <div class="license-meta">
       
@@ -407,7 +360,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年12月29日</div>
+          <div>2024年5月8日</div>
         </div>
       
       
@@ -439,18 +392,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/12/29/AC01/" title="AC的路由模式部署">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">AC的路由模式部署</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/12/29/AC03/" title="用户认证技术之无需认证">
-                        <span class="hidden-mobile">用户认证技术之无需认证</span>
+                      <a href="/2024/05/08/minio-picgo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9B%BE%E5%BA%8A/" title="minio+picgo搭建个人服务器图床">
+                        <span class="hidden-mobile">minio+picgo搭建个人服务器图床</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
