@@ -23,19 +23,19 @@
 <meta property="og:site_name" content="stdlibh的个人网站">
 <meta property="og:description" content="Linux磁盘分区与挂载1.lsblk查看当前块设备找到没有分区和挂载的磁盘sda  2.使用 fdisk 对磁盘进行分区1$ fdisk &#x2F;dev&#x2F;sda  fdisk 命令提供了一个交互式界面，允许用户执行以下任务：  创建分区（n） 删除分区（d） 调整分区大小（r） 设置分区类型（t） 保存写入分区表（w） 退出（q）  输入n创建分区，剩下直接enter确认（默认分为一个区）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/courseimage-20240410042212136.png">
-<meta property="og:image" content="http://example.com/img/courseimage-20240410042235008.png">
-<meta property="og:image" content="http://example.com/img/courseimage-20240410042246880.png">
-<meta property="og:image" content="http://example.com/img/courseimage-20240410042437772.png">
-<meta property="og:image" content="http://example.com/img/courseimage-20240410042528027.png">
-<meta property="og:image" content="http://example.com/img/courseimage-20240410042744611.png">
-<meta property="og:image" content="http://example.com/img/courseimage-20240410210902334.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240410042212136.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240410042235008.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240410042246880.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240410042437772.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240410042528027.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240410042744611.png">
+<meta property="og:image" content="http://example.com/img/course/image-20240410210902334.png">
 <meta property="article:published_time" content="2024-04-14T11:33:27.000Z">
-<meta property="article:modified_time" content="2024-04-18T07:41:31.968Z">
+<meta property="article:modified_time" content="2024-05-26T12:02:15.980Z">
 <meta property="article:author" content="Sanli Ma">
 <meta property="article:tag" content="服务器运维">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/courseimage-20240410042212136.png">
+<meta name="twitter:image" content="http://example.com/img/course/image-20240410042212136.png">
   
   
   
@@ -283,7 +283,7 @@
               <div class="markdown-body">
                 
                 <h1 id="Linux磁盘分区与挂载"><a href="#Linux磁盘分区与挂载" class="headerlink" title="Linux磁盘分区与挂载"></a>Linux磁盘分区与挂载</h1><h2 id="1-lsblk查看当前块设备"><a href="#1-lsblk查看当前块设备" class="headerlink" title="1.lsblk查看当前块设备"></a>1.lsblk查看当前块设备</h2><p><strong>找到没有分区和挂载的磁盘sda</strong></p>
-<p><img src="/img/courseimage-20240410042212136.png" srcset="/img/loading.gif" lazyload alt="image-20240410042212136"></p>
+<p><img src="/img/course/image-20240410042212136.png" srcset="/img/loading.gif" lazyload alt="image-20240410042212136"></p>
 <h2 id="2-使用-fdisk-对磁盘进行分区"><a href="#2-使用-fdisk-对磁盘进行分区" class="headerlink" title="2.使用 fdisk 对磁盘进行分区"></a>2.<strong>使用 fdisk 对磁盘进行分区</strong></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">fdisk /dev/sda</span><br></code></pre></td></tr></table></figure>
 
 <p><code>fdisk</code> 命令提供了一个交互式界面，允许用户执行以下任务：</p>
@@ -296,22 +296,22 @@
 <li>退出（<code>q</code>）</li>
 </ul>
 <p><strong>输入n创建分区，剩下直接enter确认（默认分为一个区）</strong></p>
-<img src="/img/courseimage-20240410042235008.png" srcset="/img/loading.gif" lazyload alt="image-20240410042235008" style="zoom:67%;" />
+<img src="/img/course/image-20240410042235008.png" srcset="/img/loading.gif" lazyload alt="image-20240410042235008" style="zoom:67%;" />
 
 
 
-<p><img src="/img/courseimage-20240410042246880.png" srcset="/img/loading.gif" lazyload alt="image-20240410042246880"></p>
+<p><img src="/img/course/image-20240410042246880.png" srcset="/img/loading.gif" lazyload alt="image-20240410042246880"></p>
 <p><strong>再使用lsblk命令可以看到分区已完成</strong></p>
-<p><img src="/img/courseimage-20240410042437772.png" srcset="/img/loading.gif" lazyload alt="image-20240410042437772"></p>
+<p><img src="/img/course/image-20240410042437772.png" srcset="/img/loading.gif" lazyload alt="image-20240410042437772"></p>
 <h2 id="3-格式化分区"><a href="#3-格式化分区" class="headerlink" title="3.格式化分区"></a>3.格式化分区</h2><p><strong>查看 <code>/dev/sdb1</code> 分区的类型，可以使用以下命令：</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo <span class="hljs-built_in">df</span> -T /dev/sdc1</span><br>Filesystem     Type 1K-blocks  Used Available Use% Mounted on<br>/dev/sdc1      ext4  65739308    44  62367488   1% /data<br></code></pre></td></tr></table></figure>
 
 <p><strong>要将 <code>/dev/sda1</code> 分区格式化为 ext4 文件系统，可以使用以下命令：</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo mkfs.ext4 /dev/sda1</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/img/courseimage-20240410042528027.png" srcset="/img/loading.gif" lazyload alt="image-20240410042528027"></p>
+<p><img src="/img/course/image-20240410042528027.png" srcset="/img/loading.gif" lazyload alt="image-20240410042528027"></p>
 <h2 id="4-挂载分区"><a href="#4-挂载分区" class="headerlink" title="4.挂载分区"></a>4.挂载分区</h2><p><strong>先创建一个&#x2F;data目录</strong></p>
-<p><img src="/img/courseimage-20240410042744611.png" srcset="/img/loading.gif" lazyload alt="image-20240410042744611"></p>
+<p><img src="/img/course/image-20240410042744611.png" srcset="/img/loading.gif" lazyload alt="image-20240410042744611"></p>
 <p><strong>然后执行命令挂载分区</strong> </p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo mount /dev/sda1 /data</span> <br></code></pre></td></tr></table></figure>
 
@@ -324,7 +324,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo vim /etc/fstab</span>    <br>UUID=deb8b33b-c908-4dbc-85a5-311727079736     /data   ext4   defaults   0   2<br>UUID=c473537c-547e-48f4-b2ca-a2bc4e0d2f2e     /data   ext4   defaults   0   2<br></code></pre></td></tr></table></figure>
 
 <h2 id="6-检查"><a href="#6-检查" class="headerlink" title="6.检查"></a>6.检查</h2><p><strong>使用<code>df -h</code>可以检查磁盘挂载是否成功</strong></p>
-<p><img src="/img/courseimage-20240410210902334.png" srcset="/img/loading.gif" lazyload alt="image-20240410210902334"></p>
+<p><img src="/img/course/image-20240410210902334.png" srcset="/img/loading.gif" lazyload alt="image-20240410210902334"></p>
 <h2 id=""><a href="#" class="headerlink" title=""></a></h2>
                 
               </div>
