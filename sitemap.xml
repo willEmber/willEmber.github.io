@@ -279,14 +279,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/Docker/</loc>
+    <loc>http://example.com/tags/Ansible/</loc>
     <lastmod>2024-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/Ansible/</loc>
+    <loc>http://example.com/tags/Docker/</loc>
     <lastmod>2024-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -328,14 +328,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/%E6%96%B0%E5%BB%BA%E5%8D%9A%E5%AE%A2/</loc>
+    <loc>http://example.com/tags/%E8%BD%AF%E4%BB%B6%E8%B5%84%E6%BA%90/</loc>
     <lastmod>2024-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/%E8%BD%AF%E4%BB%B6%E8%B5%84%E6%BA%90/</loc>
+    <loc>http://example.com/tags/%E6%96%B0%E5%BB%BA%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2024-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
