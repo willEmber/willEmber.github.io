@@ -1,0 +1,692 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bg/index.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sanli Ma">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="使用fail2ban解决基于frp内网穿透的远程桌面爆破问题需求分析家中Windows server通过RDP远程桌面进行连接，为方便随时使用，使用frp内网穿透暴露到公网中。但会受到爆破攻击，windows安全策略在失败过多后会锁定账户一段时间，引起不便。 尝试在Windows端进行安全策略的配置，但基于frp的连接，IP等效于127.0.0.1即本地，故在Windows进行处理比较麻烦。 故尝">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用fail2ban解决基于frp内网穿透的远程桌面爆破问题">
+<meta property="og:url" content="http://example.com/2024/07/28/%E4%BD%BF%E7%94%A8fail2ban%E8%A7%A3%E5%86%B3%E5%9F%BA%E4%BA%8Efrp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E7%9A%84%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E7%88%86%E7%A0%B4%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="stdlibh的个人网站">
+<meta property="og:description" content="使用fail2ban解决基于frp内网穿透的远程桌面爆破问题需求分析家中Windows server通过RDP远程桌面进行连接，为方便随时使用，使用frp内网穿透暴露到公网中。但会受到爆破攻击，windows安全策略在失败过多后会锁定账户一段时间，引起不便。 尝试在Windows端进行安全策略的配置，但基于frp的连接，IP等效于127.0.0.1即本地，故在Windows进行处理比较麻烦。 故尝">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-28T10:46:33.000Z">
+<meta property="article:modified_time" content="2024-07-28T10:50:03.498Z">
+<meta property="article:author" content="Sanli Ma">
+<meta property="article:tag" content="-windows server -服务器 -防火墙">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>使用fail2ban解决基于frp内网穿透的远程桌面爆破问题 - stdlibh的个人网站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="stdlibh的个人网站" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stdlibh</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/background.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="使用fail2ban解决基于frp内网穿透的远程桌面爆破问题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-28 18:46" pubdate>
+          2024年7月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">使用fail2ban解决基于frp内网穿透的远程桌面爆破问题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="使用fail2ban解决基于frp内网穿透的远程桌面爆破问题"><a href="#使用fail2ban解决基于frp内网穿透的远程桌面爆破问题" class="headerlink" title="使用fail2ban解决基于frp内网穿透的远程桌面爆破问题"></a>使用fail2ban解决基于frp内网穿透的远程桌面爆破问题</h1><h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>家中Windows server通过RDP远程桌面进行连接，为方便随时使用，使用frp内网穿透暴露到公网中。但会受到爆破攻击，windows安全策略在失败过多后会锁定账户一段时间，引起不便。</p>
+<p>尝试在Windows端进行安全策略的配置，但基于frp的连接，IP等效于127.0.0.1即本地，故在Windows进行处理比较麻烦。</p>
+<p>故尝试在内网穿透中转服务器上进行处理和拦截。</p>
+<h3 id="Fail2Ban简介"><a href="#Fail2Ban简介" class="headerlink" title="Fail2Ban简介"></a>Fail2Ban简介</h3><p>Fail2Ban 扫描<code>/var/log/auth.log</code>等日志文件，并禁止进行过多失败登录尝试的 IP 地址。它通过更新系统防火墙规则以在可配置的时间内拒绝来自这些 IP 地址的新连接来实现此目的。 Fail2Ban 开箱即用，可以读取许多标准日志文件，例如 sshd 和 Apache 的日志文件，并且可以轻松配置为读取任何日志文件。</p>
+<h2 id="安装fail2ban"><a href="#安装fail2ban" class="headerlink" title="安装fail2ban"></a>安装fail2ban</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># CentOS</span><br>yum install -y fail2ban<br><span class="hljs-comment"># Ubuntu</span><br>sudo apt-get install -y fail2ban<br><span class="hljs-comment"># 验证</span><br>fail2ban-client -h<br></code></pre></td></tr></table></figure>
+
+<h2 id="编写FRP防爆规则配置文件"><a href="#编写FRP防爆规则配置文件" class="headerlink" title="编写FRP防爆规则配置文件"></a>编写FRP防爆规则配置文件</h2><blockquote>
+<p>规则是使用正则匹配对应的服务名称，所以FRPC启用的名称需要相应匹配，比如SSH服务的FRPC启动服务名为HOME_SSH，则正则为<code>failregex = ^.*\[.*HOME_SSH.*\] get a user connection \[&lt;HOST&gt;:[0-9]*\]</code></p>
+</blockquote>
+<h3 id="防SSH爆破规则文件"><a href="#防SSH爆破规则文件" class="headerlink" title="防SSH爆破规则文件"></a>防SSH爆破规则文件</h3><ol>
+<li><p>编写规则配置文件</p>
+<blockquote>
+<p>注意规则文件名称，下面定义配置文件时需要使用</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">vim /etc/fail2ban/filter.d/frps-ssh-ban.conf<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>写入以下代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">[Definition]<br>failregex = ^.*\[.*SSH.*\] get a user connection \[&lt;HOST&gt;:[0-9]*\]<br>ignoreregex =<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="防FTP爆破规则配置文件"><a href="#防FTP爆破规则配置文件" class="headerlink" title="防FTP爆破规则配置文件"></a>防FTP爆破规则配置文件</h3><ol>
+<li><p>编写规则文件</p>
+<blockquote>
+<p>注意规则文件名称，下面定义配置文件时需要使用</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">vim /etc/fail2ban/filter.d/frps-ftp-ban.conf<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>写入以下代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">[Definition]<br>failregex = ^.*\[.*FTP_21.*\] get a user connection \[&lt;HOST&gt;:[0-9]*\]<br>ignoreregex =<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="防RDP爆破规则配置文件"><a href="#防RDP爆破规则配置文件" class="headerlink" title="防RDP爆破规则配置文件"></a>防RDP爆破规则配置文件</h3><ol>
+<li><p>编写规则文件</p>
+<blockquote>
+<p>注意规则文件名称，下面定义配置文件时需要使用</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">vim /etc/fail2ban/filter.d/frps-rdp-ban.conf<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>写入以下代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">[Definition]<br>failregex = ^.*\[.*RDP.*\] get a user connection \[&lt;HOST&gt;:[0-9]*\]<br>ignoreregex =<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">FRP SSH防爆破</span><br>[frps-ssh-ban]<br><span class="hljs-meta prompt_"># </span><span class="language-bash">是否启用</span><br>enabled = true<br><span class="hljs-meta prompt_"># </span><span class="language-bash">检测时长</span><br>findtime = 3m<br><span class="hljs-meta prompt_"># </span><span class="language-bash">允许的最大重试次数，超过则封锁</span><br>maxretry = 3<br><span class="hljs-meta prompt_"># </span><span class="language-bash">封锁时长</span><br>bantime = 120m<br><span class="hljs-meta prompt_"># </span><span class="language-bash">过滤规则文件，即上面定义的规则文件</span><br>filter = frps-ssh-ban<br><span class="hljs-meta prompt_"># </span><span class="language-bash">存放日志的路径</span><br>logpath = /var/log/frps.log<br><span class="hljs-meta prompt_"># </span><span class="language-bash">匹配协议</span><br>protocol = all<br><span class="hljs-meta prompt_"># </span><span class="language-bash">端口号</span><br>port = all<br><span class="hljs-meta prompt_"># </span><span class="language-bash">拦截动作(基于iptables)</span><br>chain = all<br>action = iptables-allports[name=frps,protocol=tcp]<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">FRP RDP防爆破</span><br>[frps-rdp-ban]<br><span class="hljs-meta prompt_"># </span><span class="language-bash">是否启用</span><br>enabled = true<br><span class="hljs-meta prompt_"># </span><span class="language-bash">检测时长</span><br>findtime = 3m<br><span class="hljs-meta prompt_"># </span><span class="language-bash">允许的最大重试次数，超过则封锁</span><br>maxretry = 6<br><span class="hljs-meta prompt_"># </span><span class="language-bash">封锁时长</span><br>bantime = 30m<br><span class="hljs-meta prompt_"># </span><span class="language-bash">过滤规则文件，即上面定义的规则文件</span><br>filter = frps-rdp-ban<br><span class="hljs-meta prompt_"># </span><span class="language-bash">存放日志的路径</span><br>logpath = /var/log/frps.log<br><span class="hljs-meta prompt_"># </span><span class="language-bash">匹配协议</span><br>protocol = all<br><span class="hljs-meta prompt_"># </span><span class="language-bash">端口号</span><br>port = all<br><span class="hljs-meta prompt_"># </span><span class="language-bash">拦截动作(基于iptables)</span><br>chain = all<br>action = iptables-allports[name=frps,protocol=tcp]<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">FRP FTP防爆破</span><br>[frps-ftp-ban]<br><span class="hljs-meta prompt_"># </span><span class="language-bash">是否启用</span><br>enabled = true<br><span class="hljs-meta prompt_"># </span><span class="language-bash">检测时长</span><br>findtime = 5m<br><span class="hljs-meta prompt_"># </span><span class="language-bash">允许的最大重试次数，超过则封锁</span><br>maxretry = 30<br><span class="hljs-meta prompt_"># </span><span class="language-bash">封锁时长</span><br>bantime = 60m<br><span class="hljs-meta prompt_"># </span><span class="language-bash">过滤规则文件，即上面定义的规则文件</span><br>filter = frps-ftp-ban<br><span class="hljs-meta prompt_"># </span><span class="language-bash">存放日志的路径</span><br>logpath = /var/log/frps.log<br><span class="hljs-meta prompt_"># </span><span class="language-bash">匹配协议</span><br>protocol = all<br><span class="hljs-meta prompt_"># </span><span class="language-bash">端口号</span><br>port = all<br><span class="hljs-meta prompt_"># </span><span class="language-bash">拦截动作(基于iptables)</span><br>chain = all<br>action = iptables-allports[name=frps,protocol=tcp]<br></code></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ol>
+<li><p>验证fail2ban是否成功运行</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">sudo fail2ban-client <span class="hljs-built_in">ping</span><br></code></pre></td></tr></table></figure>
+
+<p>返回<code>Server replied: pong</code>则表示正常</p>
+</li>
+<li><p>测试并查看日志文件</p>
+<p>查看日志</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arcade">sudo tail -f /<span class="hljs-keyword">var</span>/<span class="hljs-built_in">log</span>/fail2ban.<span class="hljs-built_in">log</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="查看被Fail2ban封锁的IP"><a href="#查看被Fail2ban封锁的IP" class="headerlink" title="查看被Fail2ban封锁的IP"></a>查看被Fail2ban封锁的IP</h2><ol>
+<li><p>查看SSH被Fail2ban封锁的IP</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo fail2ban-client status frps-ssh-ban<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看RDP被Fail2ban封锁的IP</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo fail2ban-client status frps-rdp-ban<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">sudo fail2ban-client status frps-rdp-ban<br>Status for the jail: frps-rdp-ban<br>|<span class="hljs-string">- Filter</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">- Currently failed: 4</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">- Total failed:     968</span><br><span class="hljs-string"></span>|<span class="hljs-string">  `- File list:        /var/log/frps.log</span><br><span class="hljs-string">`- Actions</span><br><span class="hljs-string">   </span>|<span class="hljs-string">- Currently banned: 2</span><br><span class="hljs-string">   </span>|<span class="hljs-string">- Total banned:     7</span><br><span class="hljs-string">   `- Banned IP list:   193.3.19.26 80.94.95.39</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看FTP被Fail2ban封锁的IP</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo fail2ban-client status frps-ftp-ban<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="解封IP"><a href="#解封IP" class="headerlink" title="解封IP"></a>解封IP</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo fail2ban-client set sshd unbanip 193.3.19.26<br></code></pre></td></tr></table></figure>
+
+<h2 id="可能存在的问题"><a href="#可能存在的问题" class="headerlink" title="可能存在的问题"></a>可能存在的问题</h2><p>frps未开启日志功能导致Fail2ban无法起作用</p>
+<p>方法：修改配置文件，指定日志路径，与Fail2ban中的配置相匹配，重启frps服务</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-comment">#日志配置</span><br><span class="hljs-attr">log_file</span> = /var/log/frps.log<br><span class="hljs-attr">log_level</span> = info<br><span class="hljs-attr">log_max_days</span> = <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<p>参考文章</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.alainlam.cn/?p=620">https://www.alainlam.cn/?p=620</a></p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/windows-server-%E6%9C%8D%E5%8A%A1%E5%99%A8-%E9%98%B2%E7%81%AB%E5%A2%99/" class="print-no-link">#-windows server -服务器 -防火墙</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>使用fail2ban解决基于frp内网穿透的远程桌面爆破问题</div>
+      <div>http://example.com/2024/07/28/使用fail2ban解决基于frp内网穿透的远程桌面爆破问题/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sanli Ma</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年7月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/19/Ansible-%E5%9C%A8%E5%A4%9A%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E9%83%A8%E7%BD%B2-Docker-%E5%AE%B9%E5%99%A8/" title="Ansible 在多台服务器上部署 Docker 容器">
+                        <span class="hidden-mobile">Ansible 在多台服务器上部署 Docker 容器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
