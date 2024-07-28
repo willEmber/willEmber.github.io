@@ -41,3 +41,4 @@ http://example.com/tags/%E8%BD%AF%E4%BB%B6%E8%B5%84%E6%BA%90/
 http://example.com/tags/%E6%96%B0%E5%BB%BA%E5%8D%9A%E5%AE%A2/
 http://example.com/tags/windows-server/
 http://example.com/tags/windows-server-%E6%9C%8D%E5%8A%A1%E5%99%A8-%E9%98%B2%E7%81%AB%E5%A2%99/
+http://example.com/tags/%E9%98%B2%E7%81%AB%E5%A2%99/
