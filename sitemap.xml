@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/2024/08/01/Kubernetes-Dashboard%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</loc>
+    
+    <lastmod>2024-09-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/2024/07/31/Alertmanager%E5%91%8A%E8%AD%A6%E9%85%8D%E7%BD%AE/</loc>
     
     <lastmod>2024-09-01</lastmod>
@@ -375,6 +384,13 @@
   
   <url>
     <loc>http://example.com/tags/Prometheus/</loc>
+    <lastmod>2024-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/Kubernetes/</loc>
     <lastmod>2024-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
