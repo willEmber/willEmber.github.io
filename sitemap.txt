@@ -1,3 +1,5 @@
+http://example.com/2024/09/25/kubectl%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/
+http://example.com/2024/09/25/kubectl-rollout%E6%BB%9A%E5%8A%A8%E6%9B%B4%E6%96%B0/
 http://example.com/2024/09/21/crictl-%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E5%8F%8A%E7%A4%BA%E4%BE%8B%E8%A7%A3%E6%9E%90/
 http://example.com/2024/09/21/%E4%BD%BF%E7%94%A8-Ansible-%E7%AE%A1%E7%90%86%E5%A4%9A%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84%E5%AE%B9%E5%99%A8/
 http://example.com/2024/09/21/%E4%BD%BF%E7%94%A8-Kubernetes-%E6%90%AD%E5%BB%BA-Lobe-Chat-%E5%B9%B6%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9B%B4%E6%96%B0/
@@ -49,3 +51,4 @@ http://example.com/tags/%E6%96%B0%E5%BB%BA%E5%8D%9A%E5%AE%A2/
 http://example.com/tags/%E8%BD%AF%E4%BB%B6%E8%B5%84%E6%BA%90/
 http://example.com/tags/Prometheus/
 http://example.com/tags/Kubernetes/
+http://example.com/tags/kubernetes/
